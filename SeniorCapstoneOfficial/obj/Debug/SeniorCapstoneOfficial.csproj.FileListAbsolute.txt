@@ -1,0 +1,79 @@
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\ApplicationInsights.config
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\csc.exe
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\vbc.exe
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll.config
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.pdb
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\System.Data.SQLite.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Dapper.dll
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Dapper.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\System.Data.SQLite.xml
+C:\Users\Gabriel\Documents\Visual Studio 2015\Projects\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\App_Data\database.sqlite3
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\ApplicationInsights.config
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\csc.exe
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\System.Collections.Immutable.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\System.Reflection.Metadata.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\vbc.exe
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe.config
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\App_Data\database.sqlite3
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll.config
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.pdb
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Dapper.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.Agent.Intercept.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.PerfCounterCollector.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\System.Data.SQLite.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Dapper.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\System.Data.SQLite.xml
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\bin\System.Data.SQLite.dll.config
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csprojAssemblyReference.cache
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj.CoreCompileInputs.cache
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj.CopyComplete
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
+E:\SeniorCapstoneOfficial\SeniorCapstoneOfficial\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
