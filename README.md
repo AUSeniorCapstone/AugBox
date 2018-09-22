@@ -1,2 +1,0 @@
-# AugBox
-AU Box project
