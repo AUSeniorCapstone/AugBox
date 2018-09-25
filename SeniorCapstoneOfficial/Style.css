@@ -28,7 +28,7 @@ img{
     
 
 }
-span{
+#spanid{
     font-size:2vw;
     font-family:'Bitter, Arial';
     color:white;
@@ -72,18 +72,18 @@ h3{
     margin-bottom:13%;
     margin-top:6%;
 }
-input[type=text], input[type=password]{
-    width:80%;
+
+#txturname, #txtpassword{
+    font-size:1.4vw;
+    padding-left:3%;
+    font-family:'Crete Round, Arial';
+      width:80%;
     height:10%;
     margin-bottom:3%;
     border:0;
     background-color:transparent;
     border-bottom:1px solid #4b4040;
-}
-input[placeholder]{
-    font-size:1.4vw;
-    padding-left:3%;
-    font-family:'Crete Round, Arial';
+
 }
 
 .btn{
@@ -112,3 +112,11 @@ input[placeholder]{
             font-size: 12pt;
             height: 0px;            
         }
+#ErrorMessage{
+    color: red;
+}
+
+#InvalidEmailLabel{
+    color:red;
+}
+

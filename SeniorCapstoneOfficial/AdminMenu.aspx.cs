@@ -17,8 +17,29 @@ namespace SeniorCapstoneOfficial
         protected void AddUserButton_Click(object sender, EventArgs e)
         {
             DBConnector db = new DBConnector();
-            //run query to make sure uname is unique
-            db.createUsers(FirstNameTextbox.Text, LastNameTextbox.Text, UserNameTextBox.Text, PasswordTextBox.Text, AdminCheckbox.Checked);
+            if (db.getUser(UserNameTextBox.Text).uname != null)
+            {
+                PH.Controls.Clear();
+                Label ErrorMessage = new Label();
+                ErrorMessage.Text = "Username Not Available";
+                ErrorMessage.Attributes.Add("style", "color:Red;");
+                PH.Controls.Add(ErrorMessage);
+                
+            }
+            else
+            {
+                PH.Controls.Clear();
+                db.createUsers(FirstNameTextbox.Text, LastNameTextbox.Text, UserNameTextBox.Text, PasswordTextBox.Text, AdminCheckbox.Checked);
+                Label Confirmation = new Label();
+                Confirmation.Text = "User Successfully Added";
+                Confirmation.Attributes.Add("style", "color:green;");
+                PH.Controls.Add(Confirmation);
+                FirstNameTextbox.Text = "";
+                LastNameTextbox.Text = "";
+                UserNameTextBox.Text = "";
+                PasswordTextBox.Text = "";
+                AdminCheckbox.Checked = false;
+            }
         }
 
         protected void SearchUserButton_Click(object sender, EventArgs e)
@@ -57,6 +78,18 @@ namespace SeniorCapstoneOfficial
            // db.DeleteUser()
         }
 
+        protected void LogoutBtn_Click(object sender, EventArgs e)
+        {
+            
+            DBConnector dbconnector = new DBConnector();
+            dbconnector.saveLogout(HttpContext.Current.Request.Params["username"], DateTime.Now);
+            Response.Redirect("Login.aspx");
+        }
 
+        protected void StudentSearchBtn_Click(object sender, EventArgs e)
+        {
+             string uname = HttpContext.Current.Request.Params["username"];
+             Response.Redirect("NormalUserMenu.aspx?username=" + uname);
         }
     }
+}

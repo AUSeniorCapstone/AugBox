@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <link href="Style.css" rel="stylesheet" />
 </head>
 <body>
     <form id="form1" runat="server">
@@ -21,6 +22,8 @@
 
         </div>
         <div style="float:right; width:50%; text-align:center">
+            <asp:Button ID="LogoutBtn" runat="server" Text="Logout" OnClick="LogoutBtn_Click" /> <br />
+            <asp:Button ID="StudentSearchBtn" runat="server" Text="Student Search Page" OnClick="StudentSearchBtn_Click" /> <br />
             <asp:Label ID="AddUserLabel" runat="server">Add User</asp:Label>
             <br />
             <br />
@@ -40,8 +43,9 @@
             <asp:CheckBox ID="AdminCheckbox" runat="server" />
             <br />
             <asp:Button ID="AddUserButton" runat="server" Text="Add User" OnClick="AddUserButton_Click" />
-
+            <asp:placeholder ID="PH" runat="server" ></asp:placeholder>
         </div>
+        
     </div>
         
     </form>

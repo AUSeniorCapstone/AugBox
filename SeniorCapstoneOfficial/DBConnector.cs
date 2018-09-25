@@ -119,44 +119,44 @@ namespace SeniorCapstoneOfficial
             return user;
         }
 
-        //public void saveLogin(string uname, DateTime time)
-        //{
-        //    int id = 0;
+        public void saveLogin(string uname, DateTime time)
+        {
+            int id = 0;
 
-        //    using (SQLiteConnection conn = new SQLiteConnection(myConnection))
-        //    {
-        //        conn.Open();
-        //        string sql = "SELECT id FROM Session";
+            using (SQLiteConnection conn = new SQLiteConnection(myConnection))
+            {
+                conn.Open();
+                string sql = "SELECT id FROM Session";
 
-        //        using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
-        //        {
-        //            using (SQLiteDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    id = id + 1;
-        //                }
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            id = id + 1;
+                        }
 
-        //            }
-        //        }
-        //        conn.Close();
-        //    }
+                    }
+                }
+                conn.Close();
+            }
 
-        //    using (myConnection)
-        //    {
-        //        string sql = null;
-        //        sql = "insert into Session ([uname], [id], [time], [type]) values(@uname,@id,@time,@type)";
-        //        using (SQLiteCommand cmd = new SQLiteCommand(sql, myConnection))
-        //        {
-        //            myConnection.Open();
-        //            cmd.Parameters.AddWithValue("@uname", uname);
-        //            cmd.Parameters.AddWithValue("@id", id);
-        //            cmd.Parameters.AddWithValue("@time", time);
-        //            cmd.Parameters.AddWithValue("@type", "Login");
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
+            using (myConnection)
+            {
+                string sql = null;
+                sql = "insert into Session ([uname], [id], [time], [type]) values(@uname,@id,@time,@type)";
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, myConnection))
+                {
+                    myConnection.Open();
+                    cmd.Parameters.AddWithValue("@uname", uname);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.Parameters.AddWithValue("@time", time);
+                    cmd.Parameters.AddWithValue("@type", "Login");
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
         public void saveLogout(string uname, DateTime time)
         {

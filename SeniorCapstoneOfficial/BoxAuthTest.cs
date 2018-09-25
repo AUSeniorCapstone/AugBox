@@ -8,22 +8,27 @@ using Box.V2.Models;
 
 namespace SeniorCapstoneOfficial
 {
-    class BoxAuthTest
+    public class BoxAuthTest
     {
-        static void Main(string[] args)
+        public async Task<List<BoxUser>> GetallUsers()
         {
-            Task t = MainAsync();
-            t.Wait();
 
-            Console.WriteLine();
-            Console.Write("Press return to exit...");
-            Console.ReadLine();
+            var adminClient = await Authenticate();
+
+            //limit is 1000, do a loop
+            var users = await adminClient.UsersManager.GetEnterpriseUsersAsync(autoPaginate: true);
+
+            List<BoxUser> allBoxUsersList = users.Entries;
+
+            return allBoxUsersList;
+
         }
 
-        static async Task MainAsync()
+
+        public async Task<Box.V2.BoxClient> Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\678301_n20zk4bb_config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Downloads\678301__config.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -33,33 +38,18 @@ namespace SeniorCapstoneOfficial
             var adminToken = boxJWT.AdminToken();
             var adminClient = boxJWT.AdminClient(adminToken);
 
-            var userRequest = new BoxUserRequest() { Name = "testUser", IsPlatformAccessOnly = true };
-            var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+            return adminClient;
 
-            var userToken = boxJWT.UserToken(appUser.Id);
-            var userClient = boxJWT.UserClient(userToken, appUser.Id);
+        }
 
-            var userDetails = await userClient.UsersManager.GetCurrentUserInformationAsync();
-            Console.WriteLine("\nApp User Details:");
-            Console.WriteLine("\tId: {0}", userDetails.Id);
-            Console.WriteLine("\tName: {0}", userDetails.Name);
-            Console.WriteLine("\tStatus: {0}", userDetails.Status);
-            Console.WriteLine();
+        public async Task<BoxCollection<BoxItem>> GetFolder()
+        {
+            var adminClient = await Authenticate();
+            var folders = await adminClient.FoldersManager.GetFolderItemsAsync("0", 1000);
 
-            var users = await adminClient.UsersManager.GetEnterpriseUsersAsync(autoPaginate: true);
-            List<BoxUser> allBoxUsersList = users.Entries;
+            return folders;
 
-            // Display all users with name and id per row
-            foreach (BoxUser boxUser in allBoxUsersList)
-            {
-                Console.WriteLine("Box User Name: {0} and Box User Id: {1}", boxUser.Name, boxUser.Id);
-            }
-
-            await adminClient.UsersManager.DeleteEnterpriseUserAsync(appUser.Id, false, true);
-
-            Console.WriteLine("Deleted App User");
 
         }
     }
 }
-

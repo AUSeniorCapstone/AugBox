@@ -29,12 +29,15 @@ namespace SeniorCapstoneOfficial
 
             if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 1)
             {
-                Response.Redirect("AdminMenu.aspx");
+
+                string uname = txturname.Text.Trim();
+                Response.Redirect("AdminMenu.aspx?username=" + uname);
 
             }
             else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 2)
             {
-                Response.Redirect("NormalUserMenu.aspx");
+                string uname = txturname.Text.Trim();
+                Response.Redirect("NormalUserMenu.aspx?username=" + uname);
             }
             else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 3)
             {

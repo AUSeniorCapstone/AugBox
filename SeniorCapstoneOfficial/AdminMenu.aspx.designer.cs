@@ -58,6 +58,24 @@ namespace SeniorCapstoneOfficial {
         protected global::System.Web.UI.WebControls.PlaceHolder SearchUserPlaceHolder;
         
         /// <summary>
+        /// LogoutBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button LogoutBtn;
+        
+        /// <summary>
+        /// StudentSearchBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button StudentSearchBtn;
+        
+        /// <summary>
         /// AddUserLabel control.
         /// </summary>
         /// <remarks>
@@ -164,5 +182,14 @@ namespace SeniorCapstoneOfficial {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddUserButton;
+        
+        /// <summary>
+        /// PH control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder PH;
     }
 }

@@ -37,12 +37,12 @@ namespace SeniorCapstoneOfficial
 
                 if (user.admin == 1)
                 {
-                    //newGet.saveLogin(uname, dt);
+                    newGet.saveLogin(uname, dt);
                     return 1;
                 }
                 else if (user.admin == 0)
                 {
-                   // newGet.saveLogin(uname, dt);
+                   newGet.saveLogin(uname, dt);
                     return 2;
                 }
                 return 3;

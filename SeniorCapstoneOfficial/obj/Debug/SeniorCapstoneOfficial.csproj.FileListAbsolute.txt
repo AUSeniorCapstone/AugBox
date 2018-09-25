@@ -1,38 +1,48 @@
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\ApplicationInsights.config
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\csc.exe
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CSharp.Core.targets
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\System.Reflection.Metadata.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\vbc.exe
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe.config
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\App_Data\database.sqlite3
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll.config
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.pdb
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Dapper.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.Agent.Intercept.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.PerfCounterCollector.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\System.Data.SQLite.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Dapper.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\bin\System.Data.SQLite.xml
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
-C:\Users\BirdHouse\Desktop\AugBox\AugBox-master\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\ApplicationInsights.config
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\csc.exe
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\vbc.exe
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\App_Data\database.sqlite3
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll.config
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\SeniorCapstoneOfficial.pdb
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Dapper.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\System.Data.SQLite.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Dapper.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.Web.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\System.Data.SQLite.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csprojResolveAssemblyReference.cache
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\BouncyCastle.Crypto.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Box.V2.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.Logging.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Newtonsoft.Json.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.Logging.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\Newtonsoft.Json.xml
+C:\Users\Gabriel\Downloads\AugBox-master (2)\AugBox-master\SeniorCapstoneOfficial\bin\System.IdentityModel.Tokens.Jwt.xml

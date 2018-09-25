@@ -16,7 +16,7 @@
     <section>
          <div class="container">
              <div class="inner1">
-                 <span><img src="Images/Augusta.png" alt="Augusta logo" /></span>
+                 <span id="spanid"><img src="Images/Augusta.png" alt="Augusta logo" /></span>
              </div>
              <div class="inner2">
                  <h3>AugBox</h3>                   
