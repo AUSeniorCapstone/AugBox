@@ -22,27 +22,39 @@ namespace SeniorCapstoneOfficial
         protected void SearchForStudent_Click(object sender, EventArgs e)
         {
             RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
+
         }
 
         private async Task GetUsersbyEmail()
         {
             BoxAuthTest box = new BoxAuthTest();
-
+            bool found = false;
             List<BoxUser> users = await box.GetallUsers();
             for (int i = 0; i < users.Count; i++)
+            {
                 if (users[i].Login.Equals(EmailAddress.Text.Trim()))
                 {
                     Label1.Text = "Name: " + users[i].Name;
                     Label2.Text = "Space Used: " + users[i].SpaceUsed.ToString() + " bytes";
                     Label3.Text = "Status: " + users[i].Status.ToUpper();
                     Label4.Text = "Last Modified: " + users[i].ModifiedAt.ToString();
-                    InvalidEmailLabel.Visible = false;
+                    found = true;
                 }
-                else
-                    InvalidEmailLabel.Visible = true;
-           /* GridView1.DataSource = users;
-            GridView1.DataBind();*/
-            
+                    
+             }
+            if (found == false)
+            {
+                InvalidEmailLabel.Visible = true;
+                Label1.Text = "";
+                Label2.Text = "";
+                Label3.Text = "";
+                Label4.Text = "";
+            }
+           
+            /* This shows all the users
+              GridView1.DataSource = users;
+              GridView1.DataBind();*/
+
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)
