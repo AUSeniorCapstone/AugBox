@@ -27,6 +27,9 @@
          <asp:Label ID="Label4" runat="server"></asp:Label>
         </p>
         <p>
+          <asp:Button ID="Exportbtn" runat="server" Text="Export" OnClick="Exportbtn_Click" /> 
+        </p>
+        <p>
         <asp:Label ID="InvalidEmailLabel" runat="server" Text="Student Not Found"></asp:Label> <br />
          <asp:Button ID="LogoutBtn" runat="server" Text="Logout" OnClick="LogoutBtn_Click" /> 
             <asp:Button ID="AdminPage" runat="server" Text="Admin Page" OnClick="AdminPage_Click" />
