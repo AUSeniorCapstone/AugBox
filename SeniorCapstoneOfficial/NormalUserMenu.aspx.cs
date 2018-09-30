@@ -15,6 +15,13 @@ namespace SeniorCapstoneOfficial
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            DBConnector db = new DBConnector();
+            bool admin = db.AdminCheck(Session["UserName"].ToString());
+           if(admin == false)
+            {
+                StudentSearchButton.Attributes.Add("style", "right:15%");
+                AdminPageButton.Visible = false;
+            }
             SearchForStudent.Click += SearchForStudent_Click;
             InvalidEmailLabel.Visible = false;
             Exportbtn.Visible = false;
@@ -86,14 +93,13 @@ namespace SeniorCapstoneOfficial
         {
 
             DBConnector dbconnector = new DBConnector();
-            dbconnector.saveLogout(HttpContext.Current.Request.Params["username"], DateTime.Now);
+            dbconnector.saveLogout(Session["UserName"].ToString(), DateTime.Now);
             Response.Redirect("Login.aspx");
         }
 
         protected void AdminPage_Click(object sender, EventArgs e)
-        {
-            string uname = HttpContext.Current.Request.Params["username"];
-            Response.Redirect("AdminMenu.aspx?username=" + uname);
+        {          
+            Response.Redirect("AdminMenu.aspx");
         }
     }
 }

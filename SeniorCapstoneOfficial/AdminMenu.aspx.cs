@@ -9,9 +9,38 @@ namespace SeniorCapstoneOfficial
 {
     public partial class AdminMenu : System.Web.UI.Page
     {
+        List<Button> DeleteButtonList = new List<Button>();
         protected void Page_Load(object sender, EventArgs e)
-        {
+        {            
             PasswordTextBox.Attributes["type"] = "password";
+
+            if (Page.IsPostBack && ViewState["buttonSearch"] != null)
+            {
+                DBConnector db = new DBConnector();
+                int i = 0;
+
+                foreach (User u in db.userSearch(SearchUserTextBox.Text))
+                {
+                                      
+                    Button DeleteButton = new Button();
+
+                    DeleteButton.ID = u.uname;
+                    DeleteButtonList.Add(DeleteButton);
+                    DeleteButton.Text = "Delete";
+
+                    DeleteButton.Click += new EventHandler(DeleteButton_Click);
+                    DeleteButton.OnClientClick = "return confirm('Are you sure you want to delete selected user?');";
+
+
+                    DeleteButton.Visible = false;
+                    SearchUserPlaceHolder.Controls.Add(DeleteButton);
+
+                    i++;
+
+                    SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
+                    SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
+                }
+            }
         }
 
         protected void AddUserButton_Click(object sender, EventArgs e)
@@ -46,16 +75,17 @@ namespace SeniorCapstoneOfficial
         {
             DBConnector db = new DBConnector();
             int i = 0;
-            List<Button> DeleteButtonList = new List<Button>();
-
+           
             foreach (User u in db.userSearch(SearchUserTextBox.Text))
             {
+                List<Button> DeleteButtonList = new List<Button>();
                 Label UserLabel = new Label();
                 Button DeleteButton = new Button();
 
-                DeleteButton.ID = "DeleteButton" + i;
+                DeleteButton.ID = u.uname;
                 DeleteButtonList.Add(DeleteButton);
                 DeleteButton.Text = "Delete";
+                
                 DeleteButton.Click += new EventHandler(DeleteButton_Click);
                 DeleteButton.OnClientClick = "return confirm('Are you sure you want to delete selected user?');";
 
@@ -69,27 +99,29 @@ namespace SeniorCapstoneOfficial
                 SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
                 SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
             }
-
+            ViewState["buttonSearch"] = true;
         }
+
 
         protected void DeleteButton_Click(object sender, EventArgs e)
         {
+            Button btn = (Button)sender;
+            
             DBConnector db = new DBConnector();
-           // db.DeleteUser()
+            db.DeleteUser(btn.ID);
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)
         {
             
             DBConnector dbconnector = new DBConnector();
-            dbconnector.saveLogout(HttpContext.Current.Request.Params["username"], DateTime.Now);
+            dbconnector.saveLogout(Session["UserName"].ToString(), DateTime.Now);
             Response.Redirect("Login.aspx");
         }
 
         protected void StudentSearchBtn_Click(object sender, EventArgs e)
-        {
-             string uname = HttpContext.Current.Request.Params["username"];
-             Response.Redirect("NormalUserMenu.aspx?username=" + uname);
+        {             
+             Response.Redirect("NormalUserMenu.aspx");
         }
     }
 }

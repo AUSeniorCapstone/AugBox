@@ -81,7 +81,45 @@ namespace SeniorCapstoneOfficial
 
         public void DeleteUser(string uname)
         {
+            using (myConnection)
+            {
+                string sql = null;
+                sql = "DELETE FROM User WHERE uname = @uname";
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, myConnection))
+                {
+                    cmd.Parameters.AddWithValue("@uname", uname);
+                    myConnection.Open();
+                    cmd.ExecuteNonQuery();
+                    myConnection.Close();
+                }
+            }
+        }
 
+        public bool AdminCheck(string uname)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(myConnection))
+            {
+                bool admin = false;
+                conn.Open();
+                string sql = "SELECT admin FROM User WHERE uname = @uname";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@uname", uname);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            admin = Convert.ToBoolean(reader["admin"]);
+                            if (admin == true)
+                                return true;
+
+                        }
+                    }
+                }
+                conn.Close();
+            }
+            return false;
         }
 
 
