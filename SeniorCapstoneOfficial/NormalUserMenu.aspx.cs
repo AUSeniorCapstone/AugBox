@@ -52,10 +52,10 @@ namespace SeniorCapstoneOfficial
             {
                 if (users[i].Login.Equals(EmailAddress.Text.Trim()))
                 {
-                    Label1.Text = "Name: " + users[i].Name;
-                    Label2.Text = "Space Used: " + users[i].SpaceUsed.ToString() + " bytes";
-                    Label3.Text = "Status: " + users[i].Status.ToUpper();
-                    Label4.Text = "Last Modified: " + users[i].ModifiedAt.ToString();
+                    Label1.Text = "<b>" + "Name: " + "</b>" + users[i].Name;
+                    Label2.Text = "<b>" + "Space Used: " + "</b>" + users[i].SpaceUsed.ToString() + " bytes";
+                    Label3.Text = "<b>" + "Status: " + "</b>" + users[i].Status.ToUpper();
+                    Label4.Text = "<b>" + "Last Modified: " + "</b>" + users[i].ModifiedAt.ToString();
 
 
                     Exportbtn.Visible = true;

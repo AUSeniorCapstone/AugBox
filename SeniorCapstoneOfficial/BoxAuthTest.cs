@@ -28,7 +28,7 @@ namespace SeniorCapstoneOfficial
         public async Task<Box.V2.BoxClient> Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Downloads\678301__config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
