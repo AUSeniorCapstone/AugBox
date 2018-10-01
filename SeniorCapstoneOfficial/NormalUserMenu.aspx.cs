@@ -14,8 +14,11 @@ namespace SeniorCapstoneOfficial
 {
     public partial class NormalUserMenu : System.Web.UI.Page
     {
+       
+        List<BoxItem> FolderList = new List<BoxItem>();
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             DBConnector db = new DBConnector();
             bool admin = db.AdminCheck(Session["UserName"].ToString());
            if(admin == false)
@@ -55,8 +58,7 @@ namespace SeniorCapstoneOfficial
             BoxAuthTest box = new BoxAuthTest();
             bool found = false;
             List<BoxUser> users = await box.GetallUsers();
-            
-         
+
             for (int i = 0; i < users.Count; i++)
             {
                 if (users[i].Login.Equals(EmailAddress.Text.Trim()))
@@ -65,14 +67,27 @@ namespace SeniorCapstoneOfficial
                     Label2.Text = "<b>" + "Space Used: " + "</b>" + users[i].SpaceUsed.ToString() + " bytes";
                     Label3.Text = "<b>" + "Status: " + "</b>" + users[i].Status.ToUpper();
                     Label4.Text = "<b>" + "Last Modified: " + "</b>" + users[i].ModifiedAt.ToString();
+                    Label5.Text = "<b>" + "Top Folders" + "</b>";
 
-                    Label5.Text = "<b>" + "Folders and Files: " + "</b>" + box.GetFolder(users[i].Id);
 
+                    FolderList = await box.GetFolder(users[i].Id);
+                    int foldercount = FolderList.Count;
+
+
+                    for (int j = 0; j < foldercount; j++)
+                    {
+                        Label folder = new Label();
+                        folder.ID = "folder" + j;
+                        folder.Text = FolderList[j].Name;
+
+                        FolderPH.Controls.Add(folder);
+                        FolderPH.Controls.Add(new LiteralControl("<br />"));
+                        FolderPH.Controls.Add(new LiteralControl("<br />"));
+                    }
 
                     Exportbtn.Visible = true;
 
-                    found = true;
-
+                    found = true;               
                 }
                     
              }
@@ -86,11 +101,10 @@ namespace SeniorCapstoneOfficial
                 Label3.Text = "";
                 Label4.Text = "";
             }
-           
+
             /* This shows all the users
               GridView1.DataSource = users;
               GridView1.DataBind();*/
-
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)
