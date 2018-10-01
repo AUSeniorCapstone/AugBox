@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
+using Box.V2;
 
 namespace SeniorCapstoneOfficial
 {
@@ -54,6 +55,7 @@ namespace SeniorCapstoneOfficial
             BoxAuthTest box = new BoxAuthTest();
             bool found = false;
             List<BoxUser> users = await box.GetallUsers();
+            
          
             for (int i = 0; i < users.Count; i++)
             {
@@ -63,6 +65,8 @@ namespace SeniorCapstoneOfficial
                     Label2.Text = "<b>" + "Space Used: " + "</b>" + users[i].SpaceUsed.ToString() + " bytes";
                     Label3.Text = "<b>" + "Status: " + "</b>" + users[i].Status.ToUpper();
                     Label4.Text = "<b>" + "Last Modified: " + "</b>" + users[i].ModifiedAt.ToString();
+
+                    Label5.Text = "<b>" + "Folders and Files: " + "</b>" + box.GetFolder(users[i].Id);
 
 
                     Exportbtn.Visible = true;

@@ -118,9 +118,12 @@ body {font-family: "Lato", sans-serif;}
          <asp:Label ID="Label4" runat="server"></asp:Label>
         <br />
         <br />
+            <asp:Label ID="Label5" runat="server"></asp:Label>
+        <br />
+        <br />
           <asp:Button ID="Exportbtn" runat="server" Text="Export" OnClick="Exportbtn_Click"  CssClass="SearchUserButton"/> 
-        <br />
-        <br />
+            <br />
+            <br />
         <asp:Label ID="InvalidEmailLabel" runat="server" Text="Student Not Found"></asp:Label> <br />
         <br />
         </div>
