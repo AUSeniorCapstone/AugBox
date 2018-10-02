@@ -25,8 +25,7 @@ namespace SeniorCapstoneOfficial
             {
                 StudentSearchButton.Attributes.Add("style", "right:15%");
                 AdminPageButton.Visible = false;
-            }
-            SearchForStudent.Click += SearchForStudent_Click;
+            }          
             InvalidEmailLabel.Visible = false;
             Exportbtn.Visible = false;
         }

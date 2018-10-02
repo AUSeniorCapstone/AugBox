@@ -15,7 +15,6 @@ namespace SeniorCapstoneOfficial
         {
 
             var adminClient = await Authenticate();
-
             //limit is 1000, do a loop
             var users = await adminClient.UsersManager.GetEnterpriseUsersAsync(autoPaginate: true);
 
@@ -29,7 +28,7 @@ namespace SeniorCapstoneOfficial
         public async Task<Box.V2.BoxClient> Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxPROJECT\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -46,16 +45,14 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxItem>> GetFolder(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxPROJECT\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
 
             var boxJWT = new BoxJWTAuth(config);
-
             var adminToken = boxJWT.AdminToken();
             var adminClient = boxJWT.AdminClient(adminToken);
-            var boxUsers = await adminClient.UsersManager.GetEnterpriseUsersAsync();
            //List<BoxUser> allBoxUsersList = boxUsers.Entries;
            // var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
            // var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);

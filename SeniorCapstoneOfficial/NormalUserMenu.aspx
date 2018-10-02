@@ -130,6 +130,7 @@ body {font-family: "Lato", sans-serif;}
         <asp:Label ID="InvalidEmailLabel" runat="server" Text="Student Not Found"></asp:Label> <br />
         <br />
         </div>
+        </div>
     </form>
 </body>
 </html>
