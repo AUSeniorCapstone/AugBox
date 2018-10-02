@@ -29,7 +29,7 @@ namespace SeniorCapstoneOfficial
                 AdminPageButton.Visible = false;
             }          
             InvalidEmailLabel.Visible = false;
-            Exportbtn.Visible = false;
+            Exportbtn.Visible = true;
         }
 
         protected void SearchForStudent_Click(object sender, EventArgs e)
@@ -51,10 +51,11 @@ namespace SeniorCapstoneOfficial
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.ContentType = "application/doc";
-            String filename = "test";
+            String filename = "user";
 
             BoxAuthTest box = new BoxAuthTest();
             List<BoxUser> allUsers = await box.GetallUsers();
+
             String string1 = "";
             String string2 = "";
             String string3 = "";
@@ -63,14 +64,35 @@ namespace SeniorCapstoneOfficial
 
             for (int i = 0; i < allUsers.Count - 1; i++)
             {
+
+                //BoxAuthTest boxLoop = new BoxAuthTest();
+                //List<BoxUser> allUsers = await boxLoop.GetallUsers();
+
                 string1 = "Name: " + allUsers[i].Name + "\n";
                 string2 = "Space Used: " + allUsers[i].SpaceUsed.ToString() + " bytes \n";
                 string3 = "Status: " + allUsers[i].Status.ToUpper() + "\n";
-                string4 = "Last Modified: " + allUsers[i].ModifiedAt.ToString() + "\n\n";
-                Response.Write(string1 + string2 + string3 + string4);
+                string4 = "Last Modified: " + allUsers[i].ModifiedAt.ToString() + "\n";
+
+                /*FolderList = await box.GetFolder(allUsers[i].Id); Uncomment from here down to that area to see how long it'll take.
+                int foldercount = FolderList.Count; It probably won't finish because the client will timeout. API calls for box are SLOOOOOW
+
+
+                for (int j = 0; j < foldercount; j++)
+                {
+                    if(FolderList[j].Name.EndsWith(".txt"))
+                        string5 = "Dir: " + FolderList[j].Name + "\n";
+                    else
+                    {
+                        string5 = FolderList[j].Name + "\n";
+                    }
+                }
+                */
+
+                Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
             }
+
             filename = filename.Replace(" ", "");
-            Response.AddHeader("content-disposition", "attachment;filename=" + filename.ToLower() + "info.doc");
+            Response.AddHeader("content-disposition", "attachment;filename=" + filename.ToLower() + "Info.doc");
             Response.Flush();
             Response.End();
 
@@ -113,7 +135,7 @@ namespace SeniorCapstoneOfficial
 
             if (found == false)
             {
-                Exportbtn.Visible = false;
+                Exportbtn.Visible = true;
                 InvalidEmailLabel.Visible = true;
                 Label1.Text = "";
                 Label2.Text = "";
