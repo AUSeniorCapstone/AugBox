@@ -28,7 +28,11 @@ namespace SeniorCapstoneOfficial
         public async Task<Box.V2.BoxClient> Authenticate()
         {
             IBoxConfig config = null;
+<<<<<<< HEAD
+            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+=======
             using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxPROJECT\pkey.json", FileMode.Open))
+>>>>>>> 730cbe4b329d8c05d25f7339b341147a846e3332
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -45,7 +49,11 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxItem>> GetFolder(String ID)
         {
             IBoxConfig config = null;
+<<<<<<< HEAD
+            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+=======
             using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxPROJECT\pkey.json", FileMode.Open))
+>>>>>>> 730cbe4b329d8c05d25f7339b341147a846e3332
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }

@@ -9,6 +9,8 @@ using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using Box.V2;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace SeniorCapstoneOfficial
 {
@@ -38,15 +40,37 @@ namespace SeniorCapstoneOfficial
 
         protected void Exportbtn_Click(object sender, EventArgs e)
         {
+            RegisterAsyncTask(new PageAsyncTask(ExportEverything));
+
+        }
+
+        private async Task ExportEverything()
+        {
             Response.Clear();
             Response.Charset = "";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.ContentType = "application/doc";
-            string filename = Label1.Text.Substring(5);
+            String filename = "test";
+
+            BoxAuthTest box = new BoxAuthTest();
+            List<BoxUser> allUsers = await box.GetallUsers();
+            String string1 = "";
+            String string2 = "";
+            String string3 = "";
+            String string4 = "";
+            String string5 = "";
+
+            for (int i = 0; i < allUsers.Count - 1; i++)
+            {
+                string1 = "Name: " + allUsers[i].Name + "\n";
+                string2 = "Space Used: " + allUsers[i].SpaceUsed.ToString() + " bytes \n";
+                string3 = "Status: " + allUsers[i].Status.ToUpper() + "\n";
+                string4 = "Last Modified: " + allUsers[i].ModifiedAt.ToString() + "\n\n";
+                Response.Write(string1 + string2 + string3 + string4);
+            }
             filename = filename.Replace(" ", "");
-            Response.AddHeader("content-disposition", "attachment;filename=" + filename.ToLower()+ "info.doc");
-            Response.Write(Label1.Text + "\n" + Label2.Text + "\n" + Label3.Text + "\n" + Label4.Text);
+            Response.AddHeader("content-disposition", "attachment;filename=" + filename.ToLower() + "info.doc");
             Response.Flush();
             Response.End();
 
@@ -55,41 +79,37 @@ namespace SeniorCapstoneOfficial
         private async Task GetUsersbyEmail()
         {
             BoxAuthTest box = new BoxAuthTest();
-            bool found = false;
+            bool found;
             List<BoxUser> users = await box.GetallUsers();
 
-            for (int i = 0; i < users.Count; i++)
-            {
-                if (users[i].Login.Equals(EmailAddress.Text.Trim()))
-                {
-                    Label1.Text = "<b>" + "Name: " + "</b>" + users[i].Name;
-                    Label2.Text = "<b>" + "Space Used: " + "</b>" + users[i].SpaceUsed.ToString() + " bytes";
-                    Label3.Text = "<b>" + "Status: " + "</b>" + users[i].Status.ToUpper();
-                    Label4.Text = "<b>" + "Last Modified: " + "</b>" + users[i].ModifiedAt.ToString();
-                    Label5.Text = "<b>" + "Top Folders" + "</b>";
+            BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
+            if(!foundUser.Name.Equals(EmailAddress.Text.Trim()))
+            Label1.Text = "<b>" + "Name: " + "</b>" + foundUser.Name;
+            Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
+            Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
+            Label4.Text = "<b>" + "Last Modified: " + "</b>" + foundUser.ModifiedAt.ToString();
+            Label5.Text = "<b>" + "Top Folders" + "</b>";
 
 
-                    FolderList = await box.GetFolder(users[i].Id);
+                    FolderList = await box.GetFolder(foundUser.Id);
                     int foldercount = FolderList.Count;
 
 
-                    for (int j = 0; j < foldercount; j++)
-                    {
-                        Label folder = new Label();
-                        folder.ID = "folder" + j;
-                        folder.Text = FolderList[j].Name;
+            for (int i = 0; i < foldercount; i++)
+                {
+                    Label folder = new Label();
+                    folder.ID = "folder" + i;
+                    folder.Text = FolderList[i].Name;
 
-                        FolderPH.Controls.Add(folder);
-                        FolderPH.Controls.Add(new LiteralControl("<br />"));
-                        FolderPH.Controls.Add(new LiteralControl("<br />"));
-                    }
+                    FolderPH.Controls.Add(folder);
+                    FolderPH.Controls.Add(new LiteralControl("<br />"));
+                    FolderPH.Controls.Add(new LiteralControl("<br />"));
+                }
 
                     Exportbtn.Visible = true;
 
                     found = true;               
-                }
                     
-             }
 
             if (found == false)
             {

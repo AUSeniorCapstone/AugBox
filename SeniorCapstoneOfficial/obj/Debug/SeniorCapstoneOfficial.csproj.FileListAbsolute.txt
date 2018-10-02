@@ -193,6 +193,33 @@ E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj
 E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj.CopyComplete
 E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
 E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
+<<<<<<< HEAD
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\csc.exe.config
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\csc.rsp
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\csi.exe
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\csi.rsp
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\System.AppContext.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\System.IO.FileSystem.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\vbc.exe.config
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\roslyn\vbc.rsp
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.AspNet.TelemetryCorrelation.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.JsonWebTokens.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\System.Diagnostics.DiagnosticSource.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.AI.PerfCounterCollector.xml
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.AspNet.TelemetryCorrelation.xml
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.JsonWebTokens.pdb
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.JsonWebTokens.xml
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.Logging.pdb
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.IdentityModel.Tokens.pdb
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\System.Diagnostics.DiagnosticSource.xml
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\System.IdentityModel.Tokens.Jwt.pdb
+=======
 C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\bin\ApplicationInsights.config
 C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\bin\roslyn\csc.exe
 C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -241,3 +268,4 @@ C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\bin\System.Ident
 C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csprojResolveAssemblyReference.cache
 C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
 C:\Users\Gabriel\Documents\AugBoxPROJECT\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
+>>>>>>> 730cbe4b329d8c05d25f7339b341147a846e3332
