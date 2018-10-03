@@ -69,6 +69,20 @@ body {font-family: "Lato", sans-serif;}
     right:100%;
 }
 
+.SearchUserButton1{
+    background-color: #555;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 7px 8px;
+    font-size: 17px;
+    width: 140px;
+}
+.SearchUserButton1:hover {
+    background-color: #777;
+}
+
 .SearchUserButton{
     background-color: #555;
     color: white;
@@ -77,7 +91,9 @@ body {font-family: "Lato", sans-serif;}
     cursor: pointer;
     padding: 7px 8px;
     font-size: 17px;
-    width: 130px;
+    width: 140px;
+    position:absolute;
+    right:15%;
 }
 .SearchUserButton:hover {
     background-color: #777;
@@ -101,9 +117,12 @@ body {font-family: "Lato", sans-serif;}
         </div>
         <br />
         <br />
-        <div style="text-align:center">
-        <asp:Button ID="SearchForStudent" runat="server" Text="Search Student" CssClass="SearchUserButton" OnClick="SearchForStudent_Click" />
+        <div style="text-align:center; position:relative;" >
+        <asp:Button ID="SearchForStudent" runat="server" Text="Search Student" CssClass="SearchUserButton1" OnClick="SearchForStudent_Click" />
         <asp:TextBox ID="EmailAddress" runat="server" Font-Size="18px" Height="33px" ></asp:TextBox> 
+        <asp:Button ID="Exportbtn" runat="server" Text="Export All Users" OnClick="Exportbtn_Click"  CssClass="SearchUserButton"/> 
+            </div>
+            <div style="text-align:center">
             <br />
             <br />
          <asp:Label ID="Label1" runat="server"></asp:Label>
@@ -123,10 +142,6 @@ body {font-family: "Lato", sans-serif;}
         <br />
             <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
         <br />
-        <br />
-          <asp:Button ID="Exportbtn" runat="server" Text="Export" OnClick="Exportbtn_Click"  CssClass="SearchUserButton"/> 
-            <br />
-            <br />
         <asp:Label ID="InvalidEmailLabel" runat="server" Text="Student Not Found"></asp:Label> <br />
         <br />
         </div>

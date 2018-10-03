@@ -105,6 +105,9 @@ body {font-family: "Lato", sans-serif;}
                     <asp:TextBox ID="SearchUserTextBox" runat="server" Font-Size="18px" Height="33px"> </asp:TextBox>
         <asp:Button ID="SearchUserButton" runat="server" Text ="Search User" OnClick="SearchUserButton_Click" CssClass="SearchUserButton" />
         <br />
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
+            ControlToValidate="FirstNameTextBox" ValidationGroup="AddUserGroup" 
+            ErrorMessage="Required Field" />
         <br />
         <asp:PlaceHolder ID="SearchUserPlaceHolder" runat="server"></asp:PlaceHolder>
 
@@ -117,22 +120,34 @@ body {font-family: "Lato", sans-serif;}
             <br />
             <asp:Label ID="FistNameLabel" runat="server" Font-Size="18px">First Name: </asp:Label>
             <asp:TextBox ID="FirstNameTextbox" runat="server" Font-Size="14px" Height="25px" > </asp:TextBox>
+            <asp:RequiredFieldValidator ID="vldtxtNewName" runat="server"
+            ControlToValidate="FirstNameTextBox" ValidationGroup="AddUserGroup" 
+            ErrorMessage="Required Field" />
             <br />
             <asp:Label ID="LastNameLabel" runat="server" Font-Size="18px">Last Name: </asp:Label>
             <asp:TextBox ID="LastNameTextbox" runat="server" Font-Size="14px" Height="25px"> </asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
+            ControlToValidate="LastNameTextBox" ValidationGroup="AddUserGroup" 
+            ErrorMessage="Required Field" />
              <br />
             <asp:Label ID="UserNameLabel" runat="server" Font-Size="18px">Username: </asp:Label>
             <asp:TextBox ID="UserNameTextBox" runat="server" Font-Size="14px" Height="25px"> </asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+            ControlToValidate="UserNameTextBox" ValidationGroup="AddUserGroup" 
+            ErrorMessage="Required Field" />
              <br />
             <asp:Label ID="PasswordLabel" runat="server" Font-Size="18px">Password: </asp:Label>
             <asp:TextBox ID="PasswordTextBox" runat="server" Font-Size="14px" Height="25px"> </asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
+            ControlToValidate="PasswordTextbox" ValidationGroup="AddUserGroup" 
+            ErrorMessage="Required Field" />
             <br />
             <br />
             <asp:Label ID="AdminLabel" runat="server" Font-Size="18px">Admin: </asp:Label>
             <asp:CheckBox ID="AdminCheckbox" runat="server" />
             <br />
             <br />
-            <asp:Button ID="AddUserButton" runat="server" Text="Add User" OnClick="AddUserButton_Click" CssClass="SearchUserButton" />
+            <asp:Button ID="AddUserButton" runat="server" Text="Add User" OnClick="AddUserButton_Click" CssClass="SearchUserButton" CausesValidation="true" ValidationGroup="AddUserGroup" />
             <br />
             <asp:placeholder ID="PH" runat="server" ></asp:placeholder>
          </div>
