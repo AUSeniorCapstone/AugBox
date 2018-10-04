@@ -54,7 +54,7 @@ namespace SeniorCapstoneOfficial
             String filename = "user";
 
             BoxAuthTest box = new BoxAuthTest();
-            List<BoxUser> allUsers = await box.GetallUsers();
+            IEnumerable<BoxUser> allUsers = await box.GetallUsers();
 
             String string1 = "";
             String string2 = "";
@@ -62,33 +62,28 @@ namespace SeniorCapstoneOfficial
             String string4 = "";
             String string5 = "";
 
-            for (int i = 0; i < allUsers.Count - 1; i++)
+            foreach (BoxUser user in allUsers)
             {
+                string1 = "Name: " + user.Name + "\n";
+                string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
+                string3 = "Status: " + user.Status.ToUpper() + "\n";
+                string4 = "Last Modified: " + user.ModifiedAt.ToString() + "\n";
 
-                //BoxAuthTest boxLoop = new BoxAuthTest();
-                //List<BoxUser> allUsers = await boxLoop.GetallUsers();
+                //Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
 
-                string1 = "Name: " + allUsers[i].Name + "\n";
-                string2 = "Space Used: " + allUsers[i].SpaceUsed.ToString() + " bytes \n";
-                string3 = "Status: " + allUsers[i].Status.ToUpper() + "\n";
-                string4 = "Last Modified: " + allUsers[i].ModifiedAt.ToString() + "\n";
+                BoxAuthTest iterativeClient = new BoxAuthTest();
+                IEnumerable<BoxItem> boxFolder = await iterativeClient.GetFolder(user.Id);
 
-                /*FolderList = await box.GetFolder(allUsers[i].Id); Uncomment from here down to that area to see how long it'll take.
-                int foldercount = FolderList.Count; It probably won't finish because the client will timeout. API calls for box are SLOOOOOW
-
-
-                for (int j = 0; j < foldercount; j++)
+                foreach (BoxItem item in boxFolder)
                 {
-                    if(FolderList[j].Name.EndsWith(".txt"))
-                        string5 = "Dir: " + FolderList[j].Name + "\n";
+                    if(item.Name.EndsWith(".txt"))
+                        string5 = "Dir: " + item.Name + "\n";
                     else
                     {
-                        string5 = FolderList[j].Name + "\n";
+                        string5 = item.Name + "\n";
                     }
                 }
-                */
-
-                Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
+                
             }
 
             filename = filename.Replace(" ", "");
