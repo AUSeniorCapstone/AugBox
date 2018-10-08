@@ -46,6 +46,7 @@ namespace SeniorCapstoneOfficial
 
         private async Task ExportEverything()
         {
+
             Response.Clear();
             Response.Charset = "";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
@@ -53,38 +54,53 @@ namespace SeniorCapstoneOfficial
             Response.ContentType = "application/doc";
             String filename = "user";
 
-            BoxAuthTest box = new BoxAuthTest();
-            IEnumerable<BoxUser> allUsers = await box.GetallUsers();
-
-            String string1 = "";
-            String string2 = "";
-            String string3 = "";
-            String string4 = "";
-            String string5 = "";
-
-            foreach (BoxUser user in allUsers)
+            try
             {
-                string1 = "Name: " + user.Name + "\n";
-                string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
-                string3 = "Status: " + user.Status.ToUpper() + "\n";
-                string4 = "Last Modified: " + user.ModifiedAt.ToString() + "\n";
-
-                //Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
-
-                BoxAuthTest iterativeClient = new BoxAuthTest();
-                IEnumerable<BoxItem> boxFolder = await iterativeClient.GetFolder(user.Id);
-
-                foreach (BoxItem item in boxFolder)
-                {
-                    if(item.Name.EndsWith(".txt"))
-                        string5 = "Dir: " + item.Name + "\n";
-                    else
-                    {
-                        string5 = item.Name + "\n";
-                    }
-                }
                 
+                BoxAuthTest box = new BoxAuthTest();
+                IEnumerable<BoxUser> allUsers = await box.GetallUsers();
+
+                String string1 = "";
+                String string2 = "";
+                String string3 = "";
+                String string4 = "";
+                String string5 = "";
+
+                foreach (BoxUser user in allUsers)
+                {
+                    if (!user.Login.StartsWith("D"))
+                        if (!user.Login.StartsWith("testA"))
+                        {
+                        string1 = "Name: " + user.Name + "\n";
+                        string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
+                        string3 = "Status: " + user.Status.ToUpper() + "\n";
+                        string4 = "Last Modified: " + user.ModifiedAt.ToString() + "\n";
+
+                        //Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
+
+                        //BoxAuthTest iterativeClient = new BoxAuthTest();
+                        IEnumerable<BoxItem> boxFolder = await box.GetFolder(user.Id);
+
+                        foreach (BoxItem item in boxFolder)
+                        {
+                            if (!item.Name.EndsWith(".txt"))
+                                string5 = string5 + "Dir: " + item.Name + "\n";
+                            else
+                            {
+                                string5 = string5 + item.Name + "\n";
+                            }
+                        }
+
+                        Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
+                    }
+
+                }
             }
+            catch(Exception ex)
+            {
+                Response.Write(ex.InnerException + "\n");
+            }
+            
 
             filename = filename.Replace(" ", "");
             Response.AddHeader("content-disposition", "attachment;filename=" + filename.ToLower() + "Info.doc");
