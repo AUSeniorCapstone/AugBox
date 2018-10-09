@@ -78,12 +78,13 @@ body {font-family: "Lato", sans-serif;}
     padding: 7px 8px;
     font-size: 17px;
     width: 140px;
+    border-radius: 25px;
 }
 .SearchUserButton1:hover {
     background-color: #777;
 }
 
-.SearchUserButton{
+.ExportButton{
     background-color: #555;
     color: white;
     border: none;
@@ -94,10 +95,25 @@ body {font-family: "Lato", sans-serif;}
     width: 140px;
     position:absolute;
     right:15%;
+    border-radius: 25px;
 }
-.SearchUserButton:hover {
+.ExportButton:hover {
     background-color: #777;
 }
+.AddUserBox{
+    border:1px solid #e3e3e3;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.AddUserBox:hover{
+    border-color: #a0a0a0 #b9b9b9 #b9b9b9 #b9b9b9;
+}
+
+AddUserBox:focus{
+    border-color:#4d90fe;
+}
+
 
 </style>
 </head>
@@ -118,9 +134,9 @@ body {font-family: "Lato", sans-serif;}
         <br />
         <br />
         <div style="text-align:center; position:relative;" >
+        <asp:TextBox ID="EmailAddress" CssClass="AddUserBox" runat="server" Font-Size="18px" Height="30px" ></asp:TextBox> 
         <asp:Button ID="SearchForStudent" runat="server" Text="Search Student" CssClass="SearchUserButton1" OnClick="SearchForStudent_Click" />
-        <asp:TextBox ID="EmailAddress" runat="server" Font-Size="18px" Height="33px" ></asp:TextBox> 
-        <asp:Button ID="Exportbtn" runat="server" Text="Export All Users" OnClick="Exportbtn_Click"  CssClass="SearchUserButton"/> 
+        <asp:Button ID="Exportbtn" runat="server" Text="Export All Users" OnClick="Exportbtn_Click"  CssClass="ExportButton"/> 
             </div>
             <div style="text-align:center">
             <br />

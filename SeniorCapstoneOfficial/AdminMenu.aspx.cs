@@ -11,35 +11,49 @@ namespace SeniorCapstoneOfficial
     {
         List<Button> DeleteButtonList = new List<Button>();
         protected void Page_Load(object sender, EventArgs e)
-        {            
+        {
             PasswordTextBox.Attributes["type"] = "password";
-
-            if (Page.IsPostBack && ViewState["buttonSearch"] != null)
+            if (Session["UserName"] == null)
             {
-                DBConnector db = new DBConnector();
-                int i = 0;
+                Response.Redirect("Login.aspx");
+            }
 
-                foreach (User u in db.userSearch(SearchUserTextBox.Text))
+            else
+            {
+                DBConnector db1 = new DBConnector();
+                bool admin = db1.AdminCheck(Session["UserName"].ToString());
+                if (admin == true)
                 {
-                                      
-                    Button DeleteButton = new Button();
+                    if (Page.IsPostBack && ViewState["buttonSearch"] != null)
+                    {
+                        DBConnector db = new DBConnector();
+                        int i = 0;
 
-                    DeleteButton.ID = u.uname;
-                    DeleteButtonList.Add(DeleteButton);
-                    DeleteButton.Text = "Delete";
+                        foreach (User u in db.userSearch(SearchUserTextBox.Text))
+                        {
 
-                    DeleteButton.Click += new EventHandler(DeleteButton_Click);
-                    DeleteButton.OnClientClick = "return confirm('Are you sure you want to delete selected user?');";
+                            Button DeleteButton = new Button();
+
+                            DeleteButton.ID = u.uname;
+                            DeleteButtonList.Add(DeleteButton);
+                            DeleteButton.Text = "Delete";
+
+                            DeleteButton.Click += new EventHandler(DeleteButton_Click);
+                            DeleteButton.OnClientClick = "return confirm('Are you sure you want to delete selected user?');";
 
 
-                    DeleteButton.Visible = false;
-                    SearchUserPlaceHolder.Controls.Add(DeleteButton);
+                            DeleteButton.Visible = false;
+                            SearchUserPlaceHolder.Controls.Add(DeleteButton);
 
-                    i++;
+                            i++;
 
-                    SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
-                    SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
+                            SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
+                            SearchUserPlaceHolder.Controls.Add(new LiteralControl("<br />"));
+                        }
+                    }
                 }
+                else
+                    Response.Redirect("NormalUserMenu.aspx");
             }
         }
 
@@ -53,7 +67,7 @@ namespace SeniorCapstoneOfficial
                 ErrorMessage.Text = "Username Not Available";
                 ErrorMessage.Attributes.Add("style", "color:Red;");
                 PH.Controls.Add(ErrorMessage);
-                
+
             }
             else
             {
@@ -75,7 +89,7 @@ namespace SeniorCapstoneOfficial
         {
             DBConnector db = new DBConnector();
             int i = 0;
-           
+
             foreach (User u in db.userSearch(SearchUserTextBox.Text))
             {
                 List<Button> DeleteButtonList = new List<Button>();
@@ -85,7 +99,7 @@ namespace SeniorCapstoneOfficial
                 DeleteButton.ID = u.uname;
                 DeleteButtonList.Add(DeleteButton);
                 DeleteButton.Text = "Delete";
-                
+
                 DeleteButton.Click += new EventHandler(DeleteButton_Click);
                 DeleteButton.OnClientClick = "return confirm('Are you sure you want to delete selected user?');";
 
@@ -106,22 +120,23 @@ namespace SeniorCapstoneOfficial
         protected void DeleteButton_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            
+
             DBConnector db = new DBConnector();
             db.DeleteUser(btn.ID);
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)
         {
-            
+
             DBConnector dbconnector = new DBConnector();
             dbconnector.saveLogout(Session["UserName"].ToString(), DateTime.Now);
+            Session.Abandon();
             Response.Redirect("Login.aspx");
         }
 
         protected void StudentSearchBtn_Click(object sender, EventArgs e)
-        {             
-             Response.Redirect("NormalUserMenu.aspx");
+        {
+            Response.Redirect("NormalUserMenu.aspx");
         }
     }
 }

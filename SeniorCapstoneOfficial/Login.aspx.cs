@@ -16,7 +16,21 @@ namespace SeniorCapstoneOfficial
 
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+            if (Session["UserName"] != null)
+            {
+                DBConnector db = new DBConnector();
+                bool admin = db.AdminCheck(Session["UserName"].ToString());
+                if (admin == false)
+                {
+                    Response.Redirect("NormalUserMenu.aspx");
+                }
+                else
+                {
+                    Response.Redirect("AdminMenu.aspx");
+                }
+            }
+
+
             lblErrorMessage.Visible = false;
             DBConnector databaseObject = new DBConnector();
             databaseObject.OpenConnection();

@@ -6,7 +6,7 @@
 <head runat="server">
 
     <title>Login</title>
-    <link href="Style.css" rel="stylesheet" />
+    <link href="Style.css" rel="stylesheet" type="text/css" media="screen" runat="server" />
     <style>
         @import url('https://fonts.googleapis.com/family-Bitter|Crete+Round|Pacifico');
     </style>
@@ -21,8 +21,8 @@
              <div class="inner2">
                  <h3>AugBox</h3>                   
                  <asp:TextBox ID="txturname" placeholder="Username" runat="server"></asp:TextBox>
-                 <asp:TextBox ID="txtpassword" placeholder="Password" TextMode="Password" runat="server"></asp:TextBox>
-                 <asp:Label ID="lblErrorMessage" runat="server" Text="Incorrect User Credentials"></asp:Label>
+                 <asp:TextBox ID="txtpassword" placeholder="Password" TextMode="Password" runat="server"></asp:TextBox> <br />
+                 <asp:Label ID="lblErrorMessage" runat="server" Text="Incorrect User Credentials"></asp:Label>  <br />  
                  <asp:Button ID="Button1" runat="server" CssClass="btn" Text="Submit" OnClick="Button1_Click" />
              </div>
          </div>
