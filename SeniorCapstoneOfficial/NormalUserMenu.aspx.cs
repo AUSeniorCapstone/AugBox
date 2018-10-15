@@ -11,6 +11,8 @@ using Box.V2.Models;
 using Box.V2;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
+using System.Data;
+using System.Text;
 
 namespace SeniorCapstoneOfficial
 {
@@ -27,6 +29,8 @@ namespace SeniorCapstoneOfficial
 
             else
             {
+                RegisterAsyncTask(new PageAsyncTask(ListofEmailToJavaScript));
+
                 DBConnector db = new DBConnector();
                 bool admin = db.AdminCheck(Session["UserName"].ToString());
                 if (admin == false)
@@ -42,7 +46,6 @@ namespace SeniorCapstoneOfficial
         protected void SearchForStudent_Click(object sender, EventArgs e)
         {
             RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
-
         }
 
         protected void Exportbtn_Click(object sender, EventArgs e)
@@ -78,7 +81,7 @@ namespace SeniorCapstoneOfficial
                     string1 = "Name: " + user.Name + "\n";
                     string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
                     string3 = "Status: " + user.Status.ToUpper() + "\n";
-                    string4 = "Last Modified: " + user.ModifiedAt.ToString() + "\n";
+                    string4 = "Last Login: " + user.ModifiedAt.ToString() + "\n";
 
                     IEnumerable<BoxItem> boxFolder = await box.GetFolder(user.Id);
 
@@ -118,7 +121,7 @@ namespace SeniorCapstoneOfficial
                 Label1.Text = "<b>" + "Name: " + "</b>" + foundUser.Name;
                 Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
                 Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
-                Label4.Text = "<b>" + "Last Modified: " + "</b>" + foundUser.ModifiedAt.ToString();
+                Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
                 Label5.Text = "<b>" + "Top Folders" + "</b>";
                 Exportbtn.Visible = true;
                 found = true;
@@ -155,6 +158,28 @@ namespace SeniorCapstoneOfficial
             /* This shows all the users
               GridView1.DataSource = users;
               GridView1.DataBind();*/
+        }
+
+        private async Task ListofEmailToJavaScript()
+        {
+            List<string> listemails = new List<string>();
+            BoxAuthTest box = new BoxAuthTest();
+            List<BoxUser> listusers = await box.GetallUsers();
+
+            foreach (BoxUser user in listusers)
+            {
+                listemails.Add(user.Login);
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<script>");
+            sb.Append("var testArray = new Array;");
+
+            foreach (string email in listemails)
+            {
+                sb.Append("testArray.push('" + email + "');");
+            }
+            sb.Append("</script>");
+            ClientScript.RegisterStartupScript(this.GetType(), "TestArrayScript", sb.ToString());
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)

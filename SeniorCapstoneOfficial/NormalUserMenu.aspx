@@ -1,4 +1,4 @@
-﻿<%@ Page Async ="true" Language="C#" AutoEventWireup="true" CodeBehind="NormalUserMenu.aspx.cs" Inherits="SeniorCapstoneOfficial.NormalUserMenu" %>
+﻿ <%@ Page Async ="true" Language="C#" AutoEventWireup="true" CodeBehind="NormalUserMenu.aspx.cs" Inherits="SeniorCapstoneOfficial.NormalUserMenu" %>
 
 <!DOCTYPE html>
 
@@ -6,9 +6,45 @@
 <head runat="server">
     <title></title>
     <link href="Style.css" rel="stylesheet" />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      
+  <script>
+  $( function() {
+      var availableTags = testArray
+    $( "#EmailAddress" ).autocomplete({
+        source: availableTags
+    });
+  } );
+  </script>
     <style>
-body {font-family: "Lato", sans-serif;}
+body {font-family: "Lato", sans-serif;
+      overflow-x: hidden;
+}
+.ui-helper-hidden-accessible { display:none;}
+.ui-autocomplete { 
+     max-height: 200px;
+     width: 250px;
+     overflow-y: auto; 
+     overflow-x: hidden;  
+     margin-top: 20px;
+     border: 1px solid;
+     border-color: #c6c1c1;
 
+}
+.ui-state-active 
+{
+  width: inherit;
+  background-color: #c6c1c1;
+  cursor: pointer;
+}
+.ui-menu-item a {
+text-decoration: none;
+display: block;
+line-height: 1.5;
+zoom: 1;
+}
 .tablink1 {
     background-color: #555;
     color: white;
@@ -101,9 +137,11 @@ body {font-family: "Lato", sans-serif;}
     background-color: #777;
 }
 .AddUserBox{
+    padding-right: 10px;
     border:1px solid #e3e3e3;
     margin-bottom: 10px;
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    width: 250px;
 }
 
 .AddUserBox:hover{
@@ -134,8 +172,8 @@ AddUserBox:focus{
         <br />
         <br />
         <div style="text-align:center; position:relative;" >
-        <asp:TextBox ID="EmailAddress" CssClass="AddUserBox" runat="server" Font-Size="18px" Height="30px" ></asp:TextBox> 
-        <asp:Button ID="SearchForStudent" runat="server" Text="Search Student" CssClass="SearchUserButton1" OnClick="SearchForStudent_Click" />
+        <asp:TextBox ID="EmailAddress" CssClass="AddUserBox" runat="server" Font-Size="18px" Height="30px" AutoPostBack="False"></asp:TextBox> 
+        <asp:Button ID="SearchForStudent" runat="server" Text="Search Student" CssClass="SearchUserButton1" OnClick="SearchForStudent_Click" onkeyup="this.value" />
         <asp:Button ID="Exportbtn" runat="server" Text="Export All Users" OnClick="Exportbtn_Click"  CssClass="ExportButton"/> 
             </div>
             <div style="text-align:center">
