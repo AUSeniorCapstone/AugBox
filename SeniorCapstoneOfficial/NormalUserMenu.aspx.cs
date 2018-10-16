@@ -15,6 +15,7 @@ using System.Data;
 using System.Text;
 using System.ComponentModel;
 using System.IO;
+using System.Net.Http;
 
 namespace SeniorCapstoneOfficial
 {
@@ -139,13 +140,26 @@ namespace SeniorCapstoneOfficial
             String string2 = "";
             String string3 = "";
             String string4 = "";
+            String string5 = "";
+            String string6 = "";
 
-            Response.Write("Name" + " " + "SpaceUsed" + " " + "Status" + " " + "LastLogin" + "\n");
+            Response.Write("Name" + " " + "SpaceUsed" + " " + "Status" + " " + "LastLogin" + " " + "Email Alias" + " " + "Email Alias" + "\n");
 
             foreach (BoxUser user in allUsers)
             {
                 try
                 {
+
+                    var emailAliases = await box.GetEmailAlias(user.Id);
+                    for (int i = 0; i < emailAliases.TotalCount; i++)
+                    {
+                        if (emailAliases.TotalCount > 1)
+                            string6 = string6 + ", " + emailAliases.Entries[i].Email;
+                        if (emailAliases.TotalCount == 1)
+                            string6 = emailAliases.Entries[i].Email;
+                        else
+                            string6 = "";
+                    }
 
                     string1 = user.Name;
                     string1 = string1.Replace(" ", "");
@@ -155,9 +169,19 @@ namespace SeniorCapstoneOfficial
                     string3 = string3.Replace(" ", "");
                     string4 = user.ModifiedAt.ToString();
                     string4 = string4.Replace(" ", "");
+                    if (emailAliases.Entries[0] == null)
+                        string5 = "";
+                    else
+                        string5 = emailAliases.Entries[0].Email;
+                    string5 = string5.Replace(" ", "");
+                    if (emailAliases.Entries[1] == null)
+                        string6 = "";
+                    else
+                        string6 = emailAliases.Entries[1].Email;
+                    string6 = string5.Replace(" ", "");
 
 
-                    Response.Write(string1 + " " + string2 + " " + string3 + " " + string4 + "\n");
+                    Response.Write(string1 + " " + string2 + " " + string3 + " " + string4 + " " + string5 + " " + string6 + "\n");
                 }
                 catch (Exception ex)
                 {
@@ -180,13 +204,35 @@ namespace SeniorCapstoneOfficial
             List<BoxUser> users = await box.GetallUsers();
 
             BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
+            String emails = "";
 
             if (foundUser != null)
             {
+                var emailAliases = await box.GetEmailAlias(foundUser.Id);
+
+                for (int i = 0; i < emailAliases.TotalCount; i++)
+                {
+                    if (emailAliases.TotalCount == 0)
+                        emails = "No email aliases";
+                    if (emailAliases.TotalCount == 1)
+                        emails = emailAliases.Entries[i].Email;
+                    else
+                        emails = emails + ", " + emailAliases.Entries[i].Email;
+                }
+                char[] charsToTrim =
+                {
+                    ',',
+                    ' '
+                };
+                emails = emails.TrimStart(charsToTrim);
+
+
+
                 Label1.Text = "<b>" + "Name: " + "</b>" + foundUser.Name;
                 Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
                 Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
                 Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
+                Label6.Text = "<b>" + "Email Aliases: " + "</b>" + emails;
                 Label5.Text = "<b>" + "Top Folders" + "</b>";
                 Exportbtn.Visible = true;
                 found = true;
@@ -246,6 +292,13 @@ namespace SeniorCapstoneOfficial
             sb.Append("</script>");
             ClientScript.RegisterStartupScript(this.GetType(), "TestArrayScript", sb.ToString());
         }
+
+        /*private async Task CurlFindContents(Uri uri, string contents)
+        {
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Host = "box.com";
+            Task<string> task = client.GetStringAsync("https://api.box.com/2.0/events")
+        } */
 
         protected void LogoutBtn_Click(object sender, EventArgs e)
         {

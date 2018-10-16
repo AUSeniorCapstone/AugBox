@@ -190,7 +190,10 @@ AddUserBox:focus{
         <br />
          <asp:Label ID="Label4" runat="server"></asp:Label>
         <br />
-        <br />
+                <br />
+                <asp:Label ID="Label6" runat="server"></asp:Label>
+                <br />
+                <br />
             <asp:Label ID="Label5" runat="server"></asp:Label>
         <br />
         <br />
