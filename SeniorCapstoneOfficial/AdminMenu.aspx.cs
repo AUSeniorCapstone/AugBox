@@ -105,17 +105,31 @@ namespace SeniorCapstoneOfficial
         protected void SearchUserButton_Click(object sender, EventArgs e)
         {
             DBConnector db = new DBConnector();
-          
-            int i = 0;
-            foreach(User u in db.userSearch(SearchUserTextBox.Text))
+            SearchUserFailed.Controls.Clear();
+            for (int x = 0; x < btn.Count; x++)
             {
-                btn[i].Visible = true;
-                lbl[i].Visible = true;
-                lbl[i].Text = u.fName.ToString() + " " + u.lName.ToString() + ": " + u.uname.ToString();
-                i++;
+                btn[x].Visible = false;
+                lbl[x].Visible = false;
             }
-               
-            
+
+            int i = 0;
+            if (db.userSearch(SearchUserTextBox.Text).Count != 0)
+            {
+                foreach (User u in db.userSearch(SearchUserTextBox.Text))
+                {
+                    btn[i].Visible = true;
+                    lbl[i].Visible = true;
+                    lbl[i].Text = u.fName.ToString() + " " + u.lName.ToString() + ": " + u.uname.ToString();
+                    i++;                    
+                }
+            }
+            else
+            {
+                Label failed = new Label();
+                failed.Text = "No User Found";
+                failed.ForeColor = System.Drawing.Color.Red;
+                SearchUserFailed.Controls.Add(failed);
+            }         
         }
 
 

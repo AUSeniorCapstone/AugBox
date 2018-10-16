@@ -141,6 +141,7 @@ AddUserBox:focus{
                     <asp:TextBox ID="SearchUserTextBox" CssClass="AddUserBox" runat="server" Font-Size="18px" Height="30px"> </asp:TextBox>
         <asp:Button ID="SearchUserButton" runat="server" Text ="Search User" OnClick="SearchUserButton_Click" CssClass="SearchUserButton"  />
         <br />
+        <asp:PlaceHolder ID="SearchUserFailed" runat="server"></asp:PlaceHolder>
         <br />
         <asp:Label ID="Label0" runat="server" Visible="false"></asp:Label>
         <asp:Button ID="Button0" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />

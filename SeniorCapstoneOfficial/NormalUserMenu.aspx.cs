@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.Data;
 using System.Text;
+using System.ComponentModel;
+using System.IO;
 
 namespace SeniorCapstoneOfficial
 {
@@ -54,15 +56,81 @@ namespace SeniorCapstoneOfficial
 
         }
 
+
+        public void WriteTsv<T>(IEnumerable<T> data, TextWriter output)
+        {
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(T));
+            foreach (PropertyDescriptor prop in props)
+            {
+                output.Write(prop.DisplayName); // header
+                output.Write("\t");
+            }
+            output.WriteLine();
+            foreach (T item in data)
+            {
+                foreach (PropertyDescriptor prop in props)
+                {
+                    output.Write(prop.Converter.ConvertToString(
+                         prop.GetValue(item)));
+                    output.Write("\t");
+                }
+                output.WriteLine();
+            }
+        }
+
         private async Task ExportEverything()
         {
+            //BoxAuthTest box = new BoxAuthTest();
+            //IEnumerable<BoxUser> allUsers = await box.GetallUsers();
+
+            //var data = new[]{
+            //                   new{ Name="Ram", Email="ram@techbrij.com", Phone="111-222-3333" },
+            //                   new{ Name="Shyam", Email="shyam@techbrij.com", Phone="159-222-1596" },
+            //                   new{ Name="Mohan", Email="mohan@techbrij.com", Phone="456-222-4569" },
+            //                   new{ Name="Sohan", Email="sohan@techbrij.com", Phone="789-456-3333" },
+            //                   new{ Name="Karan", Email="karan@techbrij.com", Phone="111-222-1234" },
+            //                   new{ Name="Brij", Email="brij@techbrij.com", Phone="111-222-3333" }
+            //          };
+
+            ////var data = new List<string>();
+
+            ////string string1 = "";
+            ////string string2 = "";
+            ////string string3 = "";
+            ////string string4 = "";
+
+            ////foreach (BoxUser user in allUsers)
+            ////{
+            ////    try
+            ////    {
+
+            ////        string1 = "Name: " + user.Name + "\n";
+            ////        data.Add(string1);
+            ////        string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
+            ////        data.Add(string2);
+            ////        string3 = "Status: " + user.Status.ToUpper() + "\n";
+            ////        data.Add(string3);
+            ////        string4 = "Last Login: " + user.ModifiedAt.ToString() + "\n";
+            ////        data.Add(string4);                                      
+            ////    }
+            ////    catch (Exception ex)
+            ////    {
+            ////        Response.Write("Box user: " + user.Name + " has not verified email address.\n\n");
+            ////    }
+            ////}
+
+            //Response.ClearContent();
+            //Response.AddHeader("content-disposition", "attachment;filename=AllUsers.xls");
+            //Response.AddHeader("Content-Type", "application/vnd.ms-excel");
+            //WriteTsv(data, Response.Output);
+            //Response.End();
 
             Response.Clear();
             Response.Charset = "";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
-            Response.ContentType = "application/doc";
-            String filename = "user";
+            Response.ContentType = "application/vnd.ms-excel";
+            string filename = "user";
 
             BoxAuthTest box = new BoxAuthTest();
             IEnumerable<BoxUser> allUsers = await box.GetallUsers();
@@ -71,28 +139,25 @@ namespace SeniorCapstoneOfficial
             String string2 = "";
             String string3 = "";
             String string4 = "";
-            String string5 = "";
+
+            Response.Write("Name" + " " + "SpaceUsed" + " " + "Status" + " " + "LastLogin" + "\n");
 
             foreach (BoxUser user in allUsers)
             {
                 try
                 {
 
-                    string1 = "Name: " + user.Name + "\n";
-                    string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
-                    string3 = "Status: " + user.Status.ToUpper() + "\n";
-                    string4 = "Last Login: " + user.ModifiedAt.ToString() + "\n";
+                    string1 = user.Name;
+                    string1 = string1.Replace(" ", "");
+                    string2 = user.SpaceUsed.ToString();
+                    string2 = string2.Replace(" ", "");
+                    string3 = user.Status.ToUpper();
+                    string3 = string3.Replace(" ", "");
+                    string4 = user.ModifiedAt.ToString();
+                    string4 = string4.Replace(" ", "");
 
-                    IEnumerable<BoxItem> boxFolder = await box.GetFolder(user.Id);
 
-                    foreach (BoxItem item in boxFolder)
-                    {
-                        if (!item.Name.EndsWith(".txt"))
-                            string5 = string5 + "Dir: " + item.Name + "\n";
-                        else
-                            string5 = string5 + item.Name + "\n";
-                    }
-                    Response.Write(string1 + string2 + string3 + string4 + string5 + "\n");
+                    Response.Write(string1 + " " + string2 + " " + string3 + " " + string4 + "\n");
                 }
                 catch (Exception ex)
                 {
