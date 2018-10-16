@@ -192,6 +192,11 @@ AddUserBox:focus{
         <br />
                 <br />
                 <asp:Label ID="Label6" runat="server"></asp:Label>
+                <asp:Button ID="Button6" runat="server" Text="Delete" Visible="False" />
+                <br />
+                <br />
+                <asp:Label ID="Label7" runat="server"></asp:Label>
+                <asp:Button ID="Button7" runat="server" Text="Delete" Visible="False" />
                 <br />
                 <br />
             <asp:Label ID="Label5" runat="server"></asp:Label>

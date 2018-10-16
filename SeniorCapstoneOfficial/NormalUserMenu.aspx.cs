@@ -210,21 +210,8 @@ namespace SeniorCapstoneOfficial
             {
                 var emailAliases = await box.GetEmailAlias(foundUser.Id);
 
-                for (int i = 0; i < emailAliases.TotalCount; i++)
-                {
-                    if (emailAliases.TotalCount == 0)
-                        emails = "No email aliases";
-                    if (emailAliases.TotalCount == 1)
-                        emails = emailAliases.Entries[i].Email;
-                    else
-                        emails = emails + ", " + emailAliases.Entries[i].Email;
-                }
-                char[] charsToTrim =
-                {
-                    ',',
-                    ' '
-                };
-                emails = emails.TrimStart(charsToTrim);
+                if (emailAliases.TotalCount == 2)
+                    emails = emailAliases.Entries[1].Email;
 
 
 
@@ -232,7 +219,8 @@ namespace SeniorCapstoneOfficial
                 Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
                 Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
                 Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
-                Label6.Text = "<b>" + "Email Aliases: " + "</b>" + emails;
+                Label6.Text = "<b>" + "Email Alias #1: " + "</b>" + emailAliases.Entries[0];
+                Label7.Text = "<b>" + "Email Alias #2: " + "</b>" + emails;
                 Label5.Text = "<b>" + "Top Folders" + "</b>";
                 Exportbtn.Visible = true;
                 found = true;
@@ -307,6 +295,20 @@ namespace SeniorCapstoneOfficial
             dbconnector.saveLogout(Session["UserName"].ToString(), DateTime.Now);
             Session.Abandon();
             Response.Redirect("Login.aspx");
+        }
+
+        protected async void DeleteButton_Click(object sender, EventArgs e)
+        {
+            Button bttn = (Button)sender;
+            string button = bttn.ID.ToString();
+
+            BoxAuthTest box = new BoxAuthTest();
+            //await box.DeleteEmailAlias(string: ID, string: email);
+            for (int x = 0; x < 2; x++)
+            {
+                //Label[6 + i].Visible = false;
+                //btn[x].Visible = false;
+            }
         }
 
         protected void AdminPage_Click(object sender, EventArgs e)
