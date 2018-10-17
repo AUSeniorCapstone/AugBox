@@ -140,7 +140,7 @@ namespace SeniorCapstoneOfficial
             string last = button[button.Length - 1].ToString();
             int i = Convert.ToInt32(last);
             DBConnector db = new DBConnector();
-            string input = lbl[i].Text.Substring(lbl[i].Text.IndexOf(": ")+2);
+            string input = lbl[i].Text.Substring(lbl[i].Text.IndexOf(": ") + 2);
             db.DeleteUser(input);
             for(int x = 0; x<lbl.Count;x++)
             {

@@ -21,6 +21,11 @@ namespace SeniorCapstoneOfficial
 {
     public partial class NormalUserMenu : System.Web.UI.Page
     {
+        List<Button> btn = new List<Button>();
+        List<Label> lbl = new List<Label>();
+        List<Button> DeleteButtonList = new List<Button>();
+        string emailAlias1 = "";
+        string emailAlias2 = "";
 
         List<BoxItem> FolderList = new List<BoxItem>();
         protected void Page_Load(object sender, EventArgs e)
@@ -301,13 +306,21 @@ namespace SeniorCapstoneOfficial
         {
             Button bttn = (Button)sender;
             string button = bttn.ID.ToString();
+            string last = button[button.Length - 1].ToString();
+            int i = Convert.ToInt32(last);
+            string input = lbl[i].Text.Substring(lbl[i].Text.IndexOf(": ") + 2);
+
 
             BoxAuthTest box = new BoxAuthTest();
-            //await box.DeleteEmailAlias(string: ID, string: email);
-            for (int x = 0; x < 2; x++)
+            List<BoxUser> users = await box.GetallUsers();
+            BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
+            BoxCollection<BoxEmailAlias> alia = await box.GetEmailAlias(foundUser.Id);
+
+            await box.DeleteEmailAlias(foundUser.Id, string: emailAliasID);
+            for (int x = 0; x < 1; x++)
             {
-                //Label[6 + i].Visible = false;
-                //btn[x].Visible = false;
+                lbl[6 + x].Visible = true;
+                btn[6 + x].Visible = true;
             }
         }
 
