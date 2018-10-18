@@ -86,51 +86,7 @@ namespace SeniorCapstoneOfficial
 
         private async Task ExportEverything()
         {
-            //BoxAuthTest box = new BoxAuthTest();
-            //IEnumerable<BoxUser> allUsers = await box.GetallUsers();
-
-            //var data = new[]{
-            //                   new{ Name="Ram", Email="ram@techbrij.com", Phone="111-222-3333" },
-            //                   new{ Name="Shyam", Email="shyam@techbrij.com", Phone="159-222-1596" },
-            //                   new{ Name="Mohan", Email="mohan@techbrij.com", Phone="456-222-4569" },
-            //                   new{ Name="Sohan", Email="sohan@techbrij.com", Phone="789-456-3333" },
-            //                   new{ Name="Karan", Email="karan@techbrij.com", Phone="111-222-1234" },
-            //                   new{ Name="Brij", Email="brij@techbrij.com", Phone="111-222-3333" }
-            //          };
-
-            ////var data = new List<string>();
-
-            ////string string1 = "";
-            ////string string2 = "";
-            ////string string3 = "";
-            ////string string4 = "";
-
-            ////foreach (BoxUser user in allUsers)
-            ////{
-            ////    try
-            ////    {
-
-            ////        string1 = "Name: " + user.Name + "\n";
-            ////        data.Add(string1);
-            ////        string2 = "Space Used: " + user.SpaceUsed.ToString() + " bytes \n";
-            ////        data.Add(string2);
-            ////        string3 = "Status: " + user.Status.ToUpper() + "\n";
-            ////        data.Add(string3);
-            ////        string4 = "Last Login: " + user.ModifiedAt.ToString() + "\n";
-            ////        data.Add(string4);                                      
-            ////    }
-            ////    catch (Exception ex)
-            ////    {
-            ////        Response.Write("Box user: " + user.Name + " has not verified email address.\n\n");
-            ////    }
-            ////}
-
-            //Response.ClearContent();
-            //Response.AddHeader("content-disposition", "attachment;filename=AllUsers.xls");
-            //Response.AddHeader("Content-Type", "application/vnd.ms-excel");
-            //WriteTsv(data, Response.Output);
-            //Response.End();
-
+           
             Response.Clear();
             Response.Charset = "";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
@@ -141,62 +97,94 @@ namespace SeniorCapstoneOfficial
             BoxAuthTest box = new BoxAuthTest();
             IEnumerable<BoxUser> allUsers = await box.GetallUsers();
 
-            String string1 = "";
-            String string2 = "";
-            String string3 = "";
-            String string4 = "";
-            String string5 = "";
-            String string6 = "";
+            string string1 = "Name";
+            string string2 = "SpaceUsed";
+            string string3 = "Status";
+            string string4 = "LastLogin";
+            //string string5 = "EmailAlias1";
+            //string string6 = "EmailAlias2";
 
-            Response.Write("Name" + " " + "SpaceUsed" + " " + "Status" + " " + "LastLogin" + " " + "Email Alias" + " " + "Email Alias" + "\n");
+            List<string> columnHead = new List<string>();
+            List<string> row = new List<string>();
+            columnHead.Add(string1);
+            columnHead.Add(string2);
+            columnHead.Add(string3);
+            columnHead.Add(string4);
+            //columnHead.Add(string5);
+            //columnHead.Add(string6);
+            string tab = "";
+            foreach(string s in columnHead)
+            {
+                Response.Write(tab + s);
+                tab = "\t";
+            }
 
+            string1 = "";
+            string2 = "";
+            string3 = "";
+            string4 = "";
+            //string5 = "";
+            //string6 = "";
+
+            Response.Write("\n");
             foreach (BoxUser user in allUsers)
             {
-                try
-                {
+                //try
+                //{
 
-                    var emailAliases = await box.GetEmailAlias(user.Id);
-                    for (int i = 0; i < emailAliases.TotalCount; i++)
-                    {
-                        if (emailAliases.TotalCount > 1)
-                            string6 = string6 + ", " + emailAliases.Entries[i].Email;
-                        if (emailAliases.TotalCount == 1)
-                            string6 = emailAliases.Entries[i].Email;
-                        else
-                            string6 = "";
-                    }
+                    //var emailAliases = await box.GetEmailAlias(user.Id);
+                    //for (int i = 0; i < emailAliases.TotalCount; i++)
+                    //{
+                    //    if (emailAliases.TotalCount > 1)
+                    //        string6 = string6 + ", " + emailAliases.Entries[i].Email;
+                    //    if (emailAliases.TotalCount == 1)
+                    //        string6 = emailAliases.Entries[i].Email;
+                    //    else
+                    //        string6 = "";
+                    //}
 
                     string1 = user.Name;
                     string1 = string1.Replace(" ", "");
+                    row.Add(string1);
                     string2 = user.SpaceUsed.ToString();
                     string2 = string2.Replace(" ", "");
+                    row.Add(string2);
                     string3 = user.Status.ToUpper();
                     string3 = string3.Replace(" ", "");
+                    row.Add(string3);
                     string4 = user.ModifiedAt.ToString();
                     string4 = string4.Replace(" ", "");
-                    if (emailAliases.Entries[0] == null)
-                        string5 = "";
-                    else
-                        string5 = emailAliases.Entries[0].Email;
-                    string5 = string5.Replace(" ", "");
-                    if (emailAliases.Entries[1] == null)
-                        string6 = "";
-                    else
-                        string6 = emailAliases.Entries[1].Email;
-                    string6 = string5.Replace(" ", "");
-
-
-                    Response.Write(string1 + " " + string2 + " " + string3 + " " + string4 + " " + string5 + " " + string6 + "\n");
+                    row.Add(string4);
+                    //if (emailAliases.Entries[0] == null)
+                    //    string5 = "";
+                    //else
+                    //    string5 = emailAliases.Entries[0].Email;
+                    //string5 = string5.Replace(" ", "");
+                    //if (emailAliases.Entries[1] == null)
+                    //    string6 = "";
+                    //else
+                    //    string6 = emailAliases.Entries[1].Email;
+                    //string6 = string5.Replace(" ", "");
+                    //row.Add(string5);
+                    //row.Add(string6);
+                    tab = "";
+                    foreach(string s in row)
+                    {
+                        Response.Write(tab + s);
+                        tab = "\t";
+                    }
+                    Response.Write("\n");
+                    row.Clear();
                 }
-                catch (Exception ex)
-                {
-                    Response.Write("Box user: " + user.Name + " has not verified email address.\n\n");
-                }
-            }
+                //catch (Exception ex)
+                //{
+                //    Response.Write("Box user: " + user.Name + " has not verified email address.\n\n");
+                //}
+            //}
 
 
             filename = filename.Replace(" ", "");
-            Response.AddHeader("content-disposition", "attachment;filename=" + filename.ToLower() + "Info.doc");
+            Response.AddHeader("content-disposition", "attachment;filename=" + "AllUsers.xls");
             Response.Flush();
             Response.End();
 
@@ -316,7 +304,7 @@ namespace SeniorCapstoneOfficial
             BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
             BoxCollection<BoxEmailAlias> alia = await box.GetEmailAlias(foundUser.Id);
 
-            await box.DeleteEmailAlias(foundUser.Id, string: emailAliasID);
+           // await box.DeleteEmailAlias(foundUser.Id, (string)emailAliasID);
             for (int x = 0; x < 1; x++)
             {
                 lbl[6 + x].Visible = true;
