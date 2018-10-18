@@ -10,11 +10,23 @@
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       
-  <script>
+   <script>
   $( function() {
       var availableTags = testArray
     $( "#EmailAddress" ).autocomplete({
-        source: availableTags
+        source: function (request, response) {
+            var filteredArray = $.map(availableTags, function (item)
+            {                
+                if (item.indexOf(request.term) == 0) {
+                    return item;
+                }
+                else {
+                    return null;
+                }
+            }
+            );
+            response(filteredArray);
+        }
     });
   } );
   </script>
