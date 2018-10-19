@@ -144,6 +144,22 @@ zoom: 1;
     position:absolute;
     right:15%;
     border-radius: 25px;
+
+    .DeleteUserButton{
+    background-color: #555;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 7px 8px;
+    font-size: 14px;
+    width: 75px;
+    border-radius: 25px;
+}
+
+.DeleteUserButton:hover {
+    background-color: #777;
+}
 }
 .ExportButton:hover {
     background-color: #777;
@@ -204,11 +220,11 @@ AddUserBox:focus{
         <br />
                 <br />
                 <asp:Label ID="Label6" runat="server"></asp:Label>
-                <asp:Button ID="Button6" runat="server" Text="Delete" Visible="False" />
+                <asp:Button ID="Button6" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
                 <br />
                 <br />
                 <asp:Label ID="Label7" runat="server"></asp:Label>
-                <asp:Button ID="Button7" runat="server" Text="Delete" Visible="False" />
+                <asp:Button ID="Button7" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
                 <br />
                 <br />
             <asp:Label ID="Label5" runat="server"></asp:Label>

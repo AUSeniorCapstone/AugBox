@@ -21,9 +21,10 @@ namespace SeniorCapstoneOfficial
 {
     public partial class NormalUserMenu : System.Web.UI.Page
     {
-        List<Button> btn = new List<Button>();
-        List<Label> lbl = new List<Label>();
-        List<Button> DeleteButtonList = new List<Button>();
+        private static List<Button> btn = new List<Button>();
+        private static List<Label> lbl = new List<Label>();
+        private static List<Button> DeleteButtonList = new List<Button>();
+        private static BoxUser foundUser = new BoxUser();
         string emailAlias1 = "";
         string emailAlias2 = "";
 
@@ -196,7 +197,7 @@ namespace SeniorCapstoneOfficial
             bool found = false;
             List<BoxUser> users = await box.GetallUsers();
 
-            BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
+            foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
             String emails = "";
 
             if (foundUser != null)
@@ -212,8 +213,16 @@ namespace SeniorCapstoneOfficial
                 Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
                 Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
                 Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
-                Label6.Text = "<b>" + "Email Alias #1: " + "</b>" + emailAliases.Entries[0];
+                Label6.Text = "<b>" + "Email Alias #1: " + "</b>" + emailAliases.Entries[0].Email;
+                btn.Add(Button6);
+                if (emailAliases.Entries[0].Email == null)
+                    btn[0].Visible = false;
+                lbl.Add(Label6);
                 Label7.Text = "<b>" + "Email Alias #2: " + "</b>" + emails;
+                btn.Add(Button7);
+                if(emails == null)
+                    btn[1].Visible = false;
+                lbl.Add(Label7);
                 Label5.Text = "<b>" + "Top Folders" + "</b>";
                 Exportbtn.Visible = true;
                 found = true;
@@ -294,22 +303,26 @@ namespace SeniorCapstoneOfficial
         {
             Button bttn = (Button)sender;
             string button = bttn.ID.ToString();
-            string last = button[button.Length - 1].ToString();
-            int i = Convert.ToInt32(last);
-            string input = lbl[i].Text.Substring(lbl[i].Text.IndexOf(": ") + 2);
+            button = button.Substring(button.IndexOf("n") + 1);
+            var labelIndex = 0;
+            Int32.TryParse(button, out labelIndex);
+
+            string last = lbl[labelIndex - 6].Text;
+            last = last.Substring(last.IndexOf(": ") + 2);
 
 
             BoxAuthTest box = new BoxAuthTest();
-            List<BoxUser> users = await box.GetallUsers();
-            BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
+            //List<BoxUser> users = await box.GetallUsers();
+            //BoxUser foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
             BoxCollection<BoxEmailAlias> alia = await box.GetEmailAlias(foundUser.Id);
+            string emailAliasID = alia.Entries[labelIndex - 6].Id;
 
-           // await box.DeleteEmailAlias(foundUser.Id, (string)emailAliasID);
-            for (int x = 0; x < 1; x++)
+            await box.DeleteEmailAlias(foundUser.Id, emailAliasID);
+            /*for (int x = 0; x < 1; x++)
             {
                 lbl[6 + x].Visible = true;
                 btn[6 + x].Visible = true;
-            }
+            }*/
         }
 
         protected void AdminPage_Click(object sender, EventArgs e)

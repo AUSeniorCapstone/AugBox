@@ -29,7 +29,7 @@ namespace SeniorCapstoneOfficial
         public Box.V2.BoxClient Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -46,7 +46,7 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxItem>> GetFolder(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -68,15 +68,7 @@ namespace SeniorCapstoneOfficial
 
         public async Task<BoxCollection<BoxEmailAlias>> GetEmailAlias(String ID)
         {
-            IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
-            {
-                config = BoxConfig.CreateFromJsonFile(fs);
-            }
-
-            var boxJWT = new BoxJWTAuth(config);
-            var adminToken = boxJWT.AdminToken();
-            var adminClient = boxJWT.AdminClient(adminToken);
+            var adminClient = Authenticate();
 
             BoxCollection<BoxEmailAlias> aliases = await adminClient.UsersManager.GetEmailAliasesAsync(ID);
             return aliases;
@@ -84,15 +76,7 @@ namespace SeniorCapstoneOfficial
 
         public async Task<BoxEmailAlias> CreateEmailAlias(String ID, String email)
         {
-            IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
-            {
-                config = BoxConfig.CreateFromJsonFile(fs);
-            }
-
-            var boxJWT = new BoxJWTAuth(config);
-            var adminToken = boxJWT.AdminToken();
-            var adminClient = boxJWT.AdminClient(adminToken);
+            var adminClient = Authenticate();
 
             BoxEmailAlias alias = await adminClient.UsersManager.AddEmailAliasAsync(ID, email);
             return alias;
@@ -100,15 +84,7 @@ namespace SeniorCapstoneOfficial
 
         public async Task DeleteEmailAlias(String ID, String emailID)
         {
-            IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
-            {
-                config = BoxConfig.CreateFromJsonFile(fs);
-            }
-
-            var boxJWT = new BoxJWTAuth(config);
-            var adminToken = boxJWT.AdminToken();
-            var adminClient = boxJWT.AdminClient(adminToken);
+            var adminClient = Authenticate();
 
             await adminClient.UsersManager.DeleteEmailAliasAsync(ID, emailID);
         }
