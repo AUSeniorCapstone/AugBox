@@ -219,12 +219,9 @@ AddUserBox:focus{
          <asp:Label ID="Label4" runat="server"></asp:Label>
         <br />
                 <br />
-                <asp:Label ID="Label6" runat="server"></asp:Label>
-                <asp:Button ID="Button6" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-                <br />
-                <br />
-                <asp:Label ID="Label7" runat="server"></asp:Label>
-                <asp:Button ID="Button7" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
+                <asp:Label ID="Label" runat="server"></asp:Label>
+                <asp:Button ID="Button" runat="server" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
+                <asp:Button ID="ButtonAdd" runat="server" Visible="false" OnClick="AddButton_Click" CssClass="AddUserButton" OnClientClick="return Validate();" />
                 <br />
                 <br />
             <asp:Label ID="Label5" runat="server"></asp:Label>
