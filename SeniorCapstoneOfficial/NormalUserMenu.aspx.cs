@@ -25,8 +25,6 @@ namespace SeniorCapstoneOfficial
         private static List<Label> lbl = new List<Label>();
         private static List<Button> DeleteButtonList = new List<Button>();
         private static BoxUser foundUser = new BoxUser();
-        string emailAlias1 = "";
-        string emailAlias2 = "";
 
         List<BoxItem> FolderList = new List<BoxItem>();
         protected void Page_Load(object sender, EventArgs e)
@@ -203,29 +201,10 @@ namespace SeniorCapstoneOfficial
             if (foundUser != null)
             {
                 var emailAliases = await box.GetEmailAlias(foundUser.Id);
+                //var teste = box.GetRecentEvents(foundUser.Id);                
                 
-                if (emailAliases.TotalCount == 0)
-                {
-                    Label labbel = new Label();
-                    labbel.ID = "lbl" + 6;
-                    Button btttn = new Button();
-                    btttn.ID = "btn" + 6;
-                    labbel.Text = "<b>" + "Email Alias #1: " + "</b>" + "No email aliases exist for this user.";
-                    btttn.Text = "Add";
-                    btttn.Click += DeleteButton_Click;
-                    Button.Controls.Add(btttn);
-                }
-                else for (int i = 0; i <emailAliases.TotalCount; i++)
-                {
-                     Label labbel = new Label();
-                     labbel.ID = "lbl" + (6 + i);
-                     Button btttn = new Button();
-                     btttn.ID = "btn" + (6 + i);
-                     labbel.Text = "<b>" + "Email Alias #" + i + ":</b>" + emailAliases.Entries[i].Email;
-                     btttn.Text = "Delete";
-                     btttn.Click += DeleteButton_Click;
-                     Button.Controls.Add(btttn);
-                }
+                TextBox1.Visible = true;
+                Button7.Visible = true;
 
 
                 Label1.Text = "<b>" + "Name: " + "</b>" + foundUser.Name;
@@ -234,42 +213,31 @@ namespace SeniorCapstoneOfficial
                 Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
                 if (emailAliases.TotalCount == 0)
                 {
-                    Label labbel = new Label();
-                    labbel.ID = "lbl" + 6;
-                    Button btttn = new Button();
-                    btttn.ID = "btn" + 6;
-                    labbel.Text = "<b>" + "Email Alias #1: " + "</b>" + "No email aliases exist for this user.";
-                    btttn.Text = "Add";
-                    btttn.Click += AddButton_Click;
-                    Button.Controls.Add(btttn);
+                    Label5.Visible = true;
+                    Label6.Visible = false;
+                    Label5.Text = "<b>" + "Email Alias #1: " + "</b>" + "No email aliases exist for this user.";
                 }
-                else for (int i = 0; i < emailAliases.TotalCount; i++)
+                else if (emailAliases.TotalCount == 1)
                 {
-                        Label labbel = new Label();
-                        labbel.ID = "lbl" + (6 + i);
-                        labbel.Visible = true;
-                        Button btttn = new Button();
-                        btttn.ID = "btn" + (6 + i);
-                        btttn.Visible = true;
-                        labbel.Text = "<b>" + "Email Alias #" + i + ":</b>" + emailAliases.Entries[i].Email;
-                        btttn.Text = "Delete";
-                        btttn.Click += DeleteButton_Click;
-                        Button.Controls.Add(btttn);
-                        if (i == emailAliases.TotalCount)
-                        {
-                            Label labbel2 = new Label();
-                            labbel2.ID = "lbl" + (6 + i);
-                            labbel.Visible = true;
-                            Button btttn2 = new Button();
-                            btttn2.ID = "btn" + (6 + i);
-                            btttn2.Visible = true;
-                            labbel2.Text = "<b>" + "Email Alias #" + i + ":</b> Add an email alias?";
-                            btttn2.Text = "Add";
-                            btttn2.Click += AddButton_Click;
-                            Button.Controls.Add(btttn2);
-                        }
+                    Label5.Visible = true;
+                    Label6.Visible = false;
+                    Label5.Text = "<b>" + "Email Alias #1: " + "</b>" + emailAliases.Entries[0].Email;
+                    Button5.Visible = true;
+                    Button6.Visible = false;
                 }
-                Label5.Text = "<b>" + "Top Folders" + "</b>";
+                else for (int i = 0; i < 1; i++)
+                {
+                        Label5.Visible = true;
+                        Button5.Visible = true;
+                        Label6.Visible = true;
+                        Button6.Visible = true;
+                        Label5.Text = "<b>" + "Email Alias #0: </b>" + emailAliases.Entries[0].Email;
+                        Label6.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[1].Email;
+                }
+                lbl.Add(Label5);
+                lbl.Add(Label6);
+                Label7.Text = "<b>" + "Top Folders" + "</b>";
+                Label7.Visible = true;
                 Exportbtn.Visible = true;
                 found = true;
 
@@ -299,7 +267,7 @@ namespace SeniorCapstoneOfficial
                 Label2.Text = "";
                 Label3.Text = "";
                 Label4.Text = "";
-                Label5.Text = "";
+                Label7.Text = "";
             }
         }
 
@@ -342,15 +310,16 @@ namespace SeniorCapstoneOfficial
             var labelIndex = 0;
             Int32.TryParse(button, out labelIndex);
 
-            string last = lbl[labelIndex - 6].Text;
+            string last = lbl[labelIndex - 5].Text;
             last = last.Substring(last.IndexOf(": ") + 2);
 
 
             BoxAuthTest box = new BoxAuthTest();
             BoxCollection<BoxEmailAlias> alia = await box.GetEmailAlias(foundUser.Id);
-            string emailAliasID = alia.Entries[labelIndex - 6].Id;
+            string emailAliasID = alia.Entries[labelIndex - 5].Id;
 
             await box.DeleteEmailAlias(foundUser.Id, emailAliasID);
+            RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
         }
 
         protected async void AddButton_Click(object sender, EventArgs e)

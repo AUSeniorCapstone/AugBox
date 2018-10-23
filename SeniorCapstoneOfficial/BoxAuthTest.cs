@@ -7,6 +7,10 @@ using Box.V2.Config;
 using Box.V2.JWTAuth;
 using Box.V2.Models;
 using System.Linq;
+using System.Net;
+using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SeniorCapstoneOfficial
 {
@@ -87,6 +91,27 @@ namespace SeniorCapstoneOfficial
             var adminClient = Authenticate();
 
             await adminClient.UsersManager.DeleteEmailAliasAsync(ID, emailID);
+        }
+
+        public JObject GetRecentEvents(String ID)
+        {
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
+
+            var boxJWT = new BoxJWTAuth(config);
+            var adminToken = boxJWT.AdminToken();
+            var adminClient = boxJWT.AdminClient(adminToken);
+            var userToken = boxJWT.UserToken(ID);
+
+            HttpWebRequest req = WebRequest.Create("https://api.box.com/2.0/events?limit=10") as HttpWebRequest;
+            req.Headers.Add("Authorization: Bearer " + userToken);
+            HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
+            StreamReader reader = new StreamReader(resp.GetResponseStream());
+            var result = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
+            return result;
         }
     }
 }
