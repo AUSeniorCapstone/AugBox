@@ -200,8 +200,7 @@ namespace SeniorCapstoneOfficial
 
             if (foundUser != null)
             {
-                var emailAliases = await box.GetEmailAlias(foundUser.Id);
-                //var teste = box.GetRecentEvents(foundUser.Id);                
+                var emailAliases = await box.GetEmailAlias(foundUser.Id);               
                 
                 TextBox1.Visible = true;
                 Button7.Visible = true;

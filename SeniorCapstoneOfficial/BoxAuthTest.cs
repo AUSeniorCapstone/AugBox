@@ -58,9 +58,6 @@ namespace SeniorCapstoneOfficial
             var boxJWT = new BoxJWTAuth(config);
             var adminToken = boxJWT.AdminToken();
             var adminClient = boxJWT.AdminClient(adminToken);
-           //List<BoxUser> allBoxUsersList = boxUsers.Entries;
-           // var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
-           // var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
 
             var userToken = boxJWT.UserToken(ID);
             var userClient = boxJWT.UserClient(userToken, ID);
