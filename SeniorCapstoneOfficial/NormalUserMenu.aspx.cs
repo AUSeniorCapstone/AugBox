@@ -85,7 +85,7 @@ namespace SeniorCapstoneOfficial
 
         private async Task ExportEverything()
         {
-           
+
             Response.Clear();
             Response.Charset = "";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
@@ -112,7 +112,7 @@ namespace SeniorCapstoneOfficial
             //columnHead.Add(string5);
             //columnHead.Add(string6);
             string tab = "";
-            foreach(string s in columnHead)
+            foreach (string s in columnHead)
             {
                 Response.Write(tab + s);
                 tab = "\t";
@@ -131,54 +131,54 @@ namespace SeniorCapstoneOfficial
                 //try
                 //{
 
-                    //var emailAliases = await box.GetEmailAlias(user.Id);
-                    //for (int i = 0; i < emailAliases.TotalCount; i++)
-                    //{
-                    //    if (emailAliases.TotalCount > 1)
-                    //        string6 = string6 + ", " + emailAliases.Entries[i].Email;
-                    //    if (emailAliases.TotalCount == 1)
-                    //        string6 = emailAliases.Entries[i].Email;
-                    //    else
-                    //        string6 = "";
-                    //}
-
-                    string1 = user.Name;
-                    string1 = string1.Replace(" ", "");
-                    row.Add(string1);
-                    string2 = user.SpaceUsed.ToString();
-                    string2 = string2.Replace(" ", "");
-                    row.Add(string2);
-                    string3 = user.Status.ToUpper();
-                    string3 = string3.Replace(" ", "");
-                    row.Add(string3);
-                    string4 = user.ModifiedAt.ToString();
-                    string4 = string4.Replace(" ", "");
-                    row.Add(string4);
-                    //if (emailAliases.Entries[0] == null)
-                    //    string5 = "";
-                    //else
-                    //    string5 = emailAliases.Entries[0].Email;
-                    //string5 = string5.Replace(" ", "");
-                    //if (emailAliases.Entries[1] == null)
-                    //    string6 = "";
-                    //else
-                    //    string6 = emailAliases.Entries[1].Email;
-                    //string6 = string5.Replace(" ", "");
-                    //row.Add(string5);
-                    //row.Add(string6);
-                    tab = "";
-                    foreach(string s in row)
-                    {
-                        Response.Write(tab + s);
-                        tab = "\t";
-                    }
-                    Response.Write("\n");
-                    row.Clear();
-                }
-                //catch (Exception ex)
+                //var emailAliases = await box.GetEmailAlias(user.Id);
+                //for (int i = 0; i < emailAliases.TotalCount; i++)
                 //{
-                //    Response.Write("Box user: " + user.Name + " has not verified email address.\n\n");
+                //    if (emailAliases.TotalCount > 1)
+                //        string6 = string6 + ", " + emailAliases.Entries[i].Email;
+                //    if (emailAliases.TotalCount == 1)
+                //        string6 = emailAliases.Entries[i].Email;
+                //    else
+                //        string6 = "";
                 //}
+
+                string1 = user.Name;
+                string1 = string1.Replace(" ", "");
+                row.Add(string1);
+                string2 = user.SpaceUsed.ToString();
+                string2 = string2.Replace(" ", "");
+                row.Add(string2);
+                string3 = user.Status.ToUpper();
+                string3 = string3.Replace(" ", "");
+                row.Add(string3);
+                string4 = user.ModifiedAt.ToString();
+                string4 = string4.Replace(" ", "");
+                row.Add(string4);
+                //if (emailAliases.Entries[0] == null)
+                //    string5 = "";
+                //else
+                //    string5 = emailAliases.Entries[0].Email;
+                //string5 = string5.Replace(" ", "");
+                //if (emailAliases.Entries[1] == null)
+                //    string6 = "";
+                //else
+                //    string6 = emailAliases.Entries[1].Email;
+                //string6 = string5.Replace(" ", "");
+                //row.Add(string5);
+                //row.Add(string6);
+                tab = "";
+                foreach (string s in row)
+                {
+                    Response.Write(tab + s);
+                    tab = "\t";
+                }
+                Response.Write("\n");
+                row.Clear();
+            }
+            //catch (Exception ex)
+            //{
+            //    Response.Write("Box user: " + user.Name + " has not verified email address.\n\n");
+            //}
             //}
 
 
@@ -200,8 +200,8 @@ namespace SeniorCapstoneOfficial
 
             if (foundUser != null)
             {
-                var emailAliases = await box.GetEmailAlias(foundUser.Id);               
-                
+                var emailAliases = await box.GetEmailAlias(foundUser.Id);
+
                 TextBox1.Visible = true;
                 Button7.Visible = true;
 
@@ -225,14 +225,14 @@ namespace SeniorCapstoneOfficial
                     Button6.Visible = false;
                 }
                 else for (int i = 0; i < 1; i++)
-                {
+                    {
                         Label5.Visible = true;
                         Button5.Visible = true;
                         Label6.Visible = true;
                         Button6.Visible = true;
                         Label5.Text = "<b>" + "Email Alias #0: </b>" + emailAliases.Entries[0].Email;
                         Label6.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[1].Email;
-                }
+                    }
                 lbl.Add(Label5);
                 lbl.Add(Label6);
                 Label7.Text = "<b>" + "Top Folders" + "</b>";
@@ -328,7 +328,7 @@ namespace SeniorCapstoneOfficial
             button = button.Substring(button.IndexOf("n") + 1);
             var labelIndex = 0;
             Int32.TryParse(button, out labelIndex);
-            
+
             BoxAuthTest box = new BoxAuthTest();
             string email = "";
 
