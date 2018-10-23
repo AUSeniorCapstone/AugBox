@@ -16,7 +16,6 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SeniorCapstoneOfficial
 {
@@ -46,7 +45,6 @@ namespace SeniorCapstoneOfficial
                     StudentSearchButton.Attributes.Add("style", "right:15%");
                     AdminPageButton.Visible = false;
                 }
-                RecentEvents.Visible = false;
                 InvalidEmailLabel.Visible = false;
                 Exportbtn.Visible = true;
             }
@@ -84,42 +82,21 @@ namespace SeniorCapstoneOfficial
                 output.WriteLine();
             }
         }
-        
+
         private async Task ExportEverything()
         {
-
-            /*
-           Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            var excel = new Excel.Application();
-            var workBooks = excel.Workbooks;
-            var workBook = workBooks.Add();
-            
-            var workSheet = (Excel.Worksheet)excel.ActiveSheet;
-            MemoryStream st = new MemoryStream();
-            workSheet.Cells[1, "A"] = "Name";
-            workSheet.Cells[1, "B"] = "Email";
-            workSheet.Cells[1, "C"] = "SpaceUsed";
-            workSheet.Cells[1, "D"] = "Status";
-            workSheet.Cells[1, "E"] = "LastLogin";
-            workSheet.Columns.AutoFit();
-            workSheet.Rows.AutoFit();
-
-            */
-
-
-
+           
             Response.Clear();
             Response.Charset = "";
             Response.ContentEncoding = System.Text.Encoding.UTF8;
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.ContentType = "application/vnd.ms-excel";
             string filename = "user";
-            DataTable data = new DataTable();
+
             BoxAuthTest box = new BoxAuthTest();
             IEnumerable<BoxUser> allUsers = await box.GetallUsers();
 
             string string1 = "Name";
-            string string5 = "Email";
             string string2 = "SpaceUsed";
             string string3 = "Status";
             string string4 = "LastLogin";
@@ -129,10 +106,10 @@ namespace SeniorCapstoneOfficial
             List<string> columnHead = new List<string>();
             List<string> row = new List<string>();
             columnHead.Add(string1);
-            columnHead.Add(string5);
             columnHead.Add(string2);
             columnHead.Add(string3);
             columnHead.Add(string4);
+            //columnHead.Add(string5);
             //columnHead.Add(string6);
             string tab = "";
             foreach(string s in columnHead)
@@ -145,7 +122,7 @@ namespace SeniorCapstoneOfficial
             string2 = "";
             string3 = "";
             string4 = "";
-            string5 = "";
+            //string5 = "";
             //string6 = "";
 
             Response.Write("\n");
@@ -166,10 +143,8 @@ namespace SeniorCapstoneOfficial
                     //}
 
                     string1 = user.Name;
+                    string1 = string1.Replace(" ", "");
                     row.Add(string1);
-                    string5 = user.Login.ToString();
-                    string5 = string5.Replace(" ", "");
-                    row.Add(string5);
                     string2 = user.SpaceUsed.ToString();
                     string2 = string2.Replace(" ", "");
                     row.Add(string2);
@@ -177,14 +152,8 @@ namespace SeniorCapstoneOfficial
                     string3 = string3.Replace(" ", "");
                     row.Add(string3);
                     string4 = user.ModifiedAt.ToString();
-                    int a = string4.IndexOf(' ');   //adding "-" between date and time
-                    string astring = string4.Substring(0, a);
-                    string4 = string4.Substring(a);
-                    string finalstring = astring + " -" + string4;
-                    finalstring.Replace(" ", "");                   
-                    row.Add(finalstring);
-
-              
+                    string4 = string4.Replace(" ", "");
+                    row.Add(string4);
                     //if (emailAliases.Entries[0] == null)
                     //    string5 = "";
                     //else
@@ -217,7 +186,7 @@ namespace SeniorCapstoneOfficial
             Response.AddHeader("content-disposition", "attachment;filename=" + "AllUsers.xls");
             Response.Flush();
             Response.End();
-            
+
         }
 
         private async Task GetUsersbyEmail()
@@ -231,15 +200,7 @@ namespace SeniorCapstoneOfficial
 
             if (foundUser != null)
             {
-                rightdiv.Style.Add("border-left", "dashed 1pt");
-                rightdiv.Style.Add("border-left-color", "#033459");
-                //string[] recent = await box.GetRecentEvents(foundUser.Id);
-                RecentEvents.Visible = true;
-                List<string> recent = await box.GetRecentEvents(foundUser.Id);
-                Label8.Text = string.Join("}},", recent);
-
-                var emailAliases = await box.GetEmailAlias(foundUser.Id);
-                //var teste = box.GetRecentEvents(foundUser.Id);                
+                var emailAliases = await box.GetEmailAlias(foundUser.Id);               
                 
                 TextBox1.Visible = true;
                 Button7.Visible = true;
@@ -297,11 +258,8 @@ namespace SeniorCapstoneOfficial
 
 
 
-           else if (found == false)
+            if (found == false)
             {
-                rightdiv.Style.Remove("border-left");
-                rightdiv.Style.Remove("border-left-color");
-                RecentEvents.Visible = false;
                 Exportbtn.Visible = true;
                 InvalidEmailLabel.Visible = true;
                 Label1.Text = "";
@@ -309,7 +267,6 @@ namespace SeniorCapstoneOfficial
                 Label3.Text = "";
                 Label4.Text = "";
                 Label7.Text = "";
-                Label8.Text = "";
             }
         }
 
