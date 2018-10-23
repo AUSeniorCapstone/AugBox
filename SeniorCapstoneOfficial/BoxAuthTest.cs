@@ -33,7 +33,7 @@ namespace SeniorCapstoneOfficial
         public Box.V2.BoxClient Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -50,7 +50,7 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxItem>> GetFolder(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -93,10 +93,10 @@ namespace SeniorCapstoneOfficial
             await adminClient.UsersManager.DeleteEmailAliasAsync(ID, emailID);
         }
 
-        public JObject GetRecentEvents(String ID)
+        public async Task<List<string>> GetRecentEvents(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -104,14 +104,35 @@ namespace SeniorCapstoneOfficial
             var boxJWT = new BoxJWTAuth(config);
             var adminToken = boxJWT.AdminToken();
             var adminClient = boxJWT.AdminClient(adminToken);
-            var userToken = boxJWT.UserToken(ID);
 
-            HttpWebRequest req = WebRequest.Create("https://api.box.com/2.0/events?limit=10") as HttpWebRequest;
+            var userToken = boxJWT.UserToken(ID);
+            var userClient = boxJWT.UserClient(userToken, ID);
+
+            HttpWebRequest req = WebRequest.Create("https://api.box.com/2.0/events") as HttpWebRequest;
             req.Headers.Add("Authorization: Bearer " + userToken);
-            HttpWebResponse resp = req.GetResponse() as HttpWebResponse;
-            StreamReader reader = new StreamReader(resp.GetResponseStream());
-            var result = JsonConvert.DeserializeObject<JObject>(reader.ReadToEnd());
-            return result;
+            string result = null;
+            using (HttpWebResponse resp = req.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(resp.GetResponseStream());
+                result = reader.ReadToEnd();
+            }
+            string[] latest = result.Split(new string[] { "}}," }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> alist = new List<string>();
+            for (int i = latest.Length - 1; i >= 0; i--)
+            {
+                if (latest[i] != null && alist.Count <= 10)
+                {
+                    alist.Add(latest[i]);
+                }
+
+                else
+                {
+                    break;
+                }
+            }
+            // latest.Reverse().Take(10);
+            return alist;
+
         }
     }
 }

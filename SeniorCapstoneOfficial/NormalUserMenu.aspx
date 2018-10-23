@@ -28,7 +28,12 @@
             response(filteredArray);
         }
     });
-  } );
+  });
+
+  //setting rightdiv height to parent's height
+  $(document).ready(function () {
+      $('#rightdiv').height($('#around').height());
+  });
   </script>
     <style>
 body {font-family: "Lato", sans-serif;
@@ -180,6 +185,26 @@ AddUserBox:focus{
     border-color:#4d90fe;
 }
 
+#around:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+#around{
+     margin-top: 50px;
+     text-align: center;
+     overflow: hidden;
+     position: relative;
+     width: 100%;
+}
+#rightdiv{
+    text-align:center; 
+    width:49%; 
+    float:right;
+    height: 100%;
+}
+
+
 
 </style>
 </head>
@@ -204,7 +229,9 @@ AddUserBox:focus{
         <asp:Button ID="SearchForStudent" runat="server" Text="Search Student" CssClass="SearchUserButton1" OnClick="SearchForStudent_Click" onkeyup="this.value" />
         <asp:Button ID="Exportbtn" runat="server" Text="Export All Users" OnClick="Exportbtn_Click"  CssClass="ExportButton"/> 
             </div>
-            <div style="text-align:center">
+        <div id="around">
+            <asp:Label ID="InvalidEmailLabel" runat="server" Text="Student Not Found"></asp:Label> <br />
+            <div style="text-align:center; width:49%; float:left">
             <br />
             <br />
          <asp:Label ID="Label1" runat="server"></asp:Label>
@@ -241,9 +268,16 @@ AddUserBox:focus{
         <br />
             <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
         <br />
-        <asp:Label ID="InvalidEmailLabel" runat="server" Text="Student Not Found"></asp:Label> <br />
+        
         <br />
         </div>
+              <div id="rightdiv" runat="server">
+            <asp:Label ID="RecentEvents" runat="server" Text="Recent Events" Font-Bold="True" Font-Size="Large"></asp:Label>
+            <br />
+            <asp:Label ID="Label8" runat="server"></asp:Label>
+               </div>
+        </div>
+
         </div>
     </form>
 </body>
