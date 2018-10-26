@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ * Email format string verification taken from Microsoft
+ * https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
