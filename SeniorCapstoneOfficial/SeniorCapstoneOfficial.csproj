@@ -160,6 +160,7 @@
       <DependentUpon>AdminMenu.aspx</DependentUpon>
     </Compile>
     <Compile Include="BoxAuthTest.cs" />
+    <Compile Include="VerifyEmail.cs" />
     <Compile Include="DBConnector.cs" />
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

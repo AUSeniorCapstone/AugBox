@@ -249,7 +249,24 @@ namespace SeniorCapstoneOfficial
                 Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
                 Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
                 Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
-                if (emailAliases.TotalCount == 0)
+
+                for (int i = 0; i < emailAliases.TotalCount; i++)
+                {
+                    Label label1 = new Label();
+                    label1.Text = emailAliases.Entries[i].Email;
+                    label1.ID = "label" + (5 + i);
+                    Button button1 = new Button();
+                    button1.ID = "button" + (5 + i);
+                    button1.Text = "Delete";
+                    button1.CssClass += "DeleteUserButton";
+                    Panel1.Controls.Add(label1);
+                    Panel1.Controls.Add(button1);
+                    button1.OnClientClick = "return Validate();";
+                    button1.Click += new EventHandler(DeleteButton_Click);
+                    Panel1.Controls.Add(new LiteralControl("<br />"));
+                }
+
+                /*if (emailAliases.TotalCount == 0)
                 {
                     Label5.Visible = true;
                     Label6.Visible = false;
@@ -273,7 +290,7 @@ namespace SeniorCapstoneOfficial
                         Label6.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[1].Email;
                     }
                 lbl.Add(Label5);
-                lbl.Add(Label6);
+                lbl.Add(Label6); */
                 Label7.Text = "<b>" + "Top Folders" + "</b>";
                 Label7.Visible = true;
                 Exportbtn.Visible = true;
@@ -374,8 +391,22 @@ namespace SeniorCapstoneOfficial
 
             BoxAuthTest box = new BoxAuthTest();
             string email = "";
-
-            await box.CreateEmailAlias(foundUser.Id, email);
+            email = TextBox1.Text;
+            VerifyEmail ve = new VerifyEmail();
+            if (ve.IsValidEmail(email))
+            {
+                try
+                {
+                    await box.CreateEmailAlias(foundUser.Id, email);
+                }
+                catch
+                {
+                    //Error
+                }
+            }
+            else
+                //Error
+                ;
         }
 
         protected void AdminPage_Click(object sender, EventArgs e)

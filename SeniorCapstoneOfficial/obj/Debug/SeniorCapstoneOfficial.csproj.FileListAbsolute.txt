@@ -74,3 +74,4 @@ E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj
 E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj.CopyComplete
 E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
 E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
+E:\SeniorCapstone\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj.ResolveComReference.cache

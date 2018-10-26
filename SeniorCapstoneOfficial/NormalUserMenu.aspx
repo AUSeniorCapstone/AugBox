@@ -267,6 +267,9 @@ AddUserBox:focus{
                 <br />
         <br />
             <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
+                <br />
+                <asp:Panel ID="Panel1" runat="server" style="height:200px;width:300px;overflow:scroll;border:1px;">
+                </asp:Panel>
         <br />
         
         <br />
