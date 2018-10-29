@@ -137,19 +137,19 @@ zoom: 1;
     background-color: #777;
 }
 
-.ExportButton{
-    background-color: #555;
-    color: white;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 7px 8px;
-    font-size: 17px;
-    width: 140px;
-    position:absolute;
-    right:15%;
-    border-radius: 25px;
-
+        .ExportButton {
+            background-color: #555;
+            color: white;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 7px 8px;
+            font-size: 17px;
+            width: 140px;
+            position: absolute;
+            right: 15%;
+            border-radius: 25px;
+        }
     .DeleteUserButton{
     background-color: #555;
     color: white;
@@ -277,7 +277,8 @@ AddUserBox:focus{
               <div id="rightdiv" runat="server">
             <asp:Label ID="RecentEvents" runat="server" Text="Recent Events" Font-Bold="True" Font-Size="Large"></asp:Label>
             <br />
-            <asp:Label ID="Label8" runat="server"></asp:Label>
+             <asp:PlaceHolder ID="EventHolder" runat="server"></asp:PlaceHolder>
+            
                </div>
         </div>
 
@@ -285,3 +286,4 @@ AddUserBox:focus{
     </form>
 </body>
 </html>
+

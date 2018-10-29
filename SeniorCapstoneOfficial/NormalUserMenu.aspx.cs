@@ -64,6 +64,27 @@ namespace SeniorCapstoneOfficial
         }
 
 
+        public void WriteTsv<T>(IEnumerable<T> data, TextWriter output)
+        {
+            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(T));
+            foreach (PropertyDescriptor prop in props)
+            {
+                output.Write(prop.DisplayName); // header
+                output.Write("\t");
+            }
+            output.WriteLine();
+            foreach (T item in data)
+            {
+                foreach (PropertyDescriptor prop in props)
+                {
+                    output.Write(prop.Converter.ConvertToString(
+                         prop.GetValue(item)));
+                    output.Write("\t");
+                }
+                output.WriteLine();
+            }
+        }
+
         private async Task ExportEverything()
         {
 
@@ -201,10 +222,11 @@ namespace SeniorCapstoneOfficial
 
         private async Task GetUsersbyEmail()
         {
+            int eventnumber = 0;
             BoxAuthTest box = new BoxAuthTest();
             bool found = false;
             List<BoxUser> users = await box.GetallUsers();
-
+            
             foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
             String emails = "";
 
@@ -215,7 +237,37 @@ namespace SeniorCapstoneOfficial
                 //string[] recent = await box.GetRecentEvents(foundUser.Id);
                 RecentEvents.Visible = true;
                 List<string> recent = await box.GetRecentEvents(foundUser.Id);
-                Label8.Text = string.Join("}},", recent);
+                List<string> logins = EventNameParser(recent);
+                List<string> types = EventTypeParser(recent);
+                List<string> create = EventCreationParser(recent);
+                List<string> sourcetype = EventSourceTypeParser(recent);
+                List<string> sourceid = EventSourceIdParser(recent);
+                List<string> sourcenames = EventSourceNameParser(recent);
+                if (logins[0] == "" || types[0] == "" || create[0] == "")
+                {
+                    Label Error = new Label();
+                    Error.Text = "No recent events from this user";
+                    EventHolder.Controls.Add(Error);
+                }
+                else
+                {
+                    for (int i = 0; i < recent.Count; i++)
+                    {
+                        eventnumber = eventnumber + 1;
+                        Label temp = new Label();
+                        Label temp2 = new Label();
+                        temp.Text = "<b>" + eventnumber.ToString() + "</b>" + "." + " <b>Login:</b> " + logins[i] + " <b>Type:</b> " + types[i] + " <b>Created at:</b> " 
+                            + create[i];
+                        temp2.Text = " <b>Source</b> " + "(Type: " + sourcetype[i] + ", Id: " + sourceid[i] + ", Name: " + sourcenames[i] + ")";
+                        temp.Attributes.CssStyle.Add("display", "block");
+                        temp.Attributes.CssStyle.Add("clear", "right");
+                        temp.Attributes.CssStyle.Add("margin-top", "25px");
+                        EventHolder.Controls.Add(temp);
+                        EventHolder.Controls.Add(temp2);
+
+                    }
+                }
+
 
                 var emailAliases = await box.GetEmailAlias(foundUser.Id);
                 //var teste = box.GetRecentEvents(foundUser.Id);                
@@ -305,7 +357,7 @@ namespace SeniorCapstoneOfficial
                 Label3.Text = "";
                 Label4.Text = "";
                 Label7.Text = "";
-                Label8.Text = "";
+
             }
         }
 
@@ -384,8 +436,181 @@ namespace SeniorCapstoneOfficial
                 }
             }
             else
-                //Error
                 ;
+            //Error
+
+        }
+        private List<string> EventNameParser(List<string> listofevents)
+        {
+            List<string> listofnames = new List<string>();
+            string a = "";
+            foreach (string str in listofevents)
+            {
+
+                int index = str.IndexOf("login");
+                index = index + 8;
+                if (index == -1 || index < 20)
+                {
+                    listofnames.Add(a);
+                    break;
+                }
+                else
+                {
+                    a = str.Substring(index);
+                    int index2 = a.IndexOf("},");
+                    a = a.Substring(0, index2 - 1);
+                    listofnames.Add(a);
+                }
+
+            }
+            return listofnames;
+        }
+
+        private List<string> EventTypeParser(List<string> listofevents)
+        {
+            List<string> listoftypes = new List<string>();
+            string a = "";
+            foreach (string str in listofevents)
+            {
+                try
+                {
+                    int index = str.IndexOf("event_type");
+                    index = index + 13;
+                    if (index == -1)
+                    {
+                        listoftypes.Add(a);
+                        break;
+                    }
+
+                    else
+                    {
+                        a = str.Substring(index);
+                        int index2 = a.IndexOf(",");
+                        a = a.Substring(0, index2 - 1);
+                        listoftypes.Add(a);
+                    }
+                }
+                catch
+                {
+                    Server.Transfer("NormalUserMenu.aspx", true);
+                }
+            }
+            return listoftypes;
+        }
+
+        private List<string> EventCreationParser(List<string> listofevents)
+        {
+            List<string> listofcreations = new List<string>();
+            string a = "";
+            foreach (string str in listofevents)
+            {
+
+                int index = str.IndexOf("created_at");
+                index = index + 13;
+                if (index == -1)
+                {
+                    listofcreations.Add(a);
+                    break;
+                }
+                else
+                {
+                    a = str.Substring(index);
+                    int index2 = a.IndexOf(",");
+                    a = a.Substring(0, index2 - 1);
+                    listofcreations.Add(a);
+                }
+            }
+
+            return listofcreations;
+        }
+
+        private List<string> EventSourceTypeParser(List<string> listofevents)
+        {
+            List<string> list = new List<string>();
+            string a = "";
+            foreach (string str in listofevents)
+            {
+
+                int index = str.IndexOf("source");
+                index = index + 17;
+                if (index == -1)
+                {
+                    list.Add(a);
+                    break;
+                }
+                else
+                {
+                    a = str.Substring(index);
+                    int index2 = a.IndexOf(",");
+                    a = a.Substring(0, index2 - 1);
+                    list.Add(a);
+                }
+            }
+
+            return list;
+        }
+
+        private List<string> EventSourceIdParser(List<string> listofevents)
+        {
+            List<string> list = new List<string>();
+            string a = "";
+            foreach (string str in listofevents)
+            {
+
+                int index = str.IndexOf("source");
+                if (index == -1)
+                {
+                    list.Add(a);
+                    break;
+                }
+                else
+                {
+                    a = str.Substring(index);
+                    int index2 = a.IndexOf("id");
+                    a = a.Substring(index2);
+                    int index3 = a.IndexOf(",");
+                    a = a.Substring(5, index3 - 6);
+                    list.Add(a);
+                }
+            }
+
+            return list;
+        }
+
+        private List<string> EventSourceNameParser(List<string> listofevents)
+        {
+            List<string> list = new List<string>();
+            string a = "";
+            foreach (string str in listofevents)
+            {
+
+                int index = str.IndexOf("source");
+                if (index == -1)
+                {
+                    list.Add(a);
+                    break;
+                }
+                else
+                {
+                    a = str.Substring(index);
+                    int index2 = a.IndexOf("etag");
+                    a = a.Substring(index2);
+                    int index3 = a.IndexOf("name", 0, 22);
+                    if (index3 == -1)
+                    {
+                        list.Add("Unknown");
+                    }
+                    else
+                    {
+                        a = a.Substring(index3);
+                        int index4 = a.IndexOf(",");
+                        a = a.Substring(7, index4 - 8);
+                        list.Add(a);
+                    }
+                }
+            }
+
+            return list;
         }
 
         protected void AdminPage_Click(object sender, EventArgs e)
