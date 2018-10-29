@@ -17,17 +17,8 @@ namespace SeniorCapstoneOfficial
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserName"] != null)
-            {
-                DBConnector db = new DBConnector();
-                bool admin = db.AdminCheck(Session["UserName"].ToString());
-                if (admin == false)
-                {
-                    Response.Redirect("NormalUserMenu.aspx");
-                }
-                else
-                {
-                    Response.Redirect("AdminMenu.aspx");
-                }
+            {                                            
+                    Response.Redirect("LandingPage.aspx");            
             }
 
 
@@ -45,13 +36,13 @@ namespace SeniorCapstoneOfficial
             {
 
                 Session["UserName"] = txturname.Text.Trim();
-                Response.Redirect("AdminMenu.aspx");
+                Response.Redirect("LandingPage.aspx");
 
             }
             else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 2)
             {
                 Session["UserName"] = txturname.Text.Trim();
-                Response.Redirect("NormalUserMenu.aspx");
+                Response.Redirect("LandingPage.aspx");
             }
             else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 3)
             {

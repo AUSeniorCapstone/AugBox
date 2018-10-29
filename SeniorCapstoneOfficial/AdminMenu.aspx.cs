@@ -15,6 +15,7 @@ namespace SeniorCapstoneOfficial
         protected void Page_Load(object sender, EventArgs e)
         {
             PasswordTextBox.Attributes["type"] = "password";
+
             if (Session["UserName"] == null)
             {
                 Response.Redirect("Login.aspx");
