@@ -235,3 +235,9 @@ C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\SeniorCapstoneOfficial\obj\De
 C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.csproj.ResolveComReference.cache
 C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.dll
 C:\Users\Gabriel\Downloads\AugBox-PRESENTATION4(1)\SeniorCapstoneOfficial\obj\Debug\SeniorCapstoneOfficial.pdb
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\NPlot.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Spire.Pdf.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Spire.License.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Microsoft.mshtml.dll
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Spire.XLS.xml
+E:\SeniorCapstone\SeniorCapstoneOfficial\bin\Spire.Pdf.xml

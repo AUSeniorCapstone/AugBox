@@ -249,18 +249,16 @@ AddUserBox:focus{
                 <asp:Label ID="Label5" runat="server" Visible="False"></asp:Label>
                 &nbsp;&nbsp;&nbsp;
                 <asp:Button ID="Button5" runat="server" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" Text="Delete" />
-                <asp:Button ID="ButtonAdd5" runat="server" Visible="false" OnClick="AddButton_Click" CssClass="AddUserButton" OnClientClick="return Validate();" Text="Add" />
                 <br />
                 <br />
             <asp:Label ID="Label6" runat="server" Visible="False"></asp:Label>
                 &nbsp;&nbsp;&nbsp;
                 <asp:Button ID="Button6" runat="server" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" Text="Delete" />
-                <asp:Button ID="ButtonAdd6" runat="server" Visible="false" OnClick="AddButton_Click" CssClass="AddUserButton" OnClientClick="return Validate();" Text="Add" />
                 <br />
         <br />
                 <asp:TextBox ID="TextBox1" runat="server" Height="16px" Visible="False" Width="160px">Enter Email Alias </asp:TextBox>
                 &nbsp;&nbsp;&nbsp;
-                <asp:Button ID="Button7" runat="server" Visible="false" OnClick="DeleteButton_Click" CssClass="AddUserButton" OnClientClick="return Validate();" Text="Add" />
+                <asp:Button ID="Button7" runat="server" Visible="false" OnClick="AddButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" Text="Add" />
                 <br />
                 <br />
             <asp:Label ID="Label7" runat="server" Visible="False"></asp:Label>

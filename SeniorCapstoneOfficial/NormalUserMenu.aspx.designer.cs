@@ -148,15 +148,6 @@ namespace SeniorCapstoneOfficial {
         protected global::System.Web.UI.WebControls.Button Button5;
         
         /// <summary>
-        /// ButtonAdd5 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonAdd5;
-        
-        /// <summary>
         /// Label6 control.
         /// </summary>
         /// <remarks>
@@ -173,15 +164,6 @@ namespace SeniorCapstoneOfficial {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button6;
-        
-        /// <summary>
-        /// ButtonAdd6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonAdd6;
         
         /// <summary>
         /// TextBox1 control.

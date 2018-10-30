@@ -284,16 +284,20 @@ namespace SeniorCapstoneOfficial
                 for (int i = 0; i < emailAliases.TotalCount; i++)
                 {
                     Label label1 = new Label();
-                    label1.Text = emailAliases.Entries[i].Email;
-                    label1.ID = "label" + (5 + i);
-                    Button button1 = new Button();
-                    button1.ID = "button" + (5 + i);
-                    button1.Text = "Delete";
-                    button1.CssClass += "DeleteUserButton";
+                    label1.Text = emailAliases.Entries[i].Email + " ";
+                    label1.ID = "label" + (8 + i);
+                    Button button = new Button();
+                    button.ID = "button" + (8 + i);
+                    button.Text = "Delete";
+                    button.CausesValidation = true;
+                    
+                    button.Enabled = true;
+                    button.UseSubmitBehavior = true;
+                    button.CssClass += "DeleteUserButton";
                     Panel1.Controls.Add(label1);
-                    Panel1.Controls.Add(button1);
-                    button1.OnClientClick = "return Validate();";
-                    button1.Click += new EventHandler(DeleteButton_Click);
+                    Panel1.Controls.Add(button);
+                    button.OnClientClick = "return Validate();";
+                    button.Click += new EventHandler(DeleteButton_Click);
                     Panel1.Controls.Add(new LiteralControl("<br />"));
                 }
 
@@ -400,13 +404,13 @@ namespace SeniorCapstoneOfficial
             var labelIndex = 0;
             Int32.TryParse(button, out labelIndex);
 
-            string last = lbl[labelIndex - 5].Text;
+            string last = lbl[labelIndex - 8].Text;
             last = last.Substring(last.IndexOf(": ") + 2);
 
 
             BoxAuthTest box = new BoxAuthTest();
             BoxCollection<BoxEmailAlias> alia = await box.GetEmailAlias(foundUser.Id);
-            string emailAliasID = alia.Entries[labelIndex - 5].Id;
+            string emailAliasID = alia.Entries[labelIndex - 8].Id;
 
             await box.DeleteEmailAlias(foundUser.Id, emailAliasID);
             RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
@@ -429,10 +433,12 @@ namespace SeniorCapstoneOfficial
                 try
                 {
                     await box.CreateEmailAlias(foundUser.Id, email);
+                    RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
+                    TextBox1.Text = "Enter Email Alias";
                 }
                 catch
                 {
-                    //Error
+                    TextBox1.Text = "Invalid email";
                 }
             }
             else
