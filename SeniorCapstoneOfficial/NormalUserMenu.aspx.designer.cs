@@ -220,13 +220,22 @@ namespace SeniorCapstoneOfficial {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl rightdiv;
         
         /// <summary>
-        /// RecentEvents control.
+        /// RecentEventsButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label RecentEvents;
+        protected global::System.Web.UI.WebControls.Button RecentEventsButton;
+        
+        /// <summary>
+        /// inrightdiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl inrightdiv;
         
         /// <summary>
         /// EventHolder control.

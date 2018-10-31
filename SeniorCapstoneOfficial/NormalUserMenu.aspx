@@ -33,7 +33,21 @@
   //setting rightdiv height to parent's height
   $(document).ready(function () {
       $('#rightdiv').height($('#around').height());
+      $("#inrightdiv").hide()
   });
+
+       //showing recent events when clicking button
+
+        $(document).ready(function()
+        {
+           
+         $("#<%=RecentEventsButton.ClientID%>").click(function()
+         {
+             $("#inrightdiv").slideToggle(500);
+             return false;
+         });
+     });
+ 
   </script>
     <style>
 body {font-family: "Lato", sans-serif;
@@ -203,7 +217,9 @@ AddUserBox:focus{
     float:right;
     height: 100%;
 }
-
+#inrightdiv{
+    margin-top: 50px;
+}
 
 
 </style>
@@ -273,9 +289,11 @@ AddUserBox:focus{
         <br />
         </div>
               <div id="rightdiv" runat="server">
-            <asp:Label ID="RecentEvents" runat="server" Text="Recent Events" Font-Bold="True" Font-Size="Large"></asp:Label>
+                 <asp:Button ID="RecentEventsButton" CssClass="ExportButton" runat="server" Text="Recent Events" Visible="False" OnClick="Recent_Click"/>
             <br />
+             <div id="inrightdiv" runat="server">
              <asp:PlaceHolder ID="EventHolder" runat="server"></asp:PlaceHolder>
+             </div>
             
                </div>
         </div>

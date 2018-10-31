@@ -46,7 +46,7 @@ namespace SeniorCapstoneOfficial
                     StudentSearchButton.Attributes.Add("style", "right:15%");
                     AdminPageButton.Visible = false;
                 }
-                RecentEvents.Visible = false;
+                RecentEventsButton.Visible = false;
                 InvalidEmailLabel.Visible = false;
                 Exportbtn.Visible = true;
             }
@@ -235,7 +235,7 @@ namespace SeniorCapstoneOfficial
                 rightdiv.Style.Add("border-left", "dashed 1pt");
                 rightdiv.Style.Add("border-left-color", "#033459");
                 //string[] recent = await box.GetRecentEvents(foundUser.Id);
-                RecentEvents.Visible = true;
+                RecentEventsButton.Visible = true;
                 List<string> recent = await box.GetRecentEvents(foundUser.Id);
                 List<string> logins = EventNameParser(recent);
                 List<string> types = EventTypeParser(recent);
@@ -255,19 +255,44 @@ namespace SeniorCapstoneOfficial
                     {
                         eventnumber = eventnumber + 1;
                         Label temp = new Label();
+                        Label temp1 = new Label();
+                        Label temp3 = new Label();
                         Label temp2 = new Label();
-                        temp.Text = "<b>" + eventnumber.ToString() + "</b>" + "." + " <b>Login:</b> " + logins[i] + " <b>Type:</b> " + types[i] + " <b>Created at:</b> " 
-                            + create[i];
-                        temp2.Text = " <b>Source</b> " + "(Type: " + sourcetype[i] + ", Id: " + sourceid[i] + ", Name: " + sourcenames[i] + ")";
+                        temp.Text = "<b>" + eventnumber.ToString() + "</b>" + "." + " <b>Login:</b> " + logins[i];
+                        temp1.Text = " <b>Type:</b> " + types[i];
+                        temp3.Text = " <b>Created at:</b> " + create[i];
+                        temp2.Text = " <b>Source:</b> " + "(Type: " + sourcetype[i] + ", Id: " + sourceid[i] + ", Name: " + sourcenames[i] + ")";
+                        temp1.Attributes.CssStyle.Add("display", "block");
+                        temp1.Attributes.CssStyle.Add("clear", "right");
+                        temp2.Attributes.CssStyle.Add("display", "block");
+                        temp2.Attributes.CssStyle.Add("clear", "right");
+                        temp3.Attributes.CssStyle.Add("display", "block");
+                        temp3.Attributes.CssStyle.Add("clear", "right");
                         temp.Attributes.CssStyle.Add("display", "block");
                         temp.Attributes.CssStyle.Add("clear", "right");
                         temp.Attributes.CssStyle.Add("margin-top", "25px");
+                        temp.Attributes.CssStyle.Add("text-align", "left");
+                        temp1.Attributes.CssStyle.Add("text-align", "left");
+                        temp2.Attributes.CssStyle.Add("text-align", "left");
+                        temp3.Attributes.CssStyle.Add("text-align", "left");
+                        temp.Attributes.CssStyle.Add("margin-left", "240px");
+                        temp2.Attributes.CssStyle.Add("margin-left", "257px");
+                        temp1.Attributes.CssStyle.Add("margin-left", "257px");
+                        temp3.Attributes.CssStyle.Add("margin-left", "257px");
                         EventHolder.Controls.Add(temp);
+                        EventHolder.Controls.Add(temp1);
+                        EventHolder.Controls.Add(temp3);
                         EventHolder.Controls.Add(temp2);
-
                     }
                 }
+                /* display all the events in a raw format
+              foreach(string a in recent)
+              {
+                  Label aaa = new Label();
+                  aaa.Text = a;
+                  EventHolder.Controls.Add(aaa);
 
+              }*/
 
                 var emailAliases = await box.GetEmailAlias(foundUser.Id);
                 //var teste = box.GetRecentEvents(foundUser.Id);                
@@ -353,7 +378,7 @@ namespace SeniorCapstoneOfficial
             {
                 rightdiv.Style.Remove("border-left");
                 rightdiv.Style.Remove("border-left-color");
-                RecentEvents.Visible = false;
+                RecentEventsButton.Visible = false;
                 Exportbtn.Visible = true;
                 InvalidEmailLabel.Visible = true;
                 Label1.Text = "";
@@ -599,26 +624,24 @@ namespace SeniorCapstoneOfficial
                 else
                 {
                     a = str.Substring(index);
-                    int index2 = a.IndexOf("etag");
+                    int index2 = a.IndexOf("parent");
                     a = a.Substring(index2);
-                    int index3 = a.IndexOf("name", 0, 22);
-                    if (index3 == -1)
-                    {
-                        list.Add("Unknown");
-                    }
-                    else
-                    {
-                        a = a.Substring(index3);
-                        int index4 = a.IndexOf(",");
-                        a = a.Substring(7, index4 - 8);
-                        list.Add(a);
-                    }
+                    int index3 = a.IndexOf("name");
+
+                    a = a.Substring(index3);
+                    int index4 = a.IndexOf(",");
+                    a = a.Substring(7, index4 - 9);                  
+                    list.Add(a);
+
                 }
             }
 
             return list;
         }
+        protected void Recent_Click(object sender, EventArgs e)
+        {
 
+        }
         protected void AdminPage_Click(object sender, EventArgs e)
         {
             Response.Redirect("AdminMenu.aspx");
