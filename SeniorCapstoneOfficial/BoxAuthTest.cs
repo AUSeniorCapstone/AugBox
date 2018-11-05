@@ -138,7 +138,7 @@ namespace SeniorCapstoneOfficial
             await adminClient.UsersManager.DeleteEmailAliasAsync(ID, emailID);
         }
 
-        public async Task<List<string>> GetRecentEvents(String ID)
+        public List<string> GetRecentEvents(String ID)
         {
             IBoxConfig config = null;
             using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
