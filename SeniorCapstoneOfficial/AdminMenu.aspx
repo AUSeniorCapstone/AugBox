@@ -143,66 +143,7 @@ AddUserBox:focus{
         <br />
         <asp:PlaceHolder ID="SearchUserFailed" runat="server"></asp:PlaceHolder>
         <br />
-        <asp:Label ID="Label0" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button0" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button1" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label2" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button2" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label3" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button3" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label4" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button4" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label5" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button5" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label6" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button6" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label7" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button7" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label8" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button8" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label9" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button9" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label10" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button10" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label11" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button11" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label12" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button12" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label13" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button13" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label14" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button14" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label15" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button15" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label16" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button16" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label17" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button17" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label18" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button18" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
-        <asp:Label ID="Label19" runat="server" Visible="false"></asp:Label>
-        <asp:Button ID="Button19" runat="server" Text="Delete" Visible="false" OnClick="DeleteButton_Click" CssClass="DeleteUserButton" OnClientClick="return Validate();" />
-        <br />
+        
 
         </div>
         <div style="float:right; width:50%; text-align:center">

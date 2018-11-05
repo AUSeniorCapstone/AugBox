@@ -27,48 +27,58 @@ namespace SeniorCapstoneOfficial
                 bool admin = db1.AdminCheck(Session["UserName"].ToString());
                 if (admin == true)
                 {
+                    string userlastname = "";
+                    if (Request.QueryString["Parameter"] != null)
+                    {
+                        userlastname = Request.QueryString["Parameter"].ToString();
+                    }
+                    DBConnector db = new DBConnector();
+                    SearchUserFailed.Controls.Clear();
+                    for (int x = 0; x < btn.Count; x++)
+                    {
+                        btn[x].Visible = false;
+                        lbl[x].Visible = false;
+                    }
 
-                    lbl.Add(Label0);
-                    lbl.Add(Label1);
-                    lbl.Add(Label2);
-                    lbl.Add(Label3);
-                    lbl.Add(Label4);
-                    lbl.Add(Label5);
-                    lbl.Add(Label6);
-                    lbl.Add(Label7);
-                    lbl.Add(Label8);
-                    lbl.Add(Label9);
-                    lbl.Add(Label10);
-                    lbl.Add(Label11);
-                    lbl.Add(Label12);
-                    lbl.Add(Label13);
-                    lbl.Add(Label14);
-                    lbl.Add(Label15);
-                    lbl.Add(Label16);
-                    lbl.Add(Label17);
-                    lbl.Add(Label18);
-                    lbl.Add(Label19);
+                    int i = 0;
+                    if (db.userSearch(userlastname).Count != 0)
+                    {
+                        foreach (User u in db.userSearch(userlastname))
+                        {
+                            Button button = new Button();
+                            Label newlabel = new Label();
+                            newlabel.Text = u.fName.ToString() + " " + u.lName.ToString() + ": " + u.uname.ToString();
+                            button.ID = i.ToString();
+                            button.Click += new EventHandler(DeleteButton_Click);
+                            button.CssClass = "DeleteUserButton";
+                            button.OnClientClick = "return Validate();";
+                            button.Text = "Delete";
+                            newlabel.Attributes.CssStyle.Add("margin-bottom", "5px");
+                            button.Attributes.CssStyle.Add("margin-bottom", "5px");
+                            button.Attributes.CssStyle.Add("margin-left", "5px");
+                            btn.Add(button);
+                            lbl.Add(newlabel);
+                            SearchUserFailed.Controls.Add(newlabel);
+                            SearchUserFailed.Controls.Add(button);
+                            SearchUserFailed.Controls.Add(new LiteralControl("<br />"));
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        Label failed = new Label();
 
-                    btn.Add(Button0);
-                    btn.Add(Button1);
-                    btn.Add(Button2);
-                    btn.Add(Button3);
-                    btn.Add(Button4);
-                    btn.Add(Button5);
-                    btn.Add(Button6);
-                    btn.Add(Button7);
-                    btn.Add(Button8);
-                    btn.Add(Button9);
-                    btn.Add(Button10);
-                    btn.Add(Button11);
-                    btn.Add(Button12);
-                    btn.Add(Button13);
-                    btn.Add(Button14);
-                    btn.Add(Button15);
-                    btn.Add(Button16);
-                    btn.Add(Button17);
-                    btn.Add(Button18);
-                    btn.Add(Button19);
+                        if (userlastname == "")
+                            failed.Text = "";
+                        else
+                        {
+                            failed.Text = "No User Found";
+                            failed.ForeColor = System.Drawing.Color.Red;
+                            SearchUserFailed.Controls.Add(failed);
+                        }
+                    }
+
+
                 }
                 else
                     Response.Redirect("NormalUserMenu.aspx");
@@ -100,10 +110,11 @@ namespace SeniorCapstoneOfficial
                 UserNameTextBox.Text = "";
                 PasswordTextBox.Text = "";
                 AdminCheckbox.Checked = false;
+                SearchUserFailed.Controls.Clear();
             }
         }
 
-        protected void SearchUserButton_Click(object sender, EventArgs e)
+        /*protected void SearchUserButton_Click(object sender, EventArgs e)
         {
             DBConnector db = new DBConnector();
             SearchUserFailed.Controls.Clear();
@@ -133,7 +144,12 @@ namespace SeniorCapstoneOfficial
             }         
         }
 
+    */
 
+        protected void SearchUserButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("AdminMenu.aspx?Parameter=" + SearchUserTextBox.Text);
+        }
         protected void DeleteButton_Click(object sender, EventArgs e)
         {
             Button bttn = (Button)sender;
@@ -143,11 +159,7 @@ namespace SeniorCapstoneOfficial
             DBConnector db = new DBConnector();
             string input = lbl[i].Text.Substring(lbl[i].Text.IndexOf(": ") + 2);
             db.DeleteUser(input);
-            for(int x = 0; x<lbl.Count;x++)
-            {
-                lbl[x].Visible = false;
-                btn[x].Visible = false;
-            }
+            SearchUserFailed.Controls.Clear();
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)
