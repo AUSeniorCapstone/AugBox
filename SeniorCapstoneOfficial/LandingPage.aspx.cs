@@ -46,13 +46,22 @@ namespace SeniorCapstoneOfficial
         private async Task GetLoginsss()
         {
             BoxAuthTest box = new BoxAuthTest();
-            List<string> a = await box.GetLogins();
-            foreach (string x in a)
-            {
-                Label aaa = new Label();
-                aaa.Text = x.ToString();
-                topChart.Controls.Add(aaa);
-            }
+            string a = await box.GetLogins();
+
+       
+
+            fillTopFiveUserChart(TopUsersLogin(LoginList(a)));
+
+            //foreach (string y in LoginList(a))
+            //{
+            //    Label aaa = new Label();
+            //    aaa.Text = y;
+            //    topChart.Controls.Add(aaa);
+            //    topChart.Controls.Add(new LiteralControl("<br />"));
+            //    topChart.Controls.Add(new LiteralControl("<br />"));
+
+            //}
+
         }
         protected void LogoutBtn_Click(object sender, EventArgs e)
         {
@@ -68,10 +77,41 @@ namespace SeniorCapstoneOfficial
             Response.Redirect("NormalUserMenu.aspx");
         }
 
+        private void fillTopFiveUserChart(List<Tuple<int,string>> topFive)
+        {
+            Chart topFiveUsersChart = new Chart();
+
+            ChartArea logins = new ChartArea("logins");
+
+            topFiveUsersChart.ChartAreas.Add(logins);
+
+            topFiveUsersChart.ChartAreas["logins"].AxisX.MajorGrid.Enabled = false;
+            topFiveUsersChart.ChartAreas["logins"].AxisY.MajorGrid.Enabled = false;
+
+            Series user1 = new Series();
+
+            topFiveUsersChart.Series.Add(user1);
+
+            topFiveUsersChart.Series[0].ChartType = SeriesChartType.Bar;
+            topFiveUsersChart.Series[0].IsValueShownAsLabel = true;
+
+            user1.Points.AddY(topFive[4].Item1);
+            user1.Points.AddY(topFive[3].Item1);
+            user1.Points.AddY(topFive[2].Item1);
+            user1.Points.AddY(topFive[1].Item1);
+            user1.Points.AddY(topFive[0].Item1);
+
+            topFiveUsersChart.Series[0].Points[0].AxisLabel = topFive[4].Item2;
+            topFiveUsersChart.Series[0].Points[1].AxisLabel = topFive[3].Item2;
+            topFiveUsersChart.Series[0].Points[2].AxisLabel = topFive[2].Item2;
+            topFiveUsersChart.Series[0].Points[3].AxisLabel = topFive[1].Item2;
+            topFiveUsersChart.Series[0].Points[4].AxisLabel = topFive[0].Item2;
+
+            topChart.Controls.Add(topFiveUsersChart);
+        }
 
         private async Task showLogins()
         {
-            DBConnector db = new DBConnector();
             BoxAuthTest box = new BoxAuthTest();
             IEnumerable<BoxUser> allUsers = await box.GetallUsers();
 
@@ -102,7 +142,7 @@ namespace SeniorCapstoneOfficial
 
             foreach (BoxUser user in allUsers)
             {
-                if(user.ModifiedAt >= startDate && user.ModifiedAt < endDate)
+                if (user.ModifiedAt >= startDate && user.ModifiedAt < endDate)
                 {
                     dayCount++;
                 }
@@ -142,11 +182,11 @@ namespace SeniorCapstoneOfficial
             }
             loginRow["loginCountMonth"] = monthCount.ToString();
 
-           // lastLogins.Series[0].YValueMembers = dayCount.ToString() ;
+            // lastLogins.Series[0].YValueMembers = dayCount.ToString() ;
             day1.Points.AddY(dayCount);
-           // lastLogins.Series[1].YValueMembers = weekCount.ToString();
+            // lastLogins.Series[1].YValueMembers = weekCount.ToString();
             day1.Points.AddY(weekCount);
-           // lastLogins.Series[2].YValueMembers = monthCount.ToString();
+            // lastLogins.Series[2].YValueMembers = monthCount.ToString();
             day1.Points.AddY(monthCount);
 
             //lastLogins.DataSource = table1;
@@ -158,9 +198,114 @@ namespace SeniorCapstoneOfficial
             //lastLogins.Series[1].AxisLabel = "1 Week";
             //lastLogins.Series[2].AxisLabel = "1 Month";
 
-            LoginChart.Controls.Add(lastLogins);       
+            LoginChart.Controls.Add(lastLogins);
         }
 
+        private int NumOfLogins(string listOfLogins)
+        {
+            string tester = "";
+            string tester1 = "";
+            int index = listOfLogins.IndexOf(',');
+            if (index > 0)
+            {
+                tester = listOfLogins.Substring(0, index);
+            }
+
+            int result = tester.IndexOf(':');
+            if (index > 0)
+            {
+                tester1 = tester.Substring(result + 1);
+            }
+
+            int myInt = int.Parse(tester1);
+
+            return myInt;
+        }
+
+        private string NextStreamPos(string listOfLogins)
+        {
+            string tester = "";
+            string tester1 = "";
+            int index = listOfLogins.IndexOf("\",\"entries");
+            if (index > 0)
+            {
+                tester = listOfLogins.Substring(0, index);
+            }
+
+            int result = tester.IndexOf("\":\"");
+            if (index > 0)
+            {
+                tester1 = tester.Substring(result + 3);
+            }
+
+            return tester1;
+        }
+
+        private List<string> LoginList(string listOfLogins)
+        {
+            string[] latest = listOfLogins.Split(new string[] { "\"source\"" }, StringSplitOptions.RemoveEmptyEntries);
+            latest.Reverse();
+            List<string> alist = new List<string>();
+            for (int i = latest.Length - 1; i >= 0; i--)
+            {
+                if (latest[i] != null && alist.Count <= 500)
+                {
+                    alist.Add(latest[i]);
+                }
+
+                else
+                {
+                    break;
+                }
+            }
+
+            return alist;
+        }
+
+        private List<Tuple<int, string>> TopUsersLogin(List<string> loginlist)
+        {
+            List<Tuple<int, string>> topusers = new List<Tuple<int, string>>();
+
+            string tester = "";
+            string tester1 = "";
+
+            List<string> userlist = new List<string>();
+
+            foreach (string str in loginlist)
+            {
+                int index = str.IndexOf("name");
+                if (index > 0)
+                {
+                    tester = str.Substring(index + 7);
+                }
+
+                int result = tester.IndexOf("\",\"");
+                if (index > 0)
+                {
+                    tester1 = tester.Substring(0, result);
+                }
+
+                userlist.Add(tester1);
+            }
+
+            var q = userlist.GroupBy(x => x)
+                        .Select(g => new { Value = g.Key, Count = g.Count() })
+                        .OrderByDescending(x => x.Count);
+            int c = 0;
+            string v = "";
+
+            foreach (var x in q)
+            {
+                c = x.Count;
+                v = x.Value;
+
+                var user = Tuple.Create(c, v);
+                topusers.Add(user);
+            }
+
+            List<Tuple<int,string>> topFive = topusers.GetRange(0, 5);
+            return topFive;
+        }
 
     }
 }
