@@ -461,7 +461,7 @@ namespace SeniorCapstoneOfficial
                     lbl.Add(Label13);
                     lbl.Add(Label14);
                 }
-                else if (emailAliases.TotalCount == 7)
+                else if (emailAliases.TotalCount == 8)
                 {
                     Label8.Visible = true;
                     Button8.Visible = true;
@@ -479,6 +479,8 @@ namespace SeniorCapstoneOfficial
                     Button14.Visible = true;
                     Label15.Visible = true;
                     Button15.Visible = true;
+                    Label16.Visible = true;
+                    Button16.Visible = true;
                     Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
                     Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
                     Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
@@ -487,6 +489,7 @@ namespace SeniorCapstoneOfficial
                     Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
                     Label13.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
                     Label14.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                    Label15.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
                     lbl.Add(Label8);
                     lbl.Add(Label9);
                     lbl.Add(Label10);
@@ -495,6 +498,7 @@ namespace SeniorCapstoneOfficial
                     lbl.Add(Label13);
                     lbl.Add(Label14);
                     lbl.Add(Label15);
+                    lbl.Add(Label16);
                 }
 
                 Label7.Text = "<b>" + "Top Folders" + "</b>";
