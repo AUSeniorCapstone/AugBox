@@ -93,6 +93,7 @@
         Top Five Users (# of Logins)
     </h2>
                      <asp:PlaceHolder runat="server" ID="topChart"></asp:PlaceHolder>
+                     <asp:Label ID="Labela" runat="server" Text="Label"></asp:Label>
                  </div>
                  
         </div>

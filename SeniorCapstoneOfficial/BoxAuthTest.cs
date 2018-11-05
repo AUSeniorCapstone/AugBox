@@ -24,11 +24,56 @@ namespace SeniorCapstoneOfficial
             var users = await adminClient.UsersManager.GetEnterpriseUsersAsync(autoPaginate: true);
 
             List<BoxUser> allBoxUsersList = users.Entries;
-
+            
             return allBoxUsersList;
 
         }
+        public async Task<List<string>> GetLogins()
+        {
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
+            
 
+            var boxJWT = new BoxJWTAuth(config);
+            var adminToken = boxJWT.AdminToken();
+
+            List<BoxUser> users = await GetallUsers();
+            BoxUser foundUser = new BoxUser();
+            foundUser = users.Find(u => u.Login.Equals("test4@augusta-cyber.org"));
+            var userToken = boxJWT.UserToken(foundUser.Id); //valid for 60 minutes so should be cached and re-used
+            var userClient = boxJWT.UserClient(userToken, foundUser.Id);
+            
+            HttpWebRequest req = WebRequest.Create("https://api.box.com/2.0/events?stream_type=admin_logs&limit=500&event_type=LOGIN") as HttpWebRequest;
+            req.Headers.Add("Authorization: Bearer " + adminToken);
+            string result = null;
+            using (HttpWebResponse resp = req.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(resp.GetResponseStream());
+                result = reader.ReadToEnd();
+            }
+            string[] latest = result.Split(new string[] { "}}," }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> alist = new List<string>();
+            for (int i = latest.Length - 1; i >= 0; i--)
+            {
+                if (latest[i] != null && alist.Count <= 500)
+                {
+                    alist.Add(latest[i]);
+                }
+
+                else
+                {
+                    break;
+                }
+            }
+            // latest.Reverse().Take(10);
+            return alist;
+            
+          
+
+        }
 
         public Box.V2.BoxClient Authenticate()
         {
@@ -134,5 +179,47 @@ namespace SeniorCapstoneOfficial
             return alist;
 
         }
-    }
+
+        /*public async Task<List<string>> GetLogins(ID)
+        {
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
+
+            var boxJWT = new BoxJWTAuth(config);
+            var adminToken = boxJWT.AdminToken();
+            var adminClient = boxJWT.AdminClient(adminToken);
+
+            var userToken = boxJWT.UserToken(ID);
+            var userClient = boxJWT.UserClient(userToken, ID);
+
+            HttpWebRequest req = WebRequest.Create("https://api.box.com/2.0/events?stream_type=admin_logs&limit=3&stream_position=1152922976252162650") as HttpWebRequest;
+            req.Headers.Add("Authorization: Bearer " + adminClient.EventsManager.EnterpriseEventsAsync);
+            string result = null;
+            using (HttpWebResponse resp = req.GetResponse() as HttpWebResponse)
+            {
+                StreamReader reader = new StreamReader(resp.GetResponseStream());
+                result = reader.ReadToEnd();
+            }
+            string[] latest = result.Split(new string[] { "}}," }, StringSplitOptions.RemoveEmptyEntries);
+            List<string> alist = new List<string>();
+            for (int i = latest.Length - 1; i >= 0; i--)
+            {
+                if (latest[i] != null && alist.Count <= 10)
+                {
+                    alist.Add(latest[i]);
+                }
+
+                else
+                {
+                    break;
+                }
+            }
+            // latest.Reverse().Take(10);
+            return alist;
+            */
+        }
+    
 }

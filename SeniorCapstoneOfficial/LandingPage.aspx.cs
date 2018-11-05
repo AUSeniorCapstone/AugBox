@@ -33,7 +33,9 @@ namespace SeniorCapstoneOfficial
                 AdminPageButton.Visible = false;
             }
 
-            RegisterAsyncTask(new PageAsyncTask(showLogins));
+            //RegisterAsyncTask(new PageAsyncTask(showLogins));
+            RegisterAsyncTask(new PageAsyncTask(GetLoginsss));
+
         }
 
         protected void AdminPage_Click(object sender, EventArgs e)
@@ -41,6 +43,17 @@ namespace SeniorCapstoneOfficial
             Response.Redirect("AdminMenu.aspx");
         }
 
+        private async Task GetLoginsss()
+        {
+            BoxAuthTest box = new BoxAuthTest();
+            List<string> a = await box.GetLogins();
+            foreach (string x in a)
+            {
+                Label aaa = new Label();
+                aaa.Text = x.ToString();
+                topChart.Controls.Add(aaa);
+            }
+        }
         protected void LogoutBtn_Click(object sender, EventArgs e)
         {
 
