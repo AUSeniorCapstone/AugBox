@@ -246,7 +246,7 @@ AddUserBox:focus{
              <asp:Image ID="AUGLogoLittle" runat="server" ImageUrl="~/Images/AugustaLittle.png" CssClass="AUGLogo" />
             <asp:Button ID="LogoutButton" runat="server" CssClass="tablink1" Text="Logout" OnClick="LogoutBtn_Click" />
             <asp:Button ID="AdminPageButton" runat="server" CssClass="tablink2" Text="Admin Page" OnClick="AdminPage_Click" />
-            <asp:Button ID="StudentSearchButton" runat="server" CssClass="tablink3" Text="Student Search" />
+            <asp:Button ID="StudentSearchButton" runat="server" CssClass="tablink3" Text="Student Search" OnClick="StudentSearchButton_Click"/>
         </div>
          <br />
         <br />

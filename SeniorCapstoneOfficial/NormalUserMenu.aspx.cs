@@ -792,6 +792,10 @@ namespace SeniorCapstoneOfficial
         {
 
         }
+        protected void StudentSearchButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("NormalUserMenu.aspx");
+        }
         protected void AdminPage_Click(object sender, EventArgs e)
         {
             Response.Redirect("AdminMenu.aspx");
