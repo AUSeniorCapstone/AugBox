@@ -229,6 +229,49 @@ namespace SeniorCapstoneOfficial
 
             foundUser = users.Find(u => u.Login.Equals(EmailAddress.Text.Trim()));
 
+            Label8.Visible = false;
+            Button8.Visible = false;
+            Label9.Visible = false;
+            Button9.Visible = false;
+            Label10.Visible = false;
+            Button10.Visible = false;
+            Label11.Visible = false;
+            Button11.Visible = false;
+            Label12.Visible = false;
+            Button12.Visible = false;
+            Label13.Visible = false;
+            Button13.Visible = false;
+            Label14.Visible = false;
+            Button14.Visible = false;
+            Label15.Visible = false;
+            Button15.Visible = false;
+            Label16.Visible = false;
+            Button16.Visible = false;
+            Label17.Visible = false;
+            Button17.Visible = false;
+            Label18.Visible = false;
+            Button18.Visible = false;
+            Label19.Visible = false;
+            Button19.Visible = false;
+            Label20.Visible = false;
+            Button20.Visible = false;
+            Label21.Visible = false;
+            Button21.Visible = false;
+            Label22.Visible = false;
+            Button22.Visible = false;
+            Label23.Visible = false;
+            Button23.Visible = false;
+            Label24.Visible = false;
+            Button24.Visible = false;
+            Label25.Visible = false;
+            Button25.Visible = false;
+            Label26.Visible = false;
+            Button26.Visible = false;
+            Label27.Visible = false;
+            Button27.Visible = false;
+            Label28.Visible = false;
+            Button28.Visible = false;
+
             if (foundUser != null)
             {
                 rightdiv.Style.Add("border-left", "dashed 1pt");
