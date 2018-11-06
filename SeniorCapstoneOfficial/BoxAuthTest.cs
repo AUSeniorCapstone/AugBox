@@ -27,10 +27,11 @@ namespace SeniorCapstoneOfficial
 
             return allBoxUsersList;
         }
+
         public async Task<string> GetLogins()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -54,7 +55,7 @@ namespace SeniorCapstoneOfficial
         public Box.V2.BoxClient Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -71,7 +72,7 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxItem>> GetFolder(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -117,7 +118,7 @@ namespace SeniorCapstoneOfficial
         public List<string> GetRecentEvents(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"E:\config.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }

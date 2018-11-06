@@ -43,14 +43,20 @@ namespace SeniorCapstoneOfficial
             Response.Redirect("AdminMenu.aspx");
         }
 
+        private async Task LastLogins()
+        {
+            BoxAuthTest box = new BoxAuthTest();
+            string a = await box.GetLogins();
+        }
+
         private async Task GetLoginsss()
         {
             BoxAuthTest box = new BoxAuthTest();
             string a = await box.GetLogins();
 
-       
-
             fillTopFiveUserChart(TopUsersLogin(LoginList(a)));
+            fillLastLoginCharts(lastLoginsByTime(LoginList(a)));
+
 
             //foreach (string y in LoginList(a))
             //{
@@ -110,29 +116,20 @@ namespace SeniorCapstoneOfficial
             topChart.Controls.Add(topFiveUsersChart);
         }
 
-        private async Task showLogins()
+        private void fillLastLoginCharts(List<string> lastlogins)
         {
-            BoxAuthTest box = new BoxAuthTest();
-            IEnumerable<BoxUser> allUsers = await box.GetallUsers();
+          
 
-            Chart lastLogins = new Chart();
+            Chart lastLoginsChart = new Chart();
 
-            ChartArea OneDay = new ChartArea("oneDay");
+            ChartArea OneDay = new ChartArea("time");
 
-            lastLogins.ChartAreas.Add(OneDay);
+            lastLoginsChart.ChartAreas.Add(OneDay);
 
-            Series day1 = new Series();
-            Series week1 = new Series();
-            Series month1 = new Series();
+            Series time = new Series();
 
-            lastLogins.Series.Add(day1);
-            lastLogins.Series.Add(week1);
-            lastLogins.Series.Add(month1);
+            lastLoginsChart.Series.Add(time);
 
-            day1.ChartArea = "oneDay";
-
-            DataTable table1 = new DataTable("logins");
-            table1.Columns.Add("loginCountDay");
             int dayCount = 0;
 
             DateTime startDate = DateTime.Today;
@@ -140,65 +137,62 @@ namespace SeniorCapstoneOfficial
             DateTime endDate = new DateTime();
             endDate = endDate.Date.AddDays(1).AddTicks(-1);
 
-            foreach (BoxUser user in allUsers)
-            {
-                if (user.ModifiedAt >= startDate && user.ModifiedAt < endDate)
+        
+            foreach (string date in lastlogins)
+            {              
+                if (DateTime.Parse(date) >= startDate)
                 {
                     dayCount++;
                 }
-            }
-            DataRow loginRow = table1.NewRow();
-            loginRow["loginCountDay"] = dayCount.ToString();
-            table1.Rows.Add(loginRow);
 
-            table1.Columns.Add("loginCountWeek");
+            }
+            
             int weekCount = 0;
 
-            startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
+            //startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek);
 
-            endDate = startDate.AddDays(DayOfWeek.Friday - startDate.DayOfWeek).Date;
+            //endDate = startDate.AddDays(DayOfWeek.Friday).Date;
+            DateTime today = DateTime.Today;
+            int offset = today.DayOfWeek - DayOfWeek.Monday;
+            startDate = today.AddDays(-offset);
+            endDate = startDate.AddDays(6);
 
-            foreach (BoxUser user in allUsers)
+            foreach (string date in lastlogins)
             {
-                if (user.ModifiedAt >= startDate && user.ModifiedAt < endDate)
+                if (DateTime.Parse(date) >= startDate && DateTime.Parse(date) < endDate)
                 {
                     weekCount++;
                 }
             }
-            loginRow["loginCountWeek"] = weekCount.ToString();
 
-            table1.Columns.Add("loginCountMonth");
             int monthCount = 0;
             DateTime now = DateTime.Now;
             startDate = new DateTime(now.Year, now.Month, 1);
             endDate = startDate.AddMonths(1).AddDays(-1);
 
-            foreach (BoxUser user in allUsers)
+            foreach (string date in lastlogins)
             {
-                if (user.ModifiedAt >= startDate && user.ModifiedAt < endDate)
+                if (DateTime.Parse(date) >= startDate && DateTime.Parse(date) < endDate)
                 {
                     monthCount++;
                 }
             }
-            loginRow["loginCountMonth"] = monthCount.ToString();
+            
 
-            // lastLogins.Series[0].YValueMembers = dayCount.ToString() ;
-            day1.Points.AddY(dayCount);
-            // lastLogins.Series[1].YValueMembers = weekCount.ToString();
-            day1.Points.AddY(weekCount);
-            // lastLogins.Series[2].YValueMembers = monthCount.ToString();
-            day1.Points.AddY(monthCount);
 
-            //lastLogins.DataSource = table1;
-            //lastLogins.DataBind();
-            lastLogins.Series[0].Points[0].AxisLabel = "1 Day";
-            lastLogins.Series[0].Points[1].AxisLabel = "1 Week";
-            lastLogins.Series[0].Points[2].AxisLabel = "1 Month";
-            //lastLogins.ChartAreas[0].AxisX.CustomLabels;
-            //lastLogins.Series[1].AxisLabel = "1 Week";
-            //lastLogins.Series[2].AxisLabel = "1 Month";
+            time.Points.AddY(dayCount);
+            time.Points.AddY(weekCount);
+            time.Points.AddY(monthCount);
 
-            LoginChart.Controls.Add(lastLogins);
+            lastLoginsChart.Series[0].Points[0].AxisLabel = "1 Day";
+            lastLoginsChart.Series[0].Points[1].AxisLabel = "1 Week";
+            lastLoginsChart.Series[0].Points[2].AxisLabel = "1 Month";
+
+            lastLoginsChart.Series[0].IsValueShownAsLabel = true;
+            lastLoginsChart.ChartAreas["time"].AxisX.MajorGrid.Enabled = false;
+            lastLoginsChart.ChartAreas["time"].AxisY.MajorGrid.Enabled = false;
+
+            LoginChart.Controls.Add(lastLoginsChart);
         }
 
         private int NumOfLogins(string listOfLogins)
@@ -258,7 +252,6 @@ namespace SeniorCapstoneOfficial
                     break;
                 }
             }
-
             return alist;
         }
 
@@ -305,6 +298,32 @@ namespace SeniorCapstoneOfficial
 
             List<Tuple<int,string>> topFive = topusers.GetRange(0, 5);
             return topFive;
+        }
+
+        private List<string> lastLoginsByTime(List<string> loginlist)
+        {
+            List<string> lastLogins = new List<string>();
+            string tester = "";
+            string tester1 = "";
+
+            foreach (string str in loginlist)
+            {
+                int index = str.IndexOf("created_at");
+                if (index > 0)
+                {
+                    tester = str.Substring(index + 13);
+                }
+
+                int result = tester.IndexOf("T");
+                if (index > 0)
+                {
+                    tester1 = tester.Substring(0, result);
+                }
+
+                lastLogins.Add(tester1);
+            }
+
+            return lastLogins;
         }
 
     }
