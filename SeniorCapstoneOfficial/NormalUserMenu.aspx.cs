@@ -293,6 +293,7 @@ namespace SeniorCapstoneOfficial
                 }
                 else
                 {
+
                     for (int i = 0; i < recent.Count; i++)
                     {
                         eventnumber = eventnumber + 1;
@@ -303,6 +304,11 @@ namespace SeniorCapstoneOfficial
                         temp.Text = "<b>" + eventnumber.ToString() + "</b>" + "." + " <b>Login:</b> " + logins[i];
                         temp1.Text = " <b>Type:</b> " + types[i];
                         temp3.Text = " <b>Created at:</b> " + create[i];
+                        if (sourcenames[i] =="" || sourcetype[i] =="" || sourceid[i]=="")
+                        {
+                            temp2.Text = " <b>Source:</b> " + "Not Found";
+                        }
+                        else
                         temp2.Text = " <b>Source:</b> " + "(Type: " + sourcetype[i] + ", Id: " + sourceid[i] + ", Name: " + sourcenames[i] + ")";
                         temp1.Attributes.CssStyle.Add("display", "block");
                         temp1.Attributes.CssStyle.Add("clear", "right");
@@ -1424,18 +1430,26 @@ namespace SeniorCapstoneOfficial
             {
 
                 int index = str.IndexOf("login");
-                index = index + 8;
+                
                 if (index == -1 || index < 20)
                 {
-                    listofnames.Add(a);
-                    break;
+                    listofnames.Add("");
+                   
                 }
                 else
                 {
+                    index = index + 8;
                     a = str.Substring(index);
                     int index2 = a.IndexOf("},");
-                    a = a.Substring(0, index2 - 1);
-                    listofnames.Add(a);
+                    if (index2 == -1)
+                    {
+                        listofnames.Add("");
+                    }
+                    else
+                    {
+                        a = a.Substring(0, index2 - 1);
+                        listofnames.Add(a);
+                    }
                 }
 
             }
@@ -1448,29 +1462,32 @@ namespace SeniorCapstoneOfficial
             string a = "";
             foreach (string str in listofevents)
             {
-                try
-                {
+               
                     int index = str.IndexOf("event_type");
-                    index = index + 13;
                     if (index == -1)
                     {
-                        listoftypes.Add(a);
-                        break;
+                        listoftypes.Add("");
+                      
                     }
 
                     else
                     {
+                        index = index + 13;
                         a = str.Substring(index);
                         int index2 = a.IndexOf(",");
-                        a = a.Substring(0, index2 - 1);
-                        listoftypes.Add(a);
+                        if (index2 == -1)
+                        {
+                            listofevents.Add("");
+                        }
+                        else
+                        {
+                            a = a.Substring(0, index2 - 1);
+                            listoftypes.Add(a);
+                        }
                     }
                 }
-                catch
-                {
-                    Server.Transfer("NormalUserMenu.aspx", true);
-                }
-            }
+              
+            
             return listoftypes;
         }
 
@@ -1482,18 +1499,25 @@ namespace SeniorCapstoneOfficial
             {
 
                 int index = str.IndexOf("created_at");
-                index = index + 13;
                 if (index == -1)
                 {
-                    listofcreations.Add(a);
-                    break;
+                    listofcreations.Add("");
+                   
                 }
                 else
                 {
+                    index = index + 13;
                     a = str.Substring(index);
                     int index2 = a.IndexOf(",");
-                    a = a.Substring(0, index2 - 1);
-                    listofcreations.Add(a);
+                    if (index2 == -1)
+                    {
+                        listofcreations.Add("");
+                    }
+                    else
+                    {
+                        a = a.Substring(0, index2 - 1);
+                        listofcreations.Add(a);
+                    }
                 }
             }
 
@@ -1508,18 +1532,25 @@ namespace SeniorCapstoneOfficial
             {
 
                 int index = str.IndexOf("source");
-                index = index + 17;
                 if (index == -1)
                 {
-                    list.Add(a);
-                    break;
+                    list.Add("");
+                   
                 }
                 else
                 {
+                    index = index + 17;
                     a = str.Substring(index);
                     int index2 = a.IndexOf(",");
-                    a = a.Substring(0, index2 - 1);
-                    list.Add(a);
+                    if (index2 == -1)
+                    {
+                        list.Add("");
+                    }
+                    else
+                    {
+                        a = a.Substring(0, index2 - 1);
+                        list.Add(a);
+                    }
                 }
             }
 
@@ -1536,17 +1567,33 @@ namespace SeniorCapstoneOfficial
                 int index = str.IndexOf("source");
                 if (index == -1)
                 {
-                    list.Add(a);
-                    break;
+                    list.Add("");
+                 
                 }
                 else
                 {
                     a = str.Substring(index);
                     int index2 = a.IndexOf("id");
-                    a = a.Substring(index2);
-                    int index3 = a.IndexOf(",");
-                    a = a.Substring(5, index3 - 6);
-                    list.Add(a);
+                    if (index2 == -1)
+                    {
+                        list.Add("");
+                       
+                    }
+                    else
+                    {
+                        a = a.Substring(index2);
+                        int index3 = a.IndexOf(",");
+                        if (index3 == -1)
+                        {
+                            list.Add("");
+                          
+                        }
+                        else
+                        {
+                            a = a.Substring(5, index3 - 6);
+                            list.Add(a);
+                        }
+                    }
                 }
             }
 
@@ -1563,20 +1610,43 @@ namespace SeniorCapstoneOfficial
                 int index = str.IndexOf("source");
                 if (index == -1)
                 {
-                    list.Add(a);
-                    break;
+                    list.Add("");
                 }
                 else
                 {
                     a = str.Substring(index);
                     int index2 = a.IndexOf("parent");
-                    a = a.Substring(index2);
-                    int index3 = a.IndexOf("name");
+                    if (index2 == -1)
+                    {
+                        list.Add("");
+                       
+                    }
+                    else
+                    {
+                        a = a.Substring(index2);
+                        int index3 = a.IndexOf("name");
+                        if (index3 == -1)
+                        {
+                            list.Add("");
+                            
+                        }
 
-                    a = a.Substring(index3);
-                    int index4 = a.IndexOf(",");
-                    a = a.Substring(7, index4 - 9);
-                    list.Add(a);
+                        else
+                        {
+                            a = a.Substring(index3);
+                            int index4 = a.IndexOf(",");
+                            if (index4 == -1)
+                            {
+                                list.Add("");
+                             
+                            }
+                            else
+                            {
+                                a = a.Substring(7, index4 - 9);
+                                list.Add(a);
+                            }
+                        }
+                    }
 
                 }
             }
