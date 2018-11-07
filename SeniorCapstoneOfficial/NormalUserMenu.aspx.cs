@@ -1337,6 +1337,8 @@ namespace SeniorCapstoneOfficial
                 Label3.Text = "";
                 Label4.Text = "";
                 Label7.Text = "";
+                Button7.Visible = false;
+                TextBox1.Visible = false;
 
             }
         }
