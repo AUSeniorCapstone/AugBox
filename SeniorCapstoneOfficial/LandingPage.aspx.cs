@@ -35,7 +35,7 @@ namespace SeniorCapstoneOfficial
 
             //RegisterAsyncTask(new PageAsyncTask(showLogins));
             RegisterAsyncTask(new PageAsyncTask(GetLoginsss));
-            RegisterAsyncTask(new PageAsyncTask(getUsersss));
+            RegisterAsyncTask(new PageAsyncTask(storageUse));
 
 
         }
@@ -72,7 +72,7 @@ namespace SeniorCapstoneOfficial
 
         }
 
-        private async Task getUsersss()
+        private async Task storageUse()
         {
             BoxAuthTest box = new BoxAuthTest();
             List<BoxUser> users = await box.GetallUsers();
@@ -118,6 +118,43 @@ namespace SeniorCapstoneOfficial
             topFiveUsersChart.Series[0].Points[4].AxisLabel = topFiveStorage[0].Item2;
 
             topStorageChart.Controls.Add(topFiveUsersChart);
+
+            //STORAGE Usage
+            int totalStorage = 0;
+            foreach (Tuple<int, string> t in storage)
+            {
+                totalStorage = totalStorage + t.Item1;
+            }
+            
+
+            Chart storageUsageChart = new Chart();
+
+            ChartArea storageArea = new ChartArea("storageArea");
+
+            storageUsageChart.ChartAreas.Add(storageArea);
+
+            storageUsageChart.ChartAreas["storageArea"].AxisX.MajorGrid.Enabled = false;
+            storageUsageChart.ChartAreas["storageArea"].AxisY.MajorGrid.Enabled = false;
+
+            Series store = new Series();
+
+            storageUsageChart.Series.Add(store);
+
+            //storageUsageChart.Series[0].ChartType = SeriesChartType.Bar;
+            storageUsageChart.Series[0].IsValueShownAsLabel = true;
+
+            store.Points.AddY(0);
+            store.Points.AddY(0);
+            store.Points.AddY(users.Count);
+
+            int xAxis = (totalStorage / 3);
+            int xAxis2 = xAxis + xAxis;
+
+            storageUsageChart.Series[0].Points[0].AxisLabel = "0-" + xAxis.ToString() + " MB";
+            storageUsageChart.Series[0].Points[1].AxisLabel = xAxis.ToString() + "-" + xAxis2.ToString() + " MB";
+            storageUsageChart.Series[0].Points[2].AxisLabel = xAxis2.ToString() + "-" + totalStorage.ToString() + " MB";
+
+            StorageUsageChart.Controls.Add(storageUsageChart);
         }
 
         protected void LogoutBtn_Click(object sender, EventArgs e)

@@ -105,6 +105,13 @@
                         <asp:PlaceHolder runat="server" ID="topStorageChart"></asp:PlaceHolder>
 
             </div>
+         <div style="float:right; width:50%; text-align:center">
+    <h2>
+       Storage Usage (# of Users)
+    </h2>
+                        <asp:PlaceHolder runat="server" ID="StorageUsageChart"></asp:PlaceHolder>
+
+            </div>
     </form>
 </body>
 </html>
