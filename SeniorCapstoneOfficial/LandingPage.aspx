@@ -98,7 +98,13 @@
                  
         </div>
     </div>
+        <div style="float:left; width:50%; text-align:center">
+    <h2>
+        Top User Storage(MB)
+    </h2>
+                        <asp:PlaceHolder runat="server" ID="topStorageChart"></asp:PlaceHolder>
 
+            </div>
     </form>
 </body>
 </html>

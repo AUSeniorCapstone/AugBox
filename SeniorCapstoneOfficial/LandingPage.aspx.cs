@@ -35,6 +35,8 @@ namespace SeniorCapstoneOfficial
 
             //RegisterAsyncTask(new PageAsyncTask(showLogins));
             RegisterAsyncTask(new PageAsyncTask(GetLoginsss));
+            RegisterAsyncTask(new PageAsyncTask(getUsersss));
+
 
         }
 
@@ -69,6 +71,55 @@ namespace SeniorCapstoneOfficial
             //}
 
         }
+
+        private async Task getUsersss()
+        {
+            BoxAuthTest box = new BoxAuthTest();
+            List<BoxUser> users = await box.GetallUsers();
+            List<Tuple<int, string>> storage = new List<Tuple<int, string>>();
+
+            foreach (BoxUser u in users)
+            {
+                int mb = (Convert.ToInt32(u.SpaceUsed) / 1024) / 1024;
+                var v = Tuple.Create(mb, u.Name);
+                storage.Add(v);
+            }
+
+            var orderedStorage = storage.OrderByDescending(t => t.Item1).ToList();
+
+            List<Tuple<int, string>> topFiveStorage = orderedStorage.GetRange(0, 5);
+
+            Chart topFiveUsersChart = new Chart();
+
+            ChartArea logins = new ChartArea("logins");
+
+            topFiveUsersChart.ChartAreas.Add(logins);
+
+            topFiveUsersChart.ChartAreas["logins"].AxisX.MajorGrid.Enabled = false;
+            topFiveUsersChart.ChartAreas["logins"].AxisY.MajorGrid.Enabled = false;
+
+            Series user1 = new Series();
+
+            topFiveUsersChart.Series.Add(user1);
+
+            topFiveUsersChart.Series[0].ChartType = SeriesChartType.Bar;
+            topFiveUsersChart.Series[0].IsValueShownAsLabel = true;
+
+            user1.Points.AddY(topFiveStorage[4].Item1);
+            user1.Points.AddY(topFiveStorage[3].Item1);
+            user1.Points.AddY(topFiveStorage[2].Item1);
+            user1.Points.AddY(topFiveStorage[1].Item1);
+            user1.Points.AddY(topFiveStorage[0].Item1);
+
+            topFiveUsersChart.Series[0].Points[0].AxisLabel = topFiveStorage[4].Item2;
+            topFiveUsersChart.Series[0].Points[1].AxisLabel = topFiveStorage[3].Item2;
+            topFiveUsersChart.Series[0].Points[2].AxisLabel = topFiveStorage[2].Item2;
+            topFiveUsersChart.Series[0].Points[3].AxisLabel = topFiveStorage[1].Item2;
+            topFiveUsersChart.Series[0].Points[4].AxisLabel = topFiveStorage[0].Item2;
+
+            topStorageChart.Controls.Add(topFiveUsersChart);
+        }
+
         protected void LogoutBtn_Click(object sender, EventArgs e)
         {
 
