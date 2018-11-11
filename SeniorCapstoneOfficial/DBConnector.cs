@@ -14,7 +14,7 @@ namespace SeniorCapstoneOfficial
     {
         SQLiteConnection myConnection = new SQLiteConnection(LoadConnectionString());
 
-        public void createUsers(string fName, string lName, string username, string password, bool admin)
+        public void createUsers(string fName, string lName, string username, string password, int admin)
         {
 
             byte[] salt;
@@ -99,7 +99,7 @@ namespace SeniorCapstoneOfficial
         {
             using (SQLiteConnection conn = new SQLiteConnection(myConnection))
             {
-                bool admin = false;
+                int admin = 0;
                 conn.Open();
                 string sql = "SELECT admin FROM User WHERE uname = @uname";
 
@@ -110,8 +110,35 @@ namespace SeniorCapstoneOfficial
                     {
                         while (reader.Read())
                         {
-                            admin = Convert.ToBoolean(reader["admin"]);
-                            if (admin == true)
+                            admin = reader.GetInt32(0);
+                            if (admin == 1)
+                                return true;
+
+                        }
+                    }
+                }
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool ComplianceCheck(string uname)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(myConnection))
+            {
+                int comp = 0;
+                conn.Open();
+                string sql = "SELECT admin FROM User WHERE uname = @uname";
+
+                using (SQLiteCommand cmd = new SQLiteCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@uname", uname);
+                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comp = reader.GetInt32(0);
+                            if (comp == 4)
                                 return true;
 
                         }
@@ -145,7 +172,7 @@ namespace SeniorCapstoneOfficial
                         {
                             username = reader["uname"].ToString();
                              password = reader["password"].ToString();
-                            admin = Convert.ToInt32(reader["admin"]);
+                            admin = reader.GetInt32(2);
                         }
 
                     }

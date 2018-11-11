@@ -129,6 +129,8 @@ AddUserBox:focus{
     function Validate() {
         return confirm('Are you sure you want to delete user?');
     }
+
+    
 </script>
 
     <div style="width:100%">
@@ -178,7 +180,11 @@ AddUserBox:focus{
             <br />
             <br />
             <asp:Label ID="AdminLabel" runat="server" Font-Size="18px">Admin: </asp:Label>
-            <asp:CheckBox ID="AdminCheckbox" runat="server" />
+            <asp:RadioButton ID="AdminCheckbox" GroupName="role" runat="server"/>
+            <asp:Label ID="ComplianceLabel" runat="server" Font-Size="18px">Compliance: </asp:Label>
+            <asp:RadioButton ID="ComplianceCheckbox" GroupName="role" runat="server"/>
+            <asp:Label ID="NormalUserLabel" runat="server" Font-Size="18px">Normal User: </asp:Label>
+            <asp:RadioButton ID="NormaluserCheckbox" GroupName="role" runat="server"/>
             <br />
             <br />
             <asp:Button ID="AddUserButton" runat="server" Text="Add User" OnClick="AddUserButton_Click" CssClass="SearchUserButton" CausesValidation="true" ValidationGroup="AddUserGroup" />

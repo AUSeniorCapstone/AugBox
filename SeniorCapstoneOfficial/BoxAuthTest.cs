@@ -19,6 +19,7 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxUser>> GetallUsers()
         {
 
+
             var adminClient = Authenticate();
             //limit is 1000, do a loop
             var users = await adminClient.UsersManager.GetEnterpriseUsersAsync(autoPaginate: true);
@@ -31,7 +32,7 @@ namespace SeniorCapstoneOfficial
         public async Task<string> GetLogins()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -55,7 +56,7 @@ namespace SeniorCapstoneOfficial
         public Box.V2.BoxClient Authenticate()
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -72,7 +73,7 @@ namespace SeniorCapstoneOfficial
         public async Task<List<BoxItem>> GetFolder(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }
@@ -118,7 +119,7 @@ namespace SeniorCapstoneOfficial
         public List<string> GetRecentEvents(String ID)
         {
             IBoxConfig config = null;
-            using (FileStream fs = new FileStream(@"C:\Users\BirdHouse\AugBox\pkey.json", FileMode.Open))
+            using (FileStream fs = new FileStream(@"C:\Users\Gabriel\Documents\AugBoxApplication\pkey.json", FileMode.Open))
             {
                 config = BoxConfig.CreateFromJsonFile(fs);
             }

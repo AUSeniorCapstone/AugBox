@@ -25,6 +25,7 @@ namespace SeniorCapstoneOfficial
             {
                 DBConnector db1 = new DBConnector();
                 bool admin = db1.AdminCheck(Session["UserName"].ToString());
+                bool comp = db1.ComplianceCheck(Session["UserName"].ToString());
                 if (admin == true)
                 {
                     string userlastname = "";
@@ -64,6 +65,7 @@ namespace SeniorCapstoneOfficial
                             i++;
                         }
                     }
+
                     else
                     {
                         Label failed = new Label();
@@ -84,7 +86,7 @@ namespace SeniorCapstoneOfficial
                     Response.Redirect("NormalUserMenu.aspx");
             }
         }
-
+       
         protected void AddUserButton_Click(object sender, EventArgs e)
         {
             DBConnector db = new DBConnector();
@@ -99,18 +101,43 @@ namespace SeniorCapstoneOfficial
             }
             else
             {
-                PH.Controls.Clear();
-                db.createUsers(FirstNameTextbox.Text, LastNameTextbox.Text, UserNameTextBox.Text, PasswordTextBox.Text, AdminCheckbox.Checked);
-                Label Confirmation = new Label();
-                Confirmation.Text = "User Successfully Added";
-                Confirmation.Attributes.Add("style", "color:green;");
-                PH.Controls.Add(Confirmation);
-                FirstNameTextbox.Text = "";
-                LastNameTextbox.Text = "";
-                UserNameTextBox.Text = "";
-                PasswordTextBox.Text = "";
-                AdminCheckbox.Checked = false;
-                SearchUserFailed.Controls.Clear();
+                int role = 0;
+                if(AdminCheckbox.Checked)
+                {
+                    role = 1;
+                }
+                else if (ComplianceCheckbox.Checked)
+                {
+                    role = 4;
+                }
+                else if (NormaluserCheckbox.Checked)
+                {
+                    role = 0;
+                }
+
+                if (AdminCheckbox.Checked || ComplianceCheckbox.Checked || NormaluserCheckbox.Checked)
+                {
+                    PH.Controls.Clear();
+                    db.createUsers(FirstNameTextbox.Text, LastNameTextbox.Text, UserNameTextBox.Text, PasswordTextBox.Text, role);
+                    Label Confirmation = new Label();
+                    Confirmation.Text = "User Successfully Added";
+                    Confirmation.Attributes.Add("style", "color:green;");
+                    PH.Controls.Add(Confirmation);
+                    FirstNameTextbox.Text = "";
+                    LastNameTextbox.Text = "";
+                    UserNameTextBox.Text = "";
+                    PasswordTextBox.Text = "";
+                    AdminCheckbox.Checked = false;
+                    ComplianceCheckbox.Checked = false;
+                    SearchUserFailed.Controls.Clear();
+                }
+                else
+                {
+                    PH.Controls.Clear();
+                    Label checkboxerror = new Label();
+                    checkboxerror.Text = "Select a User Type";
+                    PH.Controls.Add(checkboxerror);
+                }
             }
         }
 

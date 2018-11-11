@@ -44,6 +44,11 @@ namespace SeniorCapstoneOfficial
                 Session["UserName"] = txturname.Text.Trim();
                 Response.Redirect("LandingPage.aspx");
             }
+            else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 4)
+            {
+                Session["UserName"] = txturname.Text.Trim();
+                Response.Redirect("LandingPage.aspx");
+            }
             else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 3)
             {
                 lblErrorMessage.Visible = true;

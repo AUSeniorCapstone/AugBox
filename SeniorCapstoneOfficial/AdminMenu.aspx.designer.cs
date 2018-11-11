@@ -226,7 +226,43 @@ namespace SeniorCapstoneOfficial {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox AdminCheckbox;
+        protected global::System.Web.UI.WebControls.RadioButton AdminCheckbox;
+        
+        /// <summary>
+        /// ComplianceLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ComplianceLabel;
+        
+        /// <summary>
+        /// ComplianceCheckbox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton ComplianceCheckbox;
+        
+        /// <summary>
+        /// NormalUserLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label NormalUserLabel;
+        
+        /// <summary>
+        /// NormaluserCheckbox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton NormaluserCheckbox;
         
         /// <summary>
         /// AddUserButton control.

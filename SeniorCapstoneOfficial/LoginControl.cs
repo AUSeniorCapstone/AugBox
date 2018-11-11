@@ -45,6 +45,11 @@ namespace SeniorCapstoneOfficial
                    newGet.saveLogin(uname, dt);
                     return 2;
                 }
+                else if(user.admin == 4)
+                {
+                    newGet.saveLogin(uname, dt);
+                    return 4;
+                }
                 return 3;
             }
             return 3;
