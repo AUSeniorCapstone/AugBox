@@ -40,6 +40,11 @@ namespace SeniorCapstoneOfficial
 
         }
 
+        protected void ImageButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("LandingPage.aspx");
+        }
+
         protected void AdminPage_Click(object sender, EventArgs e)
         {
             Response.Redirect("AdminMenu.aspx");

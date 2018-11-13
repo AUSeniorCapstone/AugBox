@@ -246,7 +246,7 @@ AddUserBox:focus{
     <form id="form1" runat="server">
     <div>
          <div style="height:75px; background-color:#033459; position:relative;">         
-             <asp:Image ID="AUGLogoLittle" runat="server" ImageUrl="~/Images/AugustaLittle.png" CssClass="AUGLogo" />
+             <asp:ImageButton ID="AUGLogoLittle" OnClick="ImageButton_Click" runat="server" ImageUrl="~/Images/AugustaLittle.png" CssClass="AUGLogo" />
             <asp:Button ID="LogoutButton" runat="server" CssClass="tablink1" Text="Logout" OnClick="LogoutBtn_Click" />
             <asp:Button ID="AdminPageButton" runat="server" CssClass="tablink2" Text="Admin Page" OnClick="AdminPage_Click" />
             <asp:Button ID="StudentSearchButton" runat="server" CssClass="tablink3" Text="Student Search" OnClick="StudentSearchButton_Click"/>

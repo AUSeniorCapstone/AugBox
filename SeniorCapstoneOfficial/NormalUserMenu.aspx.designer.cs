@@ -28,7 +28,7 @@ namespace SeniorCapstoneOfficial {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image AUGLogoLittle;
+        protected global::System.Web.UI.WebControls.ImageButton AUGLogoLittle;
         
         /// <summary>
         /// LogoutButton control.

@@ -86,7 +86,12 @@ namespace SeniorCapstoneOfficial
                     Response.Redirect("NormalUserMenu.aspx");
             }
         }
-       
+
+        protected void ImageButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("LandingPage.aspx");
+        }
+
         protected void AddUserButton_Click(object sender, EventArgs e)
         {
             DBConnector db = new DBConnector();

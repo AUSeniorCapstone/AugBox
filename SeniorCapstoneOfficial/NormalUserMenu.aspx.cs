@@ -65,7 +65,10 @@ namespace SeniorCapstoneOfficial
             RegisterAsyncTask(new PageAsyncTask(ExportEverything));
 
         }
-
+        protected void ImageButton_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("LandingPage.aspx");
+        }
 
         public void WriteTsv<T>(IEnumerable<T> data, TextWriter output)
         {
@@ -1466,7 +1469,6 @@ namespace SeniorCapstoneOfficial
                 try
                 {
                     await box.CreateEmailAlias(foundUser.Id, email);
-                    // RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
                     TextBox1.Text = "";
                 }
                 catch
@@ -1479,8 +1481,7 @@ namespace SeniorCapstoneOfficial
                 Aliaseserror.Visible = true;
             }
                 
-               // RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));;
-            //Error
+            
 
         }
         private List<string> EventNameParser(List<string> listofevents)
