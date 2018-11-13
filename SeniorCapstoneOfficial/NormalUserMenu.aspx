@@ -235,7 +235,10 @@ AddUserBox:focus{
     margin-top: 10px;
   
 }
-
+.aliaseserror{
+    color: red;
+    font-size: 14px;
+}
 
 </style>
 </head>
@@ -287,8 +290,10 @@ AddUserBox:focus{
                 <br />
                 <br />
                 <asp:TextBox ID="TextBox1" runat="server" Height="20px" Visible="False" Width="160px" placeholder="Enter Email Alias" CssClass="AddUserBox"></asp:TextBox>
+                
                 &nbsp;&nbsp;&nbsp;
                 <asp:Button ID="Button7" runat="server" Visible="false" OnClick="AddButton_Click" CssClass="DeleteUserButton" Text="Add" />
+                <asp:Label ID="Aliaseserror" runat="server" CssClass= "aliaseserror" Text="Invalid Email" Visible="false"></asp:Label>
                 <br />
                 <br />
                 <asp:Panel ID="Panel1" runat="server" style="height:200px;width:400px;overflow:visible;border:1px; margin-left:30%;" Visible="False">

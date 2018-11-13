@@ -1446,7 +1446,7 @@ namespace SeniorCapstoneOfficial
             string emailAliasID = alia.Entries[labelIndex - 8].Id;
 
             await box.DeleteEmailAlias(foundUser.Id, emailAliasID);
-            RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
+           // RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
         }
 
         protected async void AddButton_Click(object sender, EventArgs e)
@@ -1466,8 +1466,8 @@ namespace SeniorCapstoneOfficial
                 try
                 {
                     await box.CreateEmailAlias(foundUser.Id, email);
-                    RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
-                    TextBox1.Text = "Enter Email Alias";
+                    // RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));
+                    TextBox1.Text = "";
                 }
                 catch
                 {
@@ -1475,7 +1475,11 @@ namespace SeniorCapstoneOfficial
                 }
             }
             else
-                RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));;
+            {
+                Aliaseserror.Visible = true;
+            }
+                
+               // RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));;
             //Error
 
         }
