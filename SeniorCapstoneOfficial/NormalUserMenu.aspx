@@ -9,6 +9,8 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
+    <link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.css" />
 
 
 
@@ -297,6 +299,17 @@ AddUserBox:focus{
             <br />
       <div id="pnl1" style="text-align:left; display:none;">
       <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
+          <div class="container" style="height:600px"></div>
+    <!-- Latest version of the picker js for your locale -->
+    <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script>
+    <script>
+      	var folderId = '0';
+      	var accessToken = 'pCHDu9hTeqnQN8eKggQQTgBmff2Cntor';
+      	var filePicker = new Box.ContentExplorer();
+      	filePicker.show(folderId, accessToken, {
+            container: '.container'
+        });
+    </script>
 </div>
                  </div>
              
