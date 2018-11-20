@@ -9,7 +9,17 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-      
+
+
+
+    <script type="text/javascript">
+     $(document).ready(function () {
+         $("#btnTop").click(function () {
+             $("#pnl1").slideToggle("slow");
+         });
+     });
+</script>
+
    <script>
   $( function() {
       var availableTags = testArray
@@ -281,11 +291,15 @@ AddUserBox:focus{
             </div>              
        
                 <div id="rightside"> 
+                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="true" OnClientClick="return false"/>
                 <asp:Label ID="Label7" runat="server" Visible="False"></asp:Label>
-                <br />
-                <br />             
-            <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
+                <br />          
+            <br />
+      <div id="pnl1" style="text-align:left; display:none;">
+      <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
+</div>
                  </div>
+             
               </div>
                 <br />
                 <br />

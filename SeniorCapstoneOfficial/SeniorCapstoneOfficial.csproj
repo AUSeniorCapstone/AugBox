@@ -136,6 +136,8 @@
     <Content Include="AdminMenu.aspx" />
     <Content Include="Images\Augusta.png" />
     <Content Include="Images\AugustaLittle.png" />
+    <Content Include="Images\minus.png" />
+    <Content Include="Images\plus.png" />
     <Content Include="Login.aspx" />
     <Content Include="NormalUserMenu.aspx" />
     <Content Include="packages.config">

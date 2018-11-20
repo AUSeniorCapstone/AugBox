@@ -70,49 +70,8 @@ namespace SeniorCapstoneOfficial
             Response.Redirect("LandingPage.aspx");
         }
 
-        public void WriteTsv<T>(IEnumerable<T> data, TextWriter output)
-        {
-            PropertyDescriptorCollection props = TypeDescriptor.GetProperties(typeof(T));
-            foreach (PropertyDescriptor prop in props)
-            {
-                output.Write(prop.DisplayName); // header
-                output.Write("\t");
-            }
-            output.WriteLine();
-            foreach (T item in data)
-            {
-                foreach (PropertyDescriptor prop in props)
-                {
-                    output.Write(prop.Converter.ConvertToString(
-                         prop.GetValue(item)));
-                    output.Write("\t");
-                }
-                output.WriteLine();
-            }
-        }
-
         private async Task ExportEverything()
         {
-
-            /*
-           Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            var excel = new Excel.Application();
-            var workBooks = excel.Workbooks;
-            var workBook = workBooks.Add();
-            
-            var workSheet = (Excel.Worksheet)excel.ActiveSheet;
-            MemoryStream st = new MemoryStream();
-            workSheet.Cells[1, "A"] = "Name";
-            workSheet.Cells[1, "B"] = "Email";
-            workSheet.Cells[1, "C"] = "SpaceUsed";
-            workSheet.Cells[1, "D"] = "Status";
-            workSheet.Cells[1, "E"] = "LastLogin";
-            workSheet.Columns.AutoFit();
-            workSheet.Rows.AutoFit();
-
-            */
-
-
 
             Response.Clear();
             Response.Charset = "";
@@ -1328,9 +1287,14 @@ namespace SeniorCapstoneOfficial
                     Exportbtn.Visible = true;
                     found = true;
 
+
                     FolderList = await box.GetFolder(foundUser.Id);
                     int foldercount = FolderList.Count;
 
+                    if(foldercount > 0)
+                    {
+                        btnTop.Visible = true;
+                    }
 
                     for (int i = 0; i < foldercount; i++)
                     {
@@ -1338,21 +1302,19 @@ namespace SeniorCapstoneOfficial
                         folder.ID = "folder" + i;
                         folder.Text = FolderList[i].Name;
 
-                        Button btn = new Button();
-                        btn.Text = "Open";
+                        ImageButton btn = new ImageButton();
                         btn.ID = i.ToString();
-                        btn.CssClass = "DeleteUserButton";
+                        btn.ImageUrl = "~/Images/plus.png";
                         btn.Visible = true;
                         btn.Attributes.CssStyle.Add("margin-left", "7px");
-                        btn.Attributes.CssStyle.Add("width", "60px");
-                        btn.Attributes.CssStyle.Add("font-size", "12px");
-
-                        FolderPH.Controls.Add(folder);
+                        //btn.Attributes.Add("", "");
 
                         if (comp == true || admin == true) //createfolderbuttons
                         {
                             FolderPH.Controls.Add(btn);
                         }
+
+                        FolderPH.Controls.Add(folder);
                       
                         FolderPH.Controls.Add(new LiteralControl("<br />"));
                         FolderPH.Controls.Add(new LiteralControl("<br />"));
