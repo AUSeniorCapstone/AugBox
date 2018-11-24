@@ -180,7 +180,18 @@ namespace SeniorCapstoneOfficial
 
         protected void SearchUserButton_Click(object sender, EventArgs e)
         {
-            Response.Redirect("AdminMenu.aspx?Parameter=" + SearchUserTextBox.Text);
+            bool isinjection = checkForSQLInjection(SearchUserTextBox.Text.Trim());
+                if (isinjection == true)
+                {
+                SearchUserFailed.Controls.Clear();
+                    Label failed = new Label();
+                    failed.Text = "Not a Valid User";
+                    failed.ForeColor = System.Drawing.Color.Red;
+                    SearchUserFailed.Controls.Add(failed);
+                }
+            
+                else
+                 Response.Redirect("AdminMenu.aspx?Parameter=" + SearchUserTextBox.Text);
         }
         protected void DeleteButton_Click(object sender, EventArgs e)
         {
@@ -206,6 +217,24 @@ namespace SeniorCapstoneOfficial
         protected void StudentSearchBtn_Click(object sender, EventArgs e)
         {
             Response.Redirect("NormalUserMenu.aspx");
+        }
+        public static bool checkForSQLInjection(string userInput)
+        {
+            bool isSQLInjection = false;
+            string[] sqlCheckList = { "--", ";--",";","/*", "*/", "@@", "@","char", "nchar", "varchar","nvarchar", "alter","begin", "cast", "create","cursor",
+                                        "declare", "delete", "drop",  "end", "exec", "execute","fetch", "insert","kill", "select","sys", "sysobjects", "syscolumns","table",
+                                        "update"};
+
+            string CheckString = userInput.Replace("'", "''");
+            for (int i = 0; i <= sqlCheckList.Length - 1; i++)
+            {
+                if ((CheckString.IndexOf(sqlCheckList[i], StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    isSQLInjection = true;
+                }
+            }
+
+            return isSQLInjection;
         }
     }
 }
