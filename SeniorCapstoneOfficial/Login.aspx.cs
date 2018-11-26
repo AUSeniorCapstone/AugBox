@@ -31,29 +31,40 @@ namespace SeniorCapstoneOfficial
         protected void Button1_Click(object sender, EventArgs e)
         {
             LoginControl lc = new LoginControl();
-
-            if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 1)
-            {
-
-                Session["UserName"] = txturname.Text.Trim();
-                Response.Redirect("LandingPage.aspx");
-
-            }
-            else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 2)
-            {
-                Session["UserName"] = txturname.Text.Trim();
-                Response.Redirect("LandingPage.aspx");
-            }
-            else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 4)
-            {
-                Session["UserName"] = txturname.Text.Trim();
-                Response.Redirect("LandingPage.aspx");
-            }
-            else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 3)
+            DBConnector db = new DBConnector();
+            bool isinjection = db.checkForSQLInjection(txtpassword.Text.Trim()) || db.checkForSQLInjection(txturname.Text.Trim());
+            if (isinjection == true)
             {
                 lblErrorMessage.Visible = true;
-                txtpassword.Text= "";
+                txtpassword.Text = "";
                 txturname.Text = "";
+            }
+            else
+            {
+
+                if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 1)
+                {
+
+                    Session["UserName"] = txturname.Text.Trim();
+                    Response.Redirect("LandingPage.aspx");
+
+                }
+                else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 2)
+                {
+                    Session["UserName"] = txturname.Text.Trim();
+                    Response.Redirect("LandingPage.aspx");
+                }
+                else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 4)
+                {
+                    Session["UserName"] = txturname.Text.Trim();
+                    Response.Redirect("LandingPage.aspx");
+                }
+                else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 3)
+                {
+                    lblErrorMessage.Visible = true;
+                    txtpassword.Text = "";
+                    txturname.Text = "";
+                }
             }
         }
     }

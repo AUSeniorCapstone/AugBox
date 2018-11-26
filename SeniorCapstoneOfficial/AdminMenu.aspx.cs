@@ -95,53 +95,65 @@ namespace SeniorCapstoneOfficial
         protected void AddUserButton_Click(object sender, EventArgs e)
         {
             DBConnector db = new DBConnector();
-            if (db.getUser(UserNameTextBox.Text).uname != null)
+            bool isinjection = db.checkForSQLInjection(UserNameTextBox.Text.Trim()) || db.checkForSQLInjection(PasswordTextBox.Text.Trim()) || db.checkForSQLInjection(FirstNameTextbox.Text.Trim()) || db.checkForSQLInjection(LastNameTextbox.Text.Trim());
+            if (isinjection == true)
             {
                 PH.Controls.Clear();
                 Label ErrorMessage = new Label();
-                ErrorMessage.Text = "Username Not Available";
+                ErrorMessage.Text = "One of the fields is not valid (SQL Protection).";
                 ErrorMessage.Attributes.Add("style", "color:Red;");
                 PH.Controls.Add(ErrorMessage);
-
             }
             else
             {
-                int role = 0;
-                if(AdminCheckbox.Checked)
-                {
-                    role = 1;
-                }
-                else if (ComplianceCheckbox.Checked)
-                {
-                    role = 4;
-                }
-                else if (NormaluserCheckbox.Checked)
-                {
-                    role = 0;
-                }
-
-                if (AdminCheckbox.Checked || ComplianceCheckbox.Checked || NormaluserCheckbox.Checked)
+                if (db.getUser(UserNameTextBox.Text).uname != null)
                 {
                     PH.Controls.Clear();
-                    db.createUsers(FirstNameTextbox.Text, LastNameTextbox.Text, UserNameTextBox.Text, PasswordTextBox.Text, role);
-                    Label Confirmation = new Label();
-                    Confirmation.Text = "User Successfully Added";
-                    Confirmation.Attributes.Add("style", "color:green;");
-                    PH.Controls.Add(Confirmation);
-                    FirstNameTextbox.Text = "";
-                    LastNameTextbox.Text = "";
-                    UserNameTextBox.Text = "";
-                    PasswordTextBox.Text = "";
-                    AdminCheckbox.Checked = false;
-                    ComplianceCheckbox.Checked = false;
-                    SearchUserFailed.Controls.Clear();
+                    Label ErrorMessage = new Label();
+                    ErrorMessage.Text = "Username Not Available";
+                    ErrorMessage.Attributes.Add("style", "color:Red;");
+                    PH.Controls.Add(ErrorMessage);
+
                 }
                 else
                 {
-                    PH.Controls.Clear();
-                    Label checkboxerror = new Label();
-                    checkboxerror.Text = "Select a User Type";
-                    PH.Controls.Add(checkboxerror);
+                    int role = 0;
+                    if (AdminCheckbox.Checked)
+                    {
+                        role = 1;
+                    }
+                    else if (ComplianceCheckbox.Checked)
+                    {
+                        role = 4;
+                    }
+                    else if (NormaluserCheckbox.Checked)
+                    {
+                        role = 0;
+                    }
+
+                    if (AdminCheckbox.Checked || ComplianceCheckbox.Checked || NormaluserCheckbox.Checked)
+                    {
+                        PH.Controls.Clear();
+                        db.createUsers(FirstNameTextbox.Text, LastNameTextbox.Text, UserNameTextBox.Text, PasswordTextBox.Text, role);
+                        Label Confirmation = new Label();
+                        Confirmation.Text = "User Successfully Added";
+                        Confirmation.Attributes.Add("style", "color:green;");
+                        PH.Controls.Add(Confirmation);
+                        FirstNameTextbox.Text = "";
+                        LastNameTextbox.Text = "";
+                        UserNameTextBox.Text = "";
+                        PasswordTextBox.Text = "";
+                        AdminCheckbox.Checked = false;
+                        ComplianceCheckbox.Checked = false;
+                        SearchUserFailed.Controls.Clear();
+                    }
+                    else
+                    {
+                        PH.Controls.Clear();
+                        Label checkboxerror = new Label();
+                        checkboxerror.Text = "Select a User Type";
+                        PH.Controls.Add(checkboxerror);
+                    }
                 }
             }
         }
@@ -180,7 +192,8 @@ namespace SeniorCapstoneOfficial
 
         protected void SearchUserButton_Click(object sender, EventArgs e)
         {
-            bool isinjection = checkForSQLInjection(SearchUserTextBox.Text.Trim());
+            DBConnector db = new DBConnector();
+            bool isinjection = db.checkForSQLInjection(SearchUserTextBox.Text.Trim());
                 if (isinjection == true)
                 {
                 SearchUserFailed.Controls.Clear();
@@ -218,23 +231,6 @@ namespace SeniorCapstoneOfficial
         {
             Response.Redirect("NormalUserMenu.aspx");
         }
-        public static bool checkForSQLInjection(string userInput)
-        {
-            bool isSQLInjection = false;
-            string[] sqlCheckList = { "--", ";--",";","/*", "*/", "@@", "@","char", "nchar", "varchar","nvarchar", "alter","begin", "cast", "create","cursor",
-                                        "declare", "delete", "drop",  "end", "exec", "execute","fetch", "insert","kill", "select","sys", "sysobjects", "syscolumns","table",
-                                        "update"};
-
-            string CheckString = userInput.Replace("'", "''");
-            for (int i = 0; i <= sqlCheckList.Length - 1; i++)
-            {
-                if ((CheckString.IndexOf(sqlCheckList[i], StringComparison.OrdinalIgnoreCase) >= 0))
-                {
-                    isSQLInjection = true;
-                }
-            }
-
-            return isSQLInjection;
-        }
+       
     }
 }
