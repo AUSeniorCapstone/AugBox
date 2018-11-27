@@ -184,6 +184,20 @@ namespace SeniorCapstoneOfficial
             Response.End();
 
         }
+
+        protected string getToken(string id)
+        {
+            string startupPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(startupPath + @"..\pkey.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
+
+            var boxJWT = new BoxJWTAuth(config);
+            var userToken = boxJWT.UserToken(foundUser.Id);
+            return userToken;
+        }
     
         private async Task GetUsersbyEmail()
         {
@@ -199,6 +213,7 @@ namespace SeniorCapstoneOfficial
             {
                 foundUser = users.Find(u => u.Login.Equals(Request.QueryString["Parameter"].ToString()));
                 EmailAddress.Text = Request.QueryString["Parameter"].ToString();
+                btnTop.Visible = true;
             }
             
             Label8.Visible = false;
@@ -244,1098 +259,1136 @@ namespace SeniorCapstoneOfficial
             Label28.Visible = false;
             Button28.Visible = false;
 
-            if (Request.QueryString["Parameter"] != null)
+            try
             {
-                foundUser = users.Find(u => u.Login.Equals(Request.QueryString["Parameter"].ToString()));
-                EmailAddress.Text = Request.QueryString["Parameter"].ToString();
-                if (foundUser != null)
+                if (Request.QueryString["Parameter"] != null)
                 {
-                  
-
-                    rightdiv.Style.Add("border-left", "dashed 1pt");
-                    rightdiv.Style.Add("border-left-color", "#033459");
-                    //string[] recent = await box.GetRecentEvents(foundUser.Id);
-                    RecentEventsButton.Visible = true;
-
-                    List<string> recent = box.GetRecentEvents(foundUser.Id);
-                    List<string> logins = EventNameParser(recent);
-                    List<string> types = EventTypeParser(recent);
-                    List<string> create = EventCreationParser(recent);
-                    List<string> sourcetype = EventSourceTypeParser(recent);
-                    List<string> sourceid = EventSourceIdParser(recent);
-                    List<string> sourcenames = EventSourceNameParser(recent);
-                    if (logins[0] == "" || types[0] == "" || create[0] == "")
-                    {
-                        Label Error = new Label();
-                        Error.Text = "No recent events from this user";
-                        EventHolder.Controls.Add(Error);
-                    }
-                    else
+                    foundUser = users.Find(u => u.Login.Equals(Request.QueryString["Parameter"].ToString()));
+                    EmailAddress.Text = Request.QueryString["Parameter"].ToString();
+                    if (foundUser != null)
                     {
 
-                        for (int i = 0; i < recent.Count; i++)
+
+                        rightdiv.Style.Add("border-left", "dashed 1pt");
+                        rightdiv.Style.Add("border-left-color", "#033459");
+                        //string[] recent = await box.GetRecentEvents(foundUser.Id);
+                        RecentEventsButton.Visible = true;
+
+                        List<string> recent = box.GetRecentEvents(foundUser.Id);
+                        List<string> logins = EventNameParser(recent);
+                        List<string> types = EventTypeParser(recent);
+                        List<string> create = EventCreationParser(recent);
+                        List<string> sourcetype = EventSourceTypeParser(recent);
+                        List<string> sourceid = EventSourceIdParser(recent);
+                        List<string> sourcenames = EventSourceNameParser(recent);
+                        if (logins[0] == "" || types[0] == "" || create[0] == "")
                         {
-                            eventnumber = eventnumber + 1;
-                            Label temp = new Label();
-                            Label temp1 = new Label();
-                            Label temp3 = new Label();
-                            Label temp2 = new Label();
-                            temp.Text = "<b>" + eventnumber.ToString() + "</b>" + "." + " <b>Login:</b> " + logins[i];
-                            temp1.Text = " <b>Type:</b> " + types[i];
-                            temp3.Text = " <b>Created at:</b> " + create[i];
-                            if (sourcenames[i] == "" || sourcetype[i] == "" || sourceid[i] == "")
-                            {
-                                temp2.Text = " <b>Source:</b> " + "Not Found";
-                            }
-                            else
-                                temp2.Text = " <b>Source:</b> " + "(Type: " + sourcetype[i] + ", Id: " + sourceid[i] + ", Name: " + sourcenames[i] + ")";
-                            temp1.Attributes.CssStyle.Add("display", "block");
-                            temp1.Attributes.CssStyle.Add("clear", "right");
-                            temp2.Attributes.CssStyle.Add("display", "block");
-                            temp2.Attributes.CssStyle.Add("clear", "right");
-                            temp3.Attributes.CssStyle.Add("display", "block");
-                            temp3.Attributes.CssStyle.Add("clear", "right");
-                            temp.Attributes.CssStyle.Add("display", "block");
-                            temp.Attributes.CssStyle.Add("clear", "right");
-                            temp.Attributes.CssStyle.Add("margin-top", "25px");
-                            temp.Attributes.CssStyle.Add("text-align", "left");
-                            temp1.Attributes.CssStyle.Add("text-align", "left");
-                            temp2.Attributes.CssStyle.Add("text-align", "left");
-                            temp3.Attributes.CssStyle.Add("text-align", "left");
-                            temp.Attributes.CssStyle.Add("margin-left", "240px");
-                            temp2.Attributes.CssStyle.Add("margin-left", "257px");
-                            temp1.Attributes.CssStyle.Add("margin-left", "257px");
-                            temp3.Attributes.CssStyle.Add("margin-left", "257px");
-                            EventHolder.Controls.Add(temp);
-                            EventHolder.Controls.Add(temp1);
-                            EventHolder.Controls.Add(temp3);
-                            EventHolder.Controls.Add(temp2);
+                            Label Error = new Label();
+                            Error.Text = "No recent events from this user";
+                            EventHolder.Controls.Add(Error);
                         }
-                    }
-
-                    /* display all the events in a raw format
-                  foreach(string a in recent)
-                  {
-                      Label aaa = new Label();
-                      aaa.Text = a;
-                      EventHolder.Controls.Add(aaa);
-
-                  }*/
-
-                    var emailAliases = await box.GetEmailAlias(foundUser.Id);
-                    //var teste = box.GetRecentEvents(foundUser.Id);                
-
-                    TextBox1.Visible = true;
-                    Button7.Visible = true;
-
-
-                    Label1.Text = "<b>" + "Name: " + "</b>" + foundUser.Name;
-                    Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
-                    Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
-                    Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
-                    Panel1.Visible = true;
-
-                    for (int i = 0; i < emailAliases.TotalCount; i++)
-                    {
-                        /*Label label = new Label();
-                        label.Text = emailAliases.Entries[i].Email + " ";
-                        label.ID = "label" + (8 + i);
-                        Button button = new Button();
-                        button.ID = "button" + (8 + i);
-                        button.Text = "Delete";
-                        button.CausesValidation = true;
-
-                        button.Enabled = true;
-                        button.UseSubmitBehavior = true;
-                        button.CssClass += "DeleteUserButton";
-                        Panel1.Controls.Add(label);
-                        Panel1.Controls.Add(button);
-                        button.OnClientClick = "return Validate();";
-                        button.Click += new EventHandler(DeleteButton_Click);
-                        Panel1.Controls.Add(new LiteralControl("<br />"));
-                        */
-
-                    }
-
-                    switch (emailAliases.TotalCount)
-                    {
-                        case 1:
-                            {
-                                Label8.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: " + "</b>" + emailAliases.Entries[0].Email;
-                                Button8.Visible = true;
-                                lbl.Add(Label8);
-                                break;
-                            }
-                        case 2:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                break;
-                            }
-                        case 3:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                break;
-                            }
-                        case 4:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3 </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                break;
-                            }
-                        case 5:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                break;
-                            }
-                        case 6:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                break;
-                            }
-                        case 7:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                break;
-                            }
-                        case 8:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                break;
-                            }
-                        case 9:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                break;
-                            }
-                        case 10:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                break;
-                            }
-                        case 11:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label16.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label17.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label18.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                break;
-                            }
-                        case 12:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                break;
-                            }
-                        case 13:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                break;
-                            }
-                        case 14:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                break;
-                            }
-                        case 15:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label22.Visible = true;
-                                Button22.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                lbl.Add(Label22);
-                                break;
-                            }
-                        case 16:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label22.Visible = true;
-                                Button22.Visible = true;
-                                Label23.Visible = true;
-                                Button23.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
-                                Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                lbl.Add(Label22);
-                                lbl.Add(Label23);
-                                break;
-                            }
-                        case 17:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label22.Visible = true;
-                                Button22.Visible = true;
-                                Label23.Visible = true;
-                                Button23.Visible = true;
-                                Label24.Visible = true;
-                                Button24.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
-                                Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
-                                Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                lbl.Add(Label22);
-                                lbl.Add(Label23);
-                                lbl.Add(Label24);
-                                break;
-                            }
-                        case 18:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label22.Visible = true;
-                                Button22.Visible = true;
-                                Label23.Visible = true;
-                                Button23.Visible = true;
-                                Label24.Visible = true;
-                                Button24.Visible = true;
-                                Label25.Visible = true;
-                                Button25.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
-                                Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
-                                Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
-                                Label25.Text = "<b>" + "Email Alias #18: </b>" + emailAliases.Entries[17].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                lbl.Add(Label22);
-                                lbl.Add(Label23);
-                                lbl.Add(Label24);
-                                lbl.Add(Label25);
-                                break;
-                            }
-                        case 19:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label22.Visible = true;
-                                Button22.Visible = true;
-                                Label23.Visible = true;
-                                Button23.Visible = true;
-                                Label24.Visible = true;
-                                Button24.Visible = true;
-                                Label25.Visible = true;
-                                Button25.Visible = true;
-                                Label26.Visible = true;
-                                Button26.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
-                                Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
-                                Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
-                                Label25.Text = "<b>" + "Email Alias #18: </b>" + emailAliases.Entries[17].Email;
-                                Label26.Text = "<b>" + "Email Alias #19: </b>" + emailAliases.Entries[18].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                lbl.Add(Label22);
-                                lbl.Add(Label23);
-                                lbl.Add(Label24);
-                                lbl.Add(Label25);
-                                lbl.Add(Label26);
-                                break;
-                            }
-                        case 20:
-                            {
-                                Label8.Visible = true;
-                                Button8.Visible = true;
-                                Label9.Visible = true;
-                                Button9.Visible = true;
-                                Label10.Visible = true;
-                                Button10.Visible = true;
-                                Label11.Visible = true;
-                                Button11.Visible = true;
-                                Label12.Visible = true;
-                                Button12.Visible = true;
-                                Label13.Visible = true;
-                                Button13.Visible = true;
-                                Label14.Visible = true;
-                                Button14.Visible = true;
-                                Label15.Visible = true;
-                                Button15.Visible = true;
-                                Label16.Visible = true;
-                                Button16.Visible = true;
-                                Label17.Visible = true;
-                                Button17.Visible = true;
-                                Label18.Visible = true;
-                                Button18.Visible = true;
-                                Label19.Visible = true;
-                                Button19.Visible = true;
-                                Label20.Visible = true;
-                                Button20.Visible = true;
-                                Label21.Visible = true;
-                                Button21.Visible = true;
-                                Label22.Visible = true;
-                                Button22.Visible = true;
-                                Label23.Visible = true;
-                                Button23.Visible = true;
-                                Label24.Visible = true;
-                                Button24.Visible = true;
-                                Label25.Visible = true;
-                                Button25.Visible = true;
-                                Label26.Visible = true;
-                                Button26.Visible = true;
-                                Label27.Visible = true;
-                                Button27.Visible = true;
-                                Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
-                                Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
-                                Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
-                                Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
-                                Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
-                                Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
-                                Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
-                                Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
-                                Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
-                                Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
-                                Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
-                                Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
-                                Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
-                                Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
-                                Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
-                                Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
-                                Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
-                                Label25.Text = "<b>" + "Email Alias #18: </b>" + emailAliases.Entries[17].Email;
-                                Label26.Text = "<b>" + "Email Alias #19: </b>" + emailAliases.Entries[18].Email;
-                                Label27.Text = "<b>" + "Email Alias #20: </b>" + emailAliases.Entries[19].Email;
-                                lbl.Add(Label8);
-                                lbl.Add(Label9);
-                                lbl.Add(Label10);
-                                lbl.Add(Label11);
-                                lbl.Add(Label12);
-                                lbl.Add(Label13);
-                                lbl.Add(Label14);
-                                lbl.Add(Label15);
-                                lbl.Add(Label16);
-                                lbl.Add(Label17);
-                                lbl.Add(Label18);
-                                lbl.Add(Label19);
-                                lbl.Add(Label20);
-                                lbl.Add(Label21);
-                                lbl.Add(Label22);
-                                lbl.Add(Label23);
-                                lbl.Add(Label24);
-                                lbl.Add(Label25);
-                                lbl.Add(Label26);
-                                lbl.Add(Label27);
-                                break;
-                            }
-                        default:
-                            break;
-                    }
-                    Label7.Text = "<b>" + "Top Folders" + "</b>";
-                    Label7.Visible = true;
-                    Exportbtn.Visible = true;
-                    found = true;
-
-
-                    FolderList = await box.GetFolder(foundUser.Id);
-                    int foldercount = FolderList.Count;
-
-                    if(foldercount > 0)
-                    {
-                        btnTop.Visible = true;
-                    }
-
-                    for (int i = 0; i < foldercount; i++)
-                    {
-                        Label folder = new Label();
-                        folder.ID = "folder" + i;
-                        folder.Text = FolderList[i].Name;
-
-                        ImageButton btn = new ImageButton();
-                        btn.ID = i.ToString();
-                        btn.ImageUrl = "~/Images/plus.png";
-                        btn.Visible = true;
-                        btn.Attributes.CssStyle.Add("margin-left", "7px");
-                        //btn.Attributes.Add("", "");
-
-                        if (comp == true || admin == true) //createfolderbuttons
+                        else
                         {
-                            FolderPH.Controls.Add(btn);
+
+                            for (int i = 0; i < recent.Count; i++)
+                            {
+                                eventnumber = eventnumber + 1;
+                                Label temp = new Label();
+                                Label temp1 = new Label();
+                                Label temp3 = new Label();
+                                Label temp2 = new Label();
+                                temp.Text = "<b>" + eventnumber.ToString() + "</b>" + "." + " <b>Login:</b> " + logins[i];
+                                temp1.Text = " <b>Type:</b> " + types[i];
+                                temp3.Text = " <b>Created at:</b> " + create[i];
+                                if (sourcenames[i] == "" || sourcetype[i] == "" || sourceid[i] == "")
+                                {
+                                    temp2.Text = " <b>Source:</b> " + "Not Found";
+                                }
+                                else
+                                    temp2.Text = " <b>Source:</b> " + "(Type: " + sourcetype[i] + ", Id: " + sourceid[i] + ", Name: " + sourcenames[i] + ")";
+                                temp1.Attributes.CssStyle.Add("display", "block");
+                                temp1.Attributes.CssStyle.Add("clear", "right");
+                                temp2.Attributes.CssStyle.Add("display", "block");
+                                temp2.Attributes.CssStyle.Add("clear", "right");
+                                temp3.Attributes.CssStyle.Add("display", "block");
+                                temp3.Attributes.CssStyle.Add("clear", "right");
+                                temp.Attributes.CssStyle.Add("display", "block");
+                                temp.Attributes.CssStyle.Add("clear", "right");
+                                temp.Attributes.CssStyle.Add("margin-top", "25px");
+                                temp.Attributes.CssStyle.Add("text-align", "left");
+                                temp1.Attributes.CssStyle.Add("text-align", "left");
+                                temp2.Attributes.CssStyle.Add("text-align", "left");
+                                temp3.Attributes.CssStyle.Add("text-align", "left");
+                                temp.Attributes.CssStyle.Add("margin-left", "240px");
+                                temp2.Attributes.CssStyle.Add("margin-left", "257px");
+                                temp1.Attributes.CssStyle.Add("margin-left", "257px");
+                                temp3.Attributes.CssStyle.Add("margin-left", "257px");
+                                EventHolder.Controls.Add(temp);
+                                EventHolder.Controls.Add(temp1);
+                                EventHolder.Controls.Add(temp3);
+                                EventHolder.Controls.Add(temp2);
+                            }
                         }
 
-                        FolderPH.Controls.Add(folder);
-                      
-                        FolderPH.Controls.Add(new LiteralControl("<br />"));
-                        FolderPH.Controls.Add(new LiteralControl("<br />"));
+                        /* display all the events in a raw format
+                      foreach(string a in recent)
+                      {
+                          Label aaa = new Label();
+                          aaa.Text = a;
+                          EventHolder.Controls.Add(aaa);
+
+                      }*/
+
+                        var emailAliases = await box.GetEmailAlias(foundUser.Id);
+                        //var teste = box.GetRecentEvents(foundUser.Id);                
+
+                        TextBox1.Visible = true;
+                        Button7.Visible = true;
+
+
+                        Label1.Text = "<b>" + "Name: " + "</b>" + foundUser.Name;
+                        Label1.Visible = true;
+                        Label2.Text = "<b>" + "Space Used: " + "</b>" + foundUser.SpaceUsed.ToString() + " bytes";
+                        Label2.Visible = true;
+                        Label3.Text = "<b>" + "Status: " + "</b>" + foundUser.Status.ToUpper();
+                        Label3.Visible = true;
+                        Label4.Text = "<b>" + "Last Login: " + "</b>" + foundUser.ModifiedAt.ToString();
+                        Label4.Visible = true;
+                        Panel1.Visible = true;
+
+                        try
+                        {
+                            
+
+                            for (int i = 0; i < emailAliases.TotalCount; i++)
+                            {
+                                /*Label label = new Label();
+                                label.Text = emailAliases.Entries[i].Email + " ";
+                                label.ID = "label" + (8 + i);
+                                Button button = new Button();
+                                button.ID = "button" + (8 + i);
+                                button.Text = "Delete";
+                                button.CausesValidation = true;
+
+                                button.Enabled = true;
+                                button.UseSubmitBehavior = true;
+                                button.CssClass += "DeleteUserButton";
+                                Panel1.Controls.Add(label);
+                                Panel1.Controls.Add(button);
+                                button.OnClientClick = "return Validate();";
+                                button.Click += new EventHandler(DeleteButton_Click);
+                                Panel1.Controls.Add(new LiteralControl("<br />"));
+                                */
+
+                            }
+
+                            switch (emailAliases.TotalCount)
+                            {
+                                case 1:
+                                    {
+                                        Label8.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: " + "</b>" + emailAliases.Entries[0].Email;
+                                        Button8.Visible = true;
+                                        lbl.Add(Label8);
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3 </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        break;
+                                    }
+                                case 6:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        break;
+                                    }
+                                case 7:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        break;
+                                    }
+                                case 8:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        break;
+                                    }
+                                case 9:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        break;
+                                    }
+                                case 10:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        break;
+                                    }
+                                case 11:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label16.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label17.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label18.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        break;
+                                    }
+                                case 12:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        break;
+                                    }
+                                case 13:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        break;
+                                    }
+                                case 14:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        break;
+                                    }
+                                case 15:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label22.Visible = true;
+                                        Button22.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        lbl.Add(Label22);
+                                        break;
+                                    }
+                                case 16:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label22.Visible = true;
+                                        Button22.Visible = true;
+                                        Label23.Visible = true;
+                                        Button23.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
+                                        Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        lbl.Add(Label22);
+                                        lbl.Add(Label23);
+                                        break;
+                                    }
+                                case 17:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label22.Visible = true;
+                                        Button22.Visible = true;
+                                        Label23.Visible = true;
+                                        Button23.Visible = true;
+                                        Label24.Visible = true;
+                                        Button24.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
+                                        Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
+                                        Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        lbl.Add(Label22);
+                                        lbl.Add(Label23);
+                                        lbl.Add(Label24);
+                                        break;
+                                    }
+                                case 18:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label22.Visible = true;
+                                        Button22.Visible = true;
+                                        Label23.Visible = true;
+                                        Button23.Visible = true;
+                                        Label24.Visible = true;
+                                        Button24.Visible = true;
+                                        Label25.Visible = true;
+                                        Button25.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
+                                        Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
+                                        Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
+                                        Label25.Text = "<b>" + "Email Alias #18: </b>" + emailAliases.Entries[17].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        lbl.Add(Label22);
+                                        lbl.Add(Label23);
+                                        lbl.Add(Label24);
+                                        lbl.Add(Label25);
+                                        break;
+                                    }
+                                case 19:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label22.Visible = true;
+                                        Button22.Visible = true;
+                                        Label23.Visible = true;
+                                        Button23.Visible = true;
+                                        Label24.Visible = true;
+                                        Button24.Visible = true;
+                                        Label25.Visible = true;
+                                        Button25.Visible = true;
+                                        Label26.Visible = true;
+                                        Button26.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
+                                        Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
+                                        Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
+                                        Label25.Text = "<b>" + "Email Alias #18: </b>" + emailAliases.Entries[17].Email;
+                                        Label26.Text = "<b>" + "Email Alias #19: </b>" + emailAliases.Entries[18].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        lbl.Add(Label22);
+                                        lbl.Add(Label23);
+                                        lbl.Add(Label24);
+                                        lbl.Add(Label25);
+                                        lbl.Add(Label26);
+                                        break;
+                                    }
+                                case 20:
+                                    {
+                                        Label8.Visible = true;
+                                        Button8.Visible = true;
+                                        Label9.Visible = true;
+                                        Button9.Visible = true;
+                                        Label10.Visible = true;
+                                        Button10.Visible = true;
+                                        Label11.Visible = true;
+                                        Button11.Visible = true;
+                                        Label12.Visible = true;
+                                        Button12.Visible = true;
+                                        Label13.Visible = true;
+                                        Button13.Visible = true;
+                                        Label14.Visible = true;
+                                        Button14.Visible = true;
+                                        Label15.Visible = true;
+                                        Button15.Visible = true;
+                                        Label16.Visible = true;
+                                        Button16.Visible = true;
+                                        Label17.Visible = true;
+                                        Button17.Visible = true;
+                                        Label18.Visible = true;
+                                        Button18.Visible = true;
+                                        Label19.Visible = true;
+                                        Button19.Visible = true;
+                                        Label20.Visible = true;
+                                        Button20.Visible = true;
+                                        Label21.Visible = true;
+                                        Button21.Visible = true;
+                                        Label22.Visible = true;
+                                        Button22.Visible = true;
+                                        Label23.Visible = true;
+                                        Button23.Visible = true;
+                                        Label24.Visible = true;
+                                        Button24.Visible = true;
+                                        Label25.Visible = true;
+                                        Button25.Visible = true;
+                                        Label26.Visible = true;
+                                        Button26.Visible = true;
+                                        Label27.Visible = true;
+                                        Button27.Visible = true;
+                                        Label8.Text = "<b>" + "Email Alias #1: </b>" + emailAliases.Entries[0].Email;
+                                        Label9.Text = "<b>" + "Email Alias #2: </b>" + emailAliases.Entries[1].Email;
+                                        Label10.Text = "<b>" + "Email Alias #3: </b>" + emailAliases.Entries[2].Email;
+                                        Label11.Text = "<b>" + "Email Alias #4: </b>" + emailAliases.Entries[3].Email;
+                                        Label12.Text = "<b>" + "Email Alias #5: </b>" + emailAliases.Entries[4].Email;
+                                        Label13.Text = "<b>" + "Email Alias #6: </b>" + emailAliases.Entries[5].Email;
+                                        Label14.Text = "<b>" + "Email Alias #7: </b>" + emailAliases.Entries[6].Email;
+                                        Label15.Text = "<b>" + "Email Alias #8: </b>" + emailAliases.Entries[7].Email;
+                                        Label16.Text = "<b>" + "Email Alias #9: </b>" + emailAliases.Entries[8].Email;
+                                        Label17.Text = "<b>" + "Email Alias #10: </b>" + emailAliases.Entries[9].Email;
+                                        Label18.Text = "<b>" + "Email Alias #11: </b>" + emailAliases.Entries[10].Email;
+                                        Label19.Text = "<b>" + "Email Alias #12: </b>" + emailAliases.Entries[11].Email;
+                                        Label20.Text = "<b>" + "Email Alias #13: </b>" + emailAliases.Entries[12].Email;
+                                        Label21.Text = "<b>" + "Email Alias #14: </b>" + emailAliases.Entries[13].Email;
+                                        Label22.Text = "<b>" + "Email Alias #15: </b>" + emailAliases.Entries[14].Email;
+                                        Label23.Text = "<b>" + "Email Alias #16: </b>" + emailAliases.Entries[15].Email;
+                                        Label24.Text = "<b>" + "Email Alias #17: </b>" + emailAliases.Entries[16].Email;
+                                        Label25.Text = "<b>" + "Email Alias #18: </b>" + emailAliases.Entries[17].Email;
+                                        Label26.Text = "<b>" + "Email Alias #19: </b>" + emailAliases.Entries[18].Email;
+                                        Label27.Text = "<b>" + "Email Alias #20: </b>" + emailAliases.Entries[19].Email;
+                                        lbl.Add(Label8);
+                                        lbl.Add(Label9);
+                                        lbl.Add(Label10);
+                                        lbl.Add(Label11);
+                                        lbl.Add(Label12);
+                                        lbl.Add(Label13);
+                                        lbl.Add(Label14);
+                                        lbl.Add(Label15);
+                                        lbl.Add(Label16);
+                                        lbl.Add(Label17);
+                                        lbl.Add(Label18);
+                                        lbl.Add(Label19);
+                                        lbl.Add(Label20);
+                                        lbl.Add(Label21);
+                                        lbl.Add(Label22);
+                                        lbl.Add(Label23);
+                                        lbl.Add(Label24);
+                                        lbl.Add(Label25);
+                                        lbl.Add(Label26);
+                                        lbl.Add(Label27);
+                                        break;
+                                    }
+                                default:
+                                    break;
+                            }
+                            Label7.Text = "<b>" + "Top Folders" + "</b>";
+                            Label7.Visible = true;
+                            Exportbtn.Visible = true;
+                            found = true;
+
+
+                            FolderList = await box.GetFolder(foundUser.Id);
+                            int foldercount = FolderList.Count;
+
+                            if (foldercount > 0)
+                            {
+                                btnTop.Visible = true;
+                            }
+
+                            for (int i = 0; i < foldercount; i++)
+                            {
+                                Label folder = new Label();
+                                folder.ID = "folder" + i;
+                                folder.Text = FolderList[i].Name;
+
+                                ImageButton btn = new ImageButton();
+                                btn.ID = i.ToString();
+                                btn.ImageUrl = "~/Images/plus.png";
+                                btn.Visible = true;
+                                btn.Attributes.CssStyle.Add("margin-left", "7px");
+                                //btn.Attributes.Add("", "");
+
+                                if (comp == true || admin == true) //createfolderbuttons
+                                {
+                                    FolderPH.Controls.Add(btn);
+                                }
+
+                                FolderPH.Controls.Add(folder);
+
+                                FolderPH.Controls.Add(new LiteralControl("<br />"));
+                                FolderPH.Controls.Add(new LiteralControl("<br />"));
+                            }
+                        }
+                        catch
+                        {
+                            InvalidEmailLabel.Text = "Email not confirmed";
+                            InvalidEmailLabel.Visible = true;
+                            rightdiv.Style.Remove("border-left");
+                            rightdiv.Style.Remove("border-left-color");
+                            RecentEventsButton.Visible = false;
+                            btnTop.Visible = false;
+                        }
+
+
+
+
+
                     }
 
-             
-                    
+
+
+
+
+                    else if (found == false)
+                    {
+
+                        rightdiv.Style.Remove("border-left");
+                        rightdiv.Style.Remove("border-left-color");
+                        RecentEventsButton.Visible = false;
+                        Exportbtn.Visible = true;
+                        InvalidEmailLabel.Visible = true;
+                        Label1.Text = "";
+                        Label2.Text = "";
+                        Label3.Text = "";
+                        Label4.Text = "";
+                        Label7.Text = "";
+                        Button7.Visible = false;
+                        TextBox1.Visible = false;
+
+                    }
                 }
-
-
-
-
-
-                else if (found == false)
+                else if (Request.QueryString["Parameter"] == "" || Request.QueryString["Parameter"] == null)
                 {
-
+                    InvalidEmailLabel.Visible = false;
                     rightdiv.Style.Remove("border-left");
                     rightdiv.Style.Remove("border-left-color");
                     RecentEventsButton.Visible = false;
-                    Exportbtn.Visible = true;
-                    InvalidEmailLabel.Visible = true;
                     Label1.Text = "";
                     Label2.Text = "";
                     Label3.Text = "";
@@ -1343,23 +1396,19 @@ namespace SeniorCapstoneOfficial
                     Label7.Text = "";
                     Button7.Visible = false;
                     TextBox1.Visible = false;
-
+                    btnTop.Visible = false;
                 }
             }
-            else if (Request.QueryString["Parameter"] == "" || Request.QueryString["Parameter"] == null)
+            catch
             {
-                InvalidEmailLabel.Visible = false;
+                InvalidEmailLabel.Text = "Email not confirmed";
+                InvalidEmailLabel.Visible = true;
                 rightdiv.Style.Remove("border-left");
                 rightdiv.Style.Remove("border-left-color");
                 RecentEventsButton.Visible = false;
-                Label1.Text = "";
-                Label2.Text = "";
-                Label3.Text = "";
-                Label4.Text = "";
-                Label7.Text = "";
-                Button7.Visible = false;
-                TextBox1.Visible = false;
+                btnTop.Visible = false;
             }
+            
            
         }
 
@@ -1436,6 +1485,7 @@ namespace SeniorCapstoneOfficial
                 catch
                 {
                     TextBox1.Text = "Invalid email";
+                    btnTop.Visible = false;
                 }
             }
             else

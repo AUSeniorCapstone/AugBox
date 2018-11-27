@@ -293,7 +293,7 @@ AddUserBox:focus{
             </div>              
        
                 <div id="rightside"> 
-                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="true" OnClientClick="return false"/>
+                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="False" OnClientClick="return false"/>
                 <asp:Label ID="Label7" runat="server" Visible="False"></asp:Label>
                 <br />          
             <br />
@@ -304,7 +304,7 @@ AddUserBox:focus{
     <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script>
     <script>
       	var folderId = '0';
-      	var accessToken = 'pCHDu9hTeqnQN8eKggQQTgBmff2Cntor';
+      	var accessToken = 'aQl0dTWMESCjUyiEsPeW4xCncMbauwdC';
       	var filePicker = new Box.ContentExplorer();
       	filePicker.show(folderId, accessToken, {
             container: '.container'
