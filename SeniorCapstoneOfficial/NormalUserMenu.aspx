@@ -20,6 +20,18 @@
              $("#pnl1").slideToggle("slow");
          });
      });
+     
+
+   /*  $(document).ready(function () {
+         var panels = document.getElementsByClassName('panel')
+         var btntops = document.getElementsByClassName('btnTop')
+         for (var i = 0; i < btntops.Length; i++) {
+             btntops[i].click(function () {
+                 panel[i].style.visibility = 'visible';
+             });
+         }
+         });
+    */
 </script>
 
    <script>
@@ -58,7 +70,9 @@
              $("#inrightdiv").slideToggle(500);
              return false;
          });
-     });
+        });
+
+    
  
   </script>
     <style>
@@ -293,18 +307,19 @@ AddUserBox:focus{
             </div>              
        
                 <div id="rightside"> 
-                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="False" OnClientClick="return false"/>
+                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="false" OnClientClick="return false"/>
                 <asp:Label ID="Label7" runat="server" Visible="False"></asp:Label>
                 <br />          
             <br />
       <div id="pnl1" style="text-align:left; display:none;">
-      <asp:PlaceHolder ID="FolderPH" runat="server"></asp:PlaceHolder>
+      <asp:PlaceHolder ID="FolderPH" runat="server">               
+      </asp:PlaceHolder>
           <div class="container" style="height:600px"></div>
     <!-- Latest version of the picker js for your locale -->
     <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script>
     <script>
       	var folderId = '0';
-      	var accessToken = 'aQl0dTWMESCjUyiEsPeW4xCncMbauwdC';
+      	var accessToken = 'KolwTkiKNKBO1yjP9jNzIO4Tozb27a4L';
       	var filePicker = new Box.ContentExplorer();
       	filePicker.show(folderId, accessToken, {
             container: '.container'
@@ -423,6 +438,40 @@ AddUserBox:focus{
         </div>
 
         </div>
+        <asp:Panel ID="Panel2" runat="server">
+         <asp:Button ID="Downloadbtn0" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />      
+          <asp:Button ID="Downloadbtn1" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />               
+          <asp:Button ID="Downloadbtn2" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />               
+          <asp:Button ID="Downloadbtn3" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />          
+          <asp:Button ID="Downloadbtn4" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />     
+          <asp:Button ID="Downloadbtn5" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />       
+          <asp:Button ID="Downloadbtn6" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />       
+          <asp:Button ID="Downloadbtn7" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+          <asp:Button ID="Downloadbtn8" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />         
+          <asp:Button ID="Downloadbtn9" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />      
+          <asp:Button ID="Downloadbtn10" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn11" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn12" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn13" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn14" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn15" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn16" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn17" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn18" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn19" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn20" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn21" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn22" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn23" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn24" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn25" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn26" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn27" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn28" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn29" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            <asp:Button ID="Downloadbtn30" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
+            </asp:Panel>
     </form>
+   
 </body>
 </html>

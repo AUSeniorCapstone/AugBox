@@ -93,7 +93,63 @@ namespace SeniorCapstoneOfficial
             return boxFolderItemsList;
 
         }
+        public async Task<List<BoxItem>> GetFolderItems(string folderid, string userid)
+        {
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(startupPath + @"..\pkey.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
 
+            var boxJWT = new BoxJWTAuth(config);
+            var adminToken = boxJWT.AdminToken();
+            var adminClient = boxJWT.AdminClient(adminToken);
+            //List<BoxUser> allBoxUsersList = boxUsers.Entries;
+            // var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
+            // var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+
+            var userToken = boxJWT.UserToken(userid);
+            var userClient = boxJWT.UserClient(userToken, userid);
+
+             var folderItems = await userClient.FoldersManager.GetFolderItemsAsync(folderid, 1000);
+            List<BoxItem> boxFileList = folderItems.Entries;
+            //List<BoxUser> allBoxUsersList = boxUsers.Entries;
+            // var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
+            // var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+
+           
+            return boxFileList;
+
+        }
+
+        public async Task<Stream> DownloadFile(string fileid, string userid)
+        {
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(startupPath + @"..\pkey.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
+
+            var boxJWT = new BoxJWTAuth(config);
+            var adminToken = boxJWT.AdminToken();
+            var adminClient = boxJWT.AdminClient(adminToken);
+            //List<BoxUser> allBoxUsersList = boxUsers.Entries;
+            // var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
+            // var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+
+            var userToken = boxJWT.UserToken(userid);
+            var userClient = boxJWT.UserClient(userToken, userid);
+
+            var fileitem = await userClient.FilesManager.DownloadStreamAsync(fileid);
+           
+            //List<BoxUser> allBoxUsersList = boxUsers.Entries;
+            // var userRequest = new BoxUserRequest() { Name = "test appuser", IsPlatformAccessOnly = true };
+            // var appUser = await adminClient.UsersManager.CreateEnterpriseUserAsync(userRequest);
+
+
+            return fileitem;
+
+        }
         public async Task<BoxCollection<BoxEmailAlias>> GetEmailAlias(String ID)
         {
             var adminClient = Authenticate();

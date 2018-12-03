@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Xml.Linq;
 
 namespace SeniorCapstoneOfficial
 {
@@ -27,7 +28,10 @@ namespace SeniorCapstoneOfficial
         private static List<Button> DeleteButtonList = new List<Button>();
         private static BoxUser foundUser = new BoxUser();
 
-        List<BoxItem> FolderList = new List<BoxItem>();
+        private static List<BoxItem> AllFiles = new List<BoxItem>();
+        private static List<BoxItem> FolderList = new List<BoxItem>();
+        private static List<MemoryStream> listofstreams = new List<MemoryStream>();
+        private static List<Control> Filedwnbtns = new List<Control>();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserName"] == null)
@@ -69,6 +73,65 @@ namespace SeniorCapstoneOfficial
         {
             Response.Redirect("LandingPage.aspx");
         }
+
+        protected void Download_Click(object sender, EventArgs e)
+        {
+
+
+            Button bttn = (Button)sender;
+            string button = bttn.ID.ToString();
+            List<MemoryStream> streams = listofstreams;
+            List<BoxItem> folderitems1 = AllFiles;
+            for (int i = 0; i < Filedwnbtns.Count; i++)
+            {
+                if (Filedwnbtns[i] is Button && Filedwnbtns[i].ID.ToString() == button)
+                {
+                    
+                    byte[] bytesInStream = streams[i].GetBuffer();
+                    Response.Buffer = true;
+                    Response.Clear();
+                    Response.ContentType = "application/force-download";
+                    Response.AddHeader("content-disposition", "attachment; filename=" + folderitems1[i].Name.ToString());
+                    Response.BinaryWrite(bytesInStream);
+                    Response.End();
+
+                }
+
+
+
+
+            }
+        }
+
+        public List<Control> GetAllDwnBtn()
+        {
+            List<Control> dwnbtns = new List<Control>();
+            foreach(Control btn in Panel2.Controls)
+            {
+                if (btn is Button)
+                 if (btn.ID.ToString().Contains("Download"))
+                {
+                 
+                    dwnbtns.Add(btn);
+                }
+            }
+            return dwnbtns;
+        }
+/*
+    public List<Control> PutDwnInList()
+        {
+            List<Control> dbtn = new List<Control>();
+            foreach (Control btn in Page.Controls)
+            {
+                if (btn is Button)
+                    if (btn.ID.ToString().Contains("Dbtn"))
+                    {
+
+                        dbtn.Add(btn);
+                    }
+            }
+            return dbtn;
+        }*/
 
         private async Task ExportEverything()
         {
@@ -201,6 +264,10 @@ namespace SeniorCapstoneOfficial
     
         private async Task GetUsersbyEmail()
         {
+            AllFiles.Clear();
+            FolderList.Clear();
+            Filedwnbtns.Clear();
+            listofstreams.Clear();
             int eventnumber = 0;
             BoxAuthTest box = new BoxAuthTest();
             bool found = false;
@@ -356,7 +423,7 @@ namespace SeniorCapstoneOfficial
                         Label4.Visible = true;
                         Panel1.Visible = true;
 
-                        try
+                       try
                         {
                             
 
@@ -1312,6 +1379,7 @@ namespace SeniorCapstoneOfficial
                             Exportbtn.Visible = true;
                             found = true;
 
+                    List<Control> dwnbtns = GetAllDwnBtn();
 
                             FolderList = await box.GetFolder(foundUser.Id);
                             int foldercount = FolderList.Count;
@@ -1323,28 +1391,98 @@ namespace SeniorCapstoneOfficial
 
                             for (int i = 0; i < foldercount; i++)
                             {
-                                Label folder = new Label();
+                                
+
+                        Label folder = new Label();
                                 folder.ID = "folder" + i;
                                 folder.Text = FolderList[i].Name;
 
+                              
                                 ImageButton btn = new ImageButton();
-                                btn.ID = i.ToString();
-                                btn.ImageUrl = "~/Images/plus.png";
+                                 btn.ID = "btnTop" + i.ToString();
+                        btn.CssClass = "btnTop";
+                            btn.ImageUrl = "~/Images/plus.png";
                                 btn.Visible = true;
                                 btn.Attributes.CssStyle.Add("margin-left", "7px");
                                 //btn.Attributes.Add("", "");
 
-                                if (comp == true || admin == true) //createfolderbuttons
-                                {
-                                    FolderPH.Controls.Add(btn);
-                                }
+                         if (comp == true || admin == true) //createfolderbuttons
+                         {
+                            if(FolderList[i].Type == "folder")
+                            FolderPH.Controls.Add(btn);
 
-                                FolderPH.Controls.Add(folder);
+
+                          }
+
+                         FolderPH.Controls.Add(folder);
+
+                         if (FolderList[i].Type == "file")
+                       {
+                            AllFiles.Add(FolderList[i]);
+                            Filedwnbtns.Add(dwnbtns[i]);
+                            Stream stream = await box.DownloadFile(FolderList[i].Id, foundUser.Id);
+                            MemoryStream memorystream = new MemoryStream();
+                            CopyStream(stream, memorystream);
+                            listofstreams.Add(memorystream);
+                            FolderPH.Controls.Add(dwnbtns[i]);
+                            dwnbtns[i].Visible = true;
+                           
+                        }
+                        /*if (FolderList[i].Type == "folder") //files inside folders in root
+                         {
+                           List<BoxItem> folderItems = await box.GetFolderItems(FolderList[i].Id, foundUser.Id);
+                           Panel myChildPanel = new Panel();
+                            myChildPanel.ID = "Panel" + i.ToString();
+                            myChildPanel.CssClass = "panel";
+                           // myChildPanel.Attributes.Add("style", "visibility:hidden");
+                 
+
+                            for (int j = 0; j < folderItems.Count; j++)
+                            {
+                                Label afile = new Label();
+                                afile.ID = "file" + j;
+                                afile.Text = folderItems[j].Name;
+
+                                Button downloadbtn = new Button();
+                                downloadbtn.Visible = false;
+                                downloadbtn.ID = j.ToString();
+                                downloadbtn.Click += new EventHandler(Download_Click);
+                                downloadbtn.CssClass = "DeleteUserButton";
+                               //downloadbtn.OnClientClick = "return false;";
+                                downloadbtn.Text = "Download";
+                                if (comp == true || admin == true)
+                                {
+                                    if (folderItems[j].Name.IndexOf(".") != -1)
+                                    {
+                                        myChildPanel.Controls.Add(afile);
+                                        myChildPanel.Controls.Add(downloadbtn);
+                                        myChildPanel.Controls.Add(new LiteralControl("<br />"));
+                                        downloadbtn.Visible = true;
+                                        Stream stream1 = await box.DownloadFile(folderItems[j].Id, foundUser.Id);
+                                       MemoryStream memorystream1 = new MemoryStream();
+                                        CopyStream(stream1, memorystream1);
+                                        listofstreams.Add(memorystream1);
+                                        AllFiles.Add(folderItems[j]);
+                                    }
+
+                                             
+                                    
+                                }
+                              
+
+                            }
+                            FolderPH.Controls.Add(myChildPanel);
+                            
+                        }*/
+
+                              
+
+                             
 
                                 FolderPH.Controls.Add(new LiteralControl("<br />"));
                                 FolderPH.Controls.Add(new LiteralControl("<br />"));
                             }
-                        }
+                       }
                         catch
                         {
                             InvalidEmailLabel.Text = "Email not confirmed";
@@ -1354,10 +1492,7 @@ namespace SeniorCapstoneOfficial
                             RecentEventsButton.Visible = false;
                             btnTop.Visible = false;
                         }
-
-
-
-
+                        
 
                     }
 
@@ -1380,6 +1515,7 @@ namespace SeniorCapstoneOfficial
                         Label7.Text = "";
                         Button7.Visible = false;
                         TextBox1.Visible = false;
+                    btnTop.Visible = false;
 
                     }
                 }
@@ -1398,8 +1534,8 @@ namespace SeniorCapstoneOfficial
                     TextBox1.Visible = false;
                     btnTop.Visible = false;
                 }
-            }
-            catch
+           }
+           catch
             {
                 InvalidEmailLabel.Text = "Email not confirmed";
                 InvalidEmailLabel.Visible = true;
@@ -1408,10 +1544,11 @@ namespace SeniorCapstoneOfficial
                 RecentEventsButton.Visible = false;
                 btnTop.Visible = false;
             }
-            
+           
            
         }
 
+      
         private async Task ListofEmailToJavaScript()
         {
             List<string> listemails = new List<string>();
@@ -1738,6 +1875,15 @@ namespace SeniorCapstoneOfficial
         protected void AdminPage_Click(object sender, EventArgs e)
         {
             Response.Redirect("AdminMenu.aspx");
+        }
+        public static void CopyStream(Stream input, Stream output)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            int read;
+            while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, read);
+            }
         }
     }
 }
