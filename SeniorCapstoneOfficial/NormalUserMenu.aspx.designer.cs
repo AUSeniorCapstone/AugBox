@@ -22,15 +22,6 @@ namespace SeniorCapstoneOfficial {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// AUGLogoLittle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton AUGLogoLittle;
-        
-        /// <summary>
         /// LogoutButton control.
         /// </summary>
         /// <remarks>
@@ -893,5 +884,14 @@ namespace SeniorCapstoneOfficial {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Downloadbtn30;
+        
+        /// <summary>
+        /// usertoken control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField usertoken;
     }
 }

@@ -265,14 +265,18 @@ AddUserBox:focus{
     color: red;
     font-size: 14px;
 }
-
+.preview-container{
+    width: 100%;
+    height: auto;
+    border: 1px solid #eee;
+}
 </style>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
          <div style="height:75px; background-color:#033459; position:relative;">         
-             <asp:ImageButton ID="AUGLogoLittle" OnClick="ImageButton_Click" runat="server" ImageUrl="~/Images/AugustaLittle.png" CssClass="AUGLogo" />
+             <%--<asp:ImageButton ID="AUGLogoLittle" OnClick="ImageButton_Click" runat="server" ImageUrl="~/Images/AugustaLittle.png" CssClass="AUGLogo" />--%>
             <asp:Button ID="LogoutButton" runat="server" CssClass="tablink1" Text="Logout" OnClick="LogoutBtn_Click" />
             <asp:Button ID="AdminPageButton" runat="server" CssClass="tablink2" Text="Admin Page" OnClick="AdminPage_Click" />
             <asp:Button ID="StudentSearchButton" runat="server" CssClass="tablink3" Text="Student Search" OnClick="StudentSearchButton_Click"/>
@@ -307,24 +311,15 @@ AddUserBox:focus{
             </div>              
        
                 <div id="rightside"> 
-                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="false" OnClientClick="return false"/>
+                    <asp:ImageButton ID="btnTop" runat="server" ImageUrl="~/Images/plus.png" Visible="false" OnClick="btn_Top_Click" OnClientClick="return false"/>
                 <asp:Label ID="Label7" runat="server" Visible="False"></asp:Label>
                 <br />          
             <br />
-      <div id="pnl1" style="text-align:left; display:none;">
-      <asp:PlaceHolder ID="FolderPH" runat="server">               
+     <div id="pnl1" style="text-align:left; display:none;">
+      <asp:PlaceHolder ID="FolderPH" runat="server"> 
+       
       </asp:PlaceHolder>
           <div class="container" style="height:600px"></div>
-    <!-- Latest version of the picker js for your locale -->
-    <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script>
-    <script>
-      	var folderId = '0';
-      	var accessToken = 'KolwTkiKNKBO1yjP9jNzIO4Tozb27a4L';
-      	var filePicker = new Box.ContentExplorer();
-      	filePicker.show(folderId, accessToken, {
-            container: '.container'
-        });
-    </script>
 </div>
                  </div>
              
@@ -470,8 +465,15 @@ AddUserBox:focus{
             <asp:Button ID="Downloadbtn28" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
             <asp:Button ID="Downloadbtn29" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
             <asp:Button ID="Downloadbtn30" runat="server" CssClass="DeleteUserButton" OnClick="Download_Click" Text="Download" Visible="false" />
-            </asp:Panel>
+            </asp:Panel>  
+        
+        <asp:HiddenField ID="usertoken" runat="server" />
+   <div class=" preview-container">
+            <!-- Latest version of the picker js for your locale -->
+  <script src="https://cdn01.boxcdn.net/platform/elements/7.2.0/en-US/explorer.js"></script>
+    
+
+        </div>
     </form>
-   
 </body>
 </html>

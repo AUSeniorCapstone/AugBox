@@ -46,18 +46,18 @@ namespace SeniorCapstoneOfficial
                 {
 
                     Session["UserName"] = txturname.Text.Trim();
-                    Response.Redirect("LandingPage.aspx");
+                    Response.Redirect("NormalUserMenu.aspx");
 
                 }
                 else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 2)
                 {
                     Session["UserName"] = txturname.Text.Trim();
-                    Response.Redirect("LandingPage.aspx");
+                    Response.Redirect("NormalUserMenu.aspx");
                 }
                 else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 4)
                 {
                     Session["UserName"] = txturname.Text.Trim();
-                    Response.Redirect("LandingPage.aspx");
+                    Response.Redirect("NormalUserMenu.aspx");
                 }
                 else if (lc.submit(txturname.Text.Trim(), txtpassword.Text.Trim()) == 3)
                 {

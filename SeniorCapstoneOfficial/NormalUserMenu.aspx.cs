@@ -27,7 +27,8 @@ namespace SeniorCapstoneOfficial
         private static List<Label> lbl = new List<Label>();
         private static List<Button> DeleteButtonList = new List<Button>();
         private static BoxUser foundUser = new BoxUser();
-
+        string startupPath = System.AppDomain.CurrentDomain.BaseDirectory;
+        private string userToken1;
         private static List<BoxItem> AllFiles = new List<BoxItem>();
         private static List<BoxItem> FolderList = new List<BoxItem>();
         private static List<MemoryStream> listofstreams = new List<MemoryStream>();
@@ -41,7 +42,7 @@ namespace SeniorCapstoneOfficial
 
             else
             {
-               
+                
                 RegisterAsyncTask(new PageAsyncTask(ListofEmailToJavaScript));
                 RegisterAsyncTask(new PageAsyncTask(GetUsersbyEmail));     
                 DBConnector db = new DBConnector();
@@ -58,7 +59,34 @@ namespace SeniorCapstoneOfficial
                 Exportbtn.Visible = true;
             }
         }
+        private async Task TokenToJavaScript(string id)
+        {
+            BoxAuthTest box = new BoxAuthTest();
+            IBoxConfig config = null;
+            using (FileStream fs = new FileStream(startupPath + @"..\pkey.json", FileMode.Open))
+            {
+                config = BoxConfig.CreateFromJsonFile(fs);
+            }
 
+            var boxJWT = new BoxJWTAuth(config);
+            var userToken = boxJWT.UserToken(id);
+            string token = userToken;
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<script>");
+            sb.Append(" var folderId = '0';");
+            sb.Append(" var accessToken = " + userToken +";");
+            sb.Append("var filePicker = new Box.ContentExplorer();");
+            sb.Append("filePicker.show(folderId, accessToken, {container: '.preview-container'});");
+            sb.Append("</script>");
+            ScriptManager.RegisterStartupScript(btnTop, this.GetType(), "usertoken1", sb.ToString(), false);
+        }
+
+        protected void btn_Top_Click(object sender, EventArgs e)
+        {
+
+         
+        }
         protected void SearchForStudent_Click(object sender, EventArgs e)
         {
             Response.Redirect("NormalUserMenu.aspx?Parameter=" + EmailAddress.Text);
@@ -279,8 +307,28 @@ namespace SeniorCapstoneOfficial
             if (Request.QueryString["Parameter"] != null)
             {
                 foundUser = users.Find(u => u.Login.Equals(Request.QueryString["Parameter"].ToString()));
+                await TokenToJavaScript(foundUser.Id);
+                usertoken.Value = foundUser.Id;
                 EmailAddress.Text = Request.QueryString["Parameter"].ToString();
                 btnTop.Visible = true;
+                IBoxConfig config = null;
+                using (FileStream fs = new FileStream(startupPath + @"..\pkey.json", FileMode.Open))
+                {
+                    config = BoxConfig.CreateFromJsonFile(fs);
+                }
+
+                var boxJWT = new BoxJWTAuth(config);
+                var userToken = boxJWT.UserToken(foundUser.Id);
+                string token = userToken;
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<script>");
+                sb.Append(" var folderId = '0';");
+                sb.Append(" var accessToken = " + userToken + ";");
+                sb.Append("var filePicker = new Box.ContentExplorer();");
+                sb.Append("filePicker.show(folderId, accessToken, {container: '.preview-container'});");
+                sb.Append("</script>");
+                ScriptManager.RegisterStartupScript(btnTop, this.GetType(), "usertoken1", sb.ToString(), false);
             }
             
             Label8.Visible = false;
@@ -1548,6 +1596,7 @@ namespace SeniorCapstoneOfficial
            
         }
 
+        
       
         private async Task ListofEmailToJavaScript()
         {
